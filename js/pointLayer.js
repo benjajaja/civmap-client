@@ -145,7 +145,7 @@ var clickHandler = function(evt) {
     popup.setPosition(coord);
     var html = $('<div/>');
     if (feature.get('flag')) {
-      var img = $(feature.get('flag'));
+      var img = $('<img/>').attr('src', feature.get('flag'));
       img.css({height: '40px', float: 'right'});
       html.append(img);
     }
@@ -153,11 +153,11 @@ var clickHandler = function(evt) {
     html.append($('<strong>' + feature.get('name') + '</strong>'));
 
     if (feature.get('reddit')) {
-      html.append('<br/>').append($(feature.get('reddit')));
+      html.append('<br/>').append($('<a/>').attr('href', 'http://reddit.com/' + feature.get('reddit')).attr('target', 'blank').text(feature.get('reddit')));
     }
 
     if (feature.get('market')) {
-      html.append('<br/>').append($('<a/>').attr('href', feature.get('market')).text('Market'));
+      html.append('<br/>').append($('<a/>').attr('href', feature.get('market')).attr('target', 'blank').text('Market'));
     }
 
     html.append('<br/>').append('<a href="http://civcraft.org/doku.php?id=towns:' + feature.get('name').toLowerCase() + '" target="blank">Wiki</a>');

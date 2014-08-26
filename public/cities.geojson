@@ -6,7 +6,7 @@
 		"properties": {
 			"name": "Aeon",
 			"code": "Ae",
-			"reddit": "<a href=\"http://www.reddit.com/r/CivAeon\" target=\"_new\">r/CivAeon<a></a></a>",
+			"reddit": "r/CivAeon",
 			"abandoned": false,
 			"type": "city"
 		},
@@ -39,7 +39,7 @@
 		"properties": {
 			"name": "Altorum",
 			"code": "Alt",
-			"reddit": "<a href=\"http://www.reddit.com/r/CivAltorum\" target=\"_new\">r/CivAltorum<a></a></a>",
+			"reddit": "r/CivAltorum",
 			"abandoned": true,
 			"type": "city"
 		},
@@ -56,8 +56,7 @@
 		"properties": {
 			"name": "Ancora",
 			"code": "Anc",
-			"reddit": "<a href=\"http://www.reddit.com/r/civcraftancora\" target=\"_new\">r/civcraftancora<a></a></a>",
-			"wiki": "<a href=\"https://civcraft.org/doku.php/cities2/ancora&apos;\" target=\"_new\">https://...2/ancora<a></a></a>",
+			"reddit": "r/civcraftancora",
 			"abandoned": true,
 			"type": "city"
 		},
@@ -138,8 +137,8 @@
 		"properties": {
 			"name": "Atlas",
 			"code": "ATL",
-			"reddit": "<a href=\"http://www.reddit.com/r/CivAtlas\" target=\"_new\">r/CivAtlas<a></a></a>",
-			"flag": "<img src=\"https://s3.amazonaws.com/f.thumbs.redditmedia.com/InbxX8rCL_bAyEMS.png\" style=\"width:50px;height:20px\">",
+			"reddit": "r/CivAtlas",
+			"flag": "https://s3.amazonaws.com/f.thumbs.redditmedia.com/InbxX8rCL_bAyEMS.png",
 			"abandoned": false,
 			"type": "city"
 		},
@@ -156,10 +155,8 @@
 		"properties": {
 			"name": "Aurora",
 			"code": "Au",
-			"reddit": "<a href=\"http://www.reddit.com/r/civagora\" target=\"_new\">r/civagora<a></a></a>",
-			"map of town": "<a href=\"http://i.imgur.com/WDfGd8n.jpg&apos;\" target=\"_new\">http://i...Gd8n.jpg<a></a></a>",
-			"wiki": "<a href=\"https://civcraft.org/doku.php/cities2/aurora&apos;\" target=\"_new\">https://...2/aurora<a></a></a>",
-			"flag": "<img src=\"https://s3.amazonaws.com/c.thumbs.redditmedia.com/jVcacnZsIYoYGISn.png\" style=\"width:50px;height:20px\">",
+			"reddit": "r/civagora",
+			"flag": "https://s3.amazonaws.com/c.thumbs.redditmedia.com/jVcacnZsIYoYGISn.png",
 			"abandoned": false,
 			"type": "city"
 		},
@@ -176,11 +173,9 @@
 		"properties": {
 			"name": "Aytos",
 			"code": "Ay",
-			"reddit": "<a href=\"http://www.reddit.com/r/civcraftaytos\" target=\"_new\">r/civcraftaytos<a></a></a>",
+			"reddit": "r/civcraftaytos",
 			"market": "http://civlist.com/aytos/",
-			"wiki": "<a href=\"https://civcraft.org/doku.php/cities2/aytos&apos;\" target=\"_new\">https://...s2/aytos<a></a></a>",
-			"map of town": "<a href=\"https://civcraft.org/lib/exe/fetch.php/cities2/aytosmap.png&apos;\" target=\"_new\">https://...smap.png<a></a></a>",
-			"flag": "<img src=\"https://s3.amazonaws.com/e.thumbs.redditmedia.com/fHoUblZfK0QgWlXL.png\" style=\"width:50px;height:20px\">",
+			"flag": "https://s3.amazonaws.com/e.thumbs.redditmedia.com/fHoUblZfK0QgWlXL.png",
 			"abandoned": false,
 			"type": "city"
 		},
@@ -213,7 +208,7 @@
 		"properties": {
 			"name": "Belle Ile",
 			"code": "BI",
-			"reddit": "<a href=\"http://www.reddit.com/r/BelleIle\" target=\"_new\">r/BelleIle<a></a></a>",
+			"reddit": "r/BelleIle",
 			"abandoned": true,
 			"type": "city"
 		},
@@ -230,10 +225,8 @@
 		"properties": {
 			"name": "Breslau",
 			"code": "Be",
-			"reddit": "<a href=\"http://www.reddit.com/r/CivcraftPrussia\" target=\"_new\">r/CivcraftPrussia<a></a></a>",
-			"wiki": "<a href=\"https://civcraft.org/doku.php/cities2/breslau&apos;\" target=\"_new\">https://.../breslau<a></a></a>",
-			"breslau metro": "<a href=\"http://i.imgur.com/wsAKPv3.png&apos;\" target=\"_new\">http://i...KPv3.png<a></a></a>",
-			"flag": "<img src=\"https://civcraft.org/lib/exe/fetch.php/cities/das_breslauer_wappen.png\" style=\"width:50px;height:20px\">",
+			"reddit": "r/CivcraftPrussia",
+			"flag": "https://civcraft.org/lib/exe/fetch.php/cities/das_breslauer_wappen.png",
 			"abandoned": false,
 			"type": "city"
 		},
@@ -266,9 +259,8 @@
 		"properties": {
 			"name": "Bryn",
 			"code": "Bc",
-			"reddit": "<a href=\"http://www.reddit.com/r/BrynCity\" target=\"_new\">r/BrynCity<a></a></a>",
-			"wiki": "<a href=\"https://civcraft.org/doku.php/cities2/bryn_city&apos;\" target=\"_new\">https://...ryn_city<a></a></a>",
-			"flag": "<img src=\"http://i.imgur.com/YgUnVF1.png\" style=\"width:50px;height:20px\">",
+			"reddit": "r/BrynCity",
+			"flag": "http://i.imgur.com/YgUnVF1.png",
 			"abandoned": false,
 			"type": "city"
 		},
@@ -285,10 +277,8 @@
 		"properties": {
 			"name": "Carbon",
 			"code": "C",
-			"reddit": "<a href=\"http://www.reddit.com/r/Civcarbon\" target=\"_new\">r/Civcarbon<a></a></a>",
-			"map of town": "<a href=\"http://i.imgur.com/Yd0II1o.jpg&apos;\" target=\"_new\">http://i...II1o.jpg<a></a></a>",
-			"wiki": "<a href=\"https://civcraft.org/doku.php/cities2/carbon&apos;\" target=\"_new\">https://...2/carbon<a></a></a>",
-			"flag": "<img src=\"http://i.imgur.com/Am3gF5R.jpg\" style=\"width:50px;height:20px\">",
+			"reddit": "r/Civcarbon",
+			"flag": "http://i.imgur.com/Am3gF5R.jpg",
 			"abandoned": false,
 			"type": "city"
 		},
@@ -305,9 +295,8 @@
 		"properties": {
 			"name": "Carson",
 			"code": "Cr",
-			"reddit": "<a href=\"http://www.reddit.com/r/civcarson\" target=\"_new\">r/civcarson<a></a></a>",
-			"wiki": "<a href=\"https://civcraft.org/doku.php/cities2/carson&apos;\" target=\"_new\">https://...2/carson<a></a></a>",
-			"flag": "<img src=\"https://civcraft.org/lib/exe/fetch.php/factions/xhyy9u0sev9blz9j.png\" style=\"width:50px;height:20px\">",
+			"reddit": "r/civcarson",
+			"flag": "https://civcraft.org/lib/exe/fetch.php/factions/xhyy9u0sev9blz9j.png",
 			"abandoned": false,
 			"type": "city"
 		},
@@ -324,7 +313,7 @@
 		"properties": {
 			"name": "Centauri",
 			"code": "Ce",
-			"reddit": "<a href=\"http://www.reddit.com/r/CivCentauri\" target=\"_new\">r/CivCentauri<a></a></a>",
+			"reddit": "r/CivCentauri",
 			"abandoned": false,
 			"type": "city"
 		},
@@ -373,7 +362,7 @@
 		"properties": {
 			"name": "Claytican",
 			"code": "Cl",
-			"reddit": "<a href=\"http://www.reddit.com/r/civClaymen\" target=\"_new\">r/civClaymen<a></a></a>",
+			"reddit": "r/civClaymen",
 			"abandoned": true,
 			"type": "city"
 		},
@@ -438,8 +427,8 @@
 		"properties": {
 			"name": "DPNCCR",
 			"code": "DCR",
-			"reddit": "<a href=\"http://www.reddit.com/r/DPNCCR\" target=\"_new\">r/DPNCCR<a></a></a>",
-			"flag": "<img src=\"http://theapricity.com/wiki/images/2/26/Poland-flag.gif\" style=\"width:50px;height:20px\">",
+			"reddit": "r/DPNCCR",
+			"flag": "http://theapricity.com/wiki/images/2/26/Poland-flag.gif",
 			"abandoned": false,
 			"type": "city"
 		},
@@ -518,7 +507,7 @@
 		"properties": {
 			"name": "Eslenti",
 			"code": "Es",
-			"reddit": "<a href=\"http://www.reddit.com/r/Eslenti\" target=\"_new\">r/Eslenti<a></a></a>",
+			"reddit": "r/Eslenti",
 			"abandoned": true,
 			"type": "city"
 		},
@@ -535,7 +524,7 @@
 		"properties": {
 			"name": "ExtraLand",
 			"code": "EL",
-			"flag": "<img src=\"http://i.imgur.com/yKxyU2G.png\" style=\"width:50px;height:20px\">",
+			"flag": "http://i.imgur.com/yKxyU2G.png",
 			"abandoned": false,
 			"type": "city"
 		},
@@ -568,10 +557,8 @@
 		"properties": {
 			"name": "Fellowship",
 			"code": "Flw",
-			"reddit": "<a href=\"http://www.reddit.com/r/CivcraftFellowship\" target=\"_new\">r/CivcraftFellowship<a></a></a>",
+			"reddit": "r/CivcraftFellowship",
 			"market": "http://civlist.com/hexagon/",
-			"map of town": "<a href=\"http://i.imgur.com/YniJzOU.png&apos;\" target=\"_new\">http://i...JzOU.png<a></a></a>",
-			"wiki": "<a href=\"https://civcraft.org/doku.php/cities2/fellowship&apos;\" target=\"_new\">https://...llowship<a></a></a>",
 			"abandoned": false,
 			"type": "city"
 		},
@@ -588,8 +575,8 @@
 		"properties": {
 			"name": "Fission",
 			"code": "Fi",
-			"reddit": "<a href=\"http://www.reddit.com/r/CivAtomia\" target=\"_new\">r/CivAtomia<a></a></a>",
-			"flag": "<img src=\"http://i.imgur.com/eyvZuMW.png\" style=\"width:50px;height:20px\">",
+			"reddit": "r/CivAtomia",
+			"flag": "http://i.imgur.com/eyvZuMW.png",
 			"abandoned": true,
 			"type": "city"
 		},
@@ -622,7 +609,7 @@
 		"properties": {
 			"name": "Goodsprings",
 			"code": "Gs",
-			"reddit": "<a href=\"http://www.reddit.com/r/civcraftgoodsprings\" target=\"_new\">r/civcraftgoodsprings<a></a></a>",
+			"reddit": "r/civcraftgoodsprings",
 			"abandoned": false,
 			"type": "city"
 		},
@@ -639,7 +626,7 @@
 		"properties": {
 			"name": "Griffin",
 			"code": "Gr",
-			"flag": "<img src=\"http://i.imgur.com/fYZblaI.png\" style=\"width:50px;height:20px\">",
+			"flag": "http://i.imgur.com/fYZblaI.png",
 			"abandoned": false,
 			"type": "city"
 		},
@@ -670,9 +657,8 @@
 		"properties": {
 			"name": "Haven",
 			"code": "Ha",
-			"reddit": "<a href=\"http://www.reddit.com/r/civhaven\" target=\"_new\">r/civhaven<a></a></a>",
-			"wiki": "<a href=\"https://civcraft.org/doku.php/cities2/haven&apos;\" target=\"_new\">https://...s2/haven<a></a></a>",
-			"flag": "<img src=\"http://i.imgur.com/LGCcbT4.jpg\" style=\"width:50px;height:20px\">",
+			"reddit": "r/civhaven",
+			"flag": "http://i.imgur.com/LGCcbT4.jpg",
 			"abandoned": false,
 			"type": "city"
 		},
@@ -705,9 +691,8 @@
 		"properties": {
 			"name": "Hobbiton",
 			"code": "Ho",
-			"reddit": "<a href=\"http://www.reddit.com/r/civcrafthobbiton\" target=\"_new\">r/civcrafthobbiton<a></a></a>",
-			"wiki": "<a href=\"https://civcraft.org/doku.php/cities2/hobbiton&apos;\" target=\"_new\">https://...hobbiton<a></a></a>",
-			"flag": "<img src=\"https://s3.amazonaws.com/c.thumbs.redditmedia.com/-w9W2nF2PX53VjDz.png\" style=\"width:50px;height:20px\">",
+			"reddit": "r/civcrafthobbiton",
+			"flag": "https://s3.amazonaws.com/c.thumbs.redditmedia.com/-w9W2nF2PX53VjDz.png",
 			"abandoned": true,
 			"type": "city"
 		},
@@ -724,7 +709,7 @@
 		"properties": {
 			"name": "Holy Tree",
 			"code": "HT",
-			"reddit": "<a href=\"http://www.reddit.com/r/theholytree\" target=\"_new\">r/theholytree<a></a></a>",
+			"reddit": "r/theholytree",
 			"abandoned": true,
 			"type": "city"
 		},
@@ -741,7 +726,7 @@
 		"properties": {
 			"name": "Imperium",
 			"code": "Im",
-			"reddit": "<a href=\"http://www.reddit.com/r/CivPetrania/\" target=\"_new\">r/CivPetrania/<a></a></a>",
+			"reddit": "r/CivPetrania/",
 			"abandoned": true,
 			"type": "city"
 		},
@@ -774,7 +759,6 @@
 		"properties": {
 			"name": "Iria",
 			"code": "Ir",
-			"map of town": "<a href=\"http://i.imgur.com/56lJb1D.png&apos;\" target=\"_new\">http://i...Jb1D.png<a></a></a>",
 			"abandoned": false,
 			"type": "city"
 		},
@@ -791,7 +775,7 @@
 		"properties": {
 			"name": "Isle of Arran",
 			"code": "IA",
-			"reddit": "<a href=\"http://www.reddit.com/r/civarran\" target=\"_new\">r/civarran<a></a></a>",
+			"reddit": "r/civarran",
 			"market": "http://civlist.com/arran/",
 			"abandoned": false,
 			"type": "city"
@@ -825,9 +809,7 @@
 		"properties": {
 			"name": "Kappi",
 			"code": "Kp",
-			"reddit": "<a href=\"http://www.reddit.com/r/Kappi/\" target=\"_new\">r/Kappi/<a></a></a>",
-			"map of town": "<a href=\"http://i.imgur.com/1l5poYn.png&apos;\" target=\"_new\">http://i...poYn.png<a></a></a>",
-			"wiki": "<a href=\"https://civcraft.org/doku.php/cities2/kappi&apos;\" target=\"_new\">https://...s2/kappi<a></a></a>",
+			"reddit": "r/Kappi/",
 			"abandoned": false,
 			"type": "city"
 		},
@@ -876,7 +858,7 @@
 		"properties": {
 			"name": "Kyndale",
 			"code": "Ky",
-			"reddit": "<a href=\"http://www.reddit.com/r/CivKyndale/\" target=\"_new\">r/CivKyndale/<a></a></a>",
+			"reddit": "r/CivKyndale/",
 			"abandoned": true,
 			"type": "city"
 		},
@@ -893,10 +875,8 @@
 		"properties": {
 			"name": "Lio",
 			"code": "Li",
-			"reddit": "<a href=\"http://www.reddit.com/r/civlio\" target=\"_new\">r/civlio<a></a></a>",
-			"map of town": "<a href=\"http://i.imgur.com/dV6zMOy.jpg&apos;\" target=\"_new\">http://i...zMOy.jpg<a></a></a>",
-			"wiki": "<a href=\"https://civcraft.org/doku.php/cities2/lio&apos;\" target=\"_new\">https://...ies2/lio<a></a></a>",
-			"flag": "<img src=\"https://s3.amazonaws.com/d.thumbs.redditmedia.com/TdZu22o4hPspzB4W.png\" style=\"width:50px;height:20px\">",
+			"reddit": "r/civlio",
+			"flag": "https://s3.amazonaws.com/d.thumbs.redditmedia.com/TdZu22o4hPspzB4W.png",
 			"abandoned": true,
 			"type": "city"
 		},
@@ -945,8 +925,7 @@
 		"properties": {
 			"name": "Minas Minas",
 			"code": "MM",
-			"reddit": "<a href=\"http://www.reddit.com/r/minasminas/\" target=\"_new\">r/minasminas/<a></a></a>",
-			"map of town": "<a href=\"http://i.imgur.com/ypypML7.png&apos;\" target=\"_new\">http://i...pML7.png<a></a></a>",
+			"reddit": "r/minasminas/",
 			"abandoned": true,
 			"type": "city"
 		},
@@ -995,8 +974,7 @@
 		"properties": {
 			"name": "Narnia",
 			"code": "Nr",
-			"wiki": "<a href=\"https://civcraft.org/doku.php/cities2/narnia&apos;\" target=\"_new\">https://...2/narnia<a></a></a>",
-			"flag": "<img src=\"https://civcraft.org/lib/exe/fetch.php/cities2/narnia.jpg\" style=\"width:50px;height:20px\">",
+			"flag": "https://civcraft.org/lib/exe/fetch.php/cities2/narnia.jpg",
 			"abandoned": true,
 			"type": "city"
 		},
@@ -1013,8 +991,7 @@
 		"properties": {
 			"name": "Nendoshima",
 			"code": "Ne",
-			"reddit": "<a href=\"http://www.reddit.com/r/CivOsaka\" target=\"_new\">r/CivOsaka<a></a></a>",
-			"wiki": "<a href=\"https://civcraft.org/doku.php/cities2/osaka&apos;\" target=\"_new\">https://...s2/osaka<a></a></a>",
+			"reddit": "r/CivOsaka",
 			"abandoned": false,
 			"type": "city"
 		},
@@ -1218,7 +1195,7 @@
 		"properties": {
 			"name": "NeverWinter",
 			"code": "Nw",
-			"reddit": "<a href=\"http://www.reddit.com/r/civcraftnw\" target=\"_new\">r/civcraftnw<a></a></a>",
+			"reddit": "r/civcraftnw",
 			"abandoned": true,
 			"type": "city"
 		},
@@ -1235,10 +1212,8 @@
 		"properties": {
 			"name": "New Augusta",
 			"code": "NA",
-			"reddit": "<a href=\"http://www.reddit.com/r/NewAugusta\" target=\"_new\">r/NewAugusta<a></a></a>",
-			"map of town": "<a href=\"http://i.imgur.com/4t8CINr.png&apos;\" target=\"_new\">http://i...CINr.png<a></a></a>",
-			"wiki": "<a href=\"https://civcraft.org/doku.php/cities2/new_augusta&apos;\" target=\"_new\">https://..._augusta<a></a></a>",
-			"flag": "<img src=\"https://civcraft.org/lib/exe/fetch.php/templates/na.png\" style=\"width:50px;height:20px\">",
+			"reddit": "r/NewAugusta",
+			"flag": "https://civcraft.org/lib/exe/fetch.php/templates/na.png",
 			"abandoned": false,
 			"type": "city"
 		},
@@ -1271,8 +1246,7 @@
 		"properties": {
 			"name": "New Covenant",
 			"code": "Nc",
-			"reddit": "<a href=\"http://www.reddit.com/r/CivNewCovenant\" target=\"_new\">r/CivNewCovenant<a></a></a>",
-			"wiki": "<a href=\"https://civcraft.org/doku.php/cities2/new_covenant&apos;\" target=\"_new\">https://...covenant<a></a></a>",
+			"reddit": "r/CivNewCovenant",
 			"abandoned": false,
 			"type": "city"
 		},
@@ -1289,10 +1263,9 @@
 		"properties": {
 			"name": "New Danzilona",
 			"code": "NDZ",
-			"reddit": "<a href=\"http://www.reddit.com/r/Danzilona\" target=\"_new\">r/Danzilona<a></a></a>",
+			"reddit": "r/Danzilona",
 			"market": "http://civlist.com/danzmarket/",
-			"map of the town": "<a href=\"http://i.imgur.com/6qhUrS3.jpg&apos;\" target=\"_new\">http://i...UrS3.jpg<a></a></a>",
-			"flag": "<img src=\"http://i.imgur.com/JrBY4qg.png\" style=\"width:50px;height:20px\">",
+			"flag": "http://i.imgur.com/JrBY4qg.png",
 			"abandoned": false,
 			"type": "city"
 		},
@@ -1309,9 +1282,8 @@
 		"properties": {
 			"name": "New Leningrad",
 			"code": "NL",
-			"reddit": "<a href=\"http://www.reddit.com/r/Leningrad/\" target=\"_new\">r/Leningrad/<a></a></a>",
-			"wiki": "<a href=\"https://civcraft.org/doku.php/cities2/new_leningrad&apos;\" target=\"_new\">https://...eningrad<a></a></a>",
-			"flag": "<img src=\"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Flag_of_the_Soviet_Union.svg/200px-Flag_of_the_Soviet_Union.svg.png\" style=\"width:50px;height:20px\">",
+			"reddit": "r/Leningrad/",
+			"flag": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Flag_of_the_Soviet_Union.svg/200px-Flag_of_the_Soviet_Union.svg.png",
 			"abandoned": false,
 			"type": "city"
 		},
@@ -1360,9 +1332,8 @@
 		"properties": {
 			"name": "Newtro",
 			"code": "Nt",
-			"reddit": "<a href=\"http://www.reddit.com/r/newtro\" target=\"_new\">r/newtro<a></a></a>",
-			"wiki": "<a href=\"https://civcraft.org/doku.php/cities2/newtro&apos;\" target=\"_new\">https://...2/newtro<a></a></a>",
-			"flag": "<img src=\"http://i.imgur.com/bgFXPsr.jpg\" style=\"width:50px;height:20px\">",
+			"reddit": "r/newtro",
+			"flag": "http://i.imgur.com/bgFXPsr.jpg",
 			"abandoned": true,
 			"type": "city"
 		},
@@ -1411,7 +1382,7 @@
 		"properties": {
 			"name": "Olympia",
 			"code": "Oly",
-			"reddit": "<a href=\"http://www.reddit.com/r/Civcraft_Olympia\" target=\"_new\">r/Civcraft_Olympia<a></a></a>",
+			"reddit": "r/Civcraft_Olympia",
 			"abandoned": false,
 			"type": "city"
 		},
@@ -1444,11 +1415,9 @@
 		"properties": {
 			"name": "Orion",
 			"code": "Or",
-			"reddit": "<a href=\"http://www.reddit.com/r/Civcraft_Orion\" target=\"_new\">r/Civcraft_Orion<a></a></a>",
-			"map of town": "<a href=\"http://i.imgur.com/mvAHcyA.png&apos;\" target=\"_new\">http://i...HcyA.png<a></a></a>",
+			"reddit": "r/Civcraft_Orion",
 			"market": "http://civlist.com/orion/",
-			"wiki": "<a href=\"https://civcraft.org/doku.php/cities2/orion&apos;\" target=\"_new\">https://...s2/orion<a></a></a>",
-			"flag": "<img src=\"http://i.imgur.com/kcBAutZ.png\" style=\"width:50px;height:20px\">",
+			"flag": "http://i.imgur.com/kcBAutZ.png",
 			"abandoned": false,
 			"type": "city"
 		},
@@ -1529,7 +1498,7 @@
 		"properties": {
 			"name": "Proletarskaya",
 			"code": "PRL",
-			"reddit": "<a href=\"http://www.reddit.com/r/SovietReunion\" target=\"_new\">r/SovietReunion<a></a></a>",
+			"reddit": "r/SovietReunion",
 			"abandoned": false,
 			"type": "city"
 		},
@@ -1594,7 +1563,7 @@
 		"properties": {
 			"name": "SPQR",
 			"code": "SP",
-			"reddit": "<a href=\"http://www.reddit.com/r/CivcraftRoma\" target=\"_new\">r/CivcraftRoma<a></a></a>",
+			"reddit": "r/CivcraftRoma",
 			"abandoned": false,
 			"type": "city"
 		},
@@ -1627,7 +1596,7 @@
 		"properties": {
 			"name": "SandyShores",
 			"code": "SS",
-			"flag": "<img src=\"http://www.crwflags.com/fotw/images/s/se-scani.gif\" style=\"width:50px;height:20px\">",
+			"flag": "http://www.crwflags.com/fotw/images/s/se-scani.gif",
 			"abandoned": false,
 			"type": "city"
 		},
@@ -1644,7 +1613,7 @@
 		"properties": {
 			"name": "Saraliana",
 			"code": "Sar",
-			"flag": "<img src=\"https://i.imgur.com/QOSmHLb.png\" style=\"width:50px;height:20px\">",
+			"flag": "https://i.imgur.com/QOSmHLb.png",
 			"abandoned": false,
 			"type": "city"
 		},
@@ -1661,7 +1630,7 @@
 		"properties": {
 			"name": "Scoria",
 			"code": "Sc",
-			"reddit": "<a href=\"http://www.reddit.com/r/CivScoria\" target=\"_new\">r/CivScoria<a></a></a>",
+			"reddit": "r/CivScoria",
 			"abandoned": true,
 			"type": "city"
 		},
@@ -1678,7 +1647,7 @@
 		"properties": {
 			"name": "SkyCity",
 			"code": "Sky",
-			"reddit": "<a href=\"http://www.reddit.com/r/CivSkyCity\" target=\"_new\">r/CivSkyCity<a></a></a>",
+			"reddit": "r/CivSkyCity",
 			"abandoned": true,
 			"type": "city"
 		},
@@ -1695,7 +1664,7 @@
 		"properties": {
 			"name": "Skywatch",
 			"code": "Sk",
-			"reddit": "<a href=\"http://www.reddit.com/r/skywatchcraft\" target=\"_new\">r/skywatchcraft<a></a></a>",
+			"reddit": "r/skywatchcraft",
 			"abandoned": true,
 			"type": "city"
 		},
@@ -1712,8 +1681,7 @@
 		"properties": {
 			"name": "Smakarra",
 			"code": "Sma",
-			"wiki": "<a href=\"https://civcraft.org/doku.php/cities/smakarra&apos;\" target=\"_new\">https://...smakarra<a></a></a>",
-			"flag": "<img src=\"https://civcraft.org/lib/exe/fetch.php/cities2/sunburst.png\" style=\"width:50px;height:20px\">",
+			"flag": "https://civcraft.org/lib/exe/fetch.php/cities2/sunburst.png",
 			"abandoned": true,
 			"type": "city"
 		},
@@ -1730,7 +1698,7 @@
 		"properties": {
 			"name": "Solis",
 			"code": "So",
-			"reddit": "<a href=\"http://www.reddit.com/r/civcraft_SPQR\" target=\"_new\">r/civcraft_SPQR<a></a></a>",
+			"reddit": "r/civcraft_SPQR",
 			"abandoned": true,
 			"type": "city"
 		},
@@ -1763,7 +1731,6 @@
 		"properties": {
 			"name": "Stonefield",
 			"code": "St",
-			"wiki": "<a href=\"https://civcraft.org/doku.php/cities2/civiss&apos;\" target=\"_new\">https://...2/civiss<a></a></a>",
 			"abandoned": false,
 			"type": "city"
 		},
@@ -1780,7 +1747,7 @@
 		"properties": {
 			"name": "Suilven",
 			"code": "Su",
-			"reddit": "<a href=\"http://www.reddit.com/r/CivPetrania/\" target=\"_new\">r/CivPetrania/<a></a></a>",
+			"reddit": "r/CivPetrania/",
 			"abandoned": true,
 			"type": "city"
 		},
@@ -1813,7 +1780,7 @@
 		"properties": {
 			"name": "Terminus",
 			"code": "Te",
-			"reddit": "<a href=\"http://www.reddit.com/r/civterminus\" target=\"_new\">r/civterminus<a></a></a>",
+			"reddit": "r/civterminus",
 			"abandoned": false,
 			"type": "city"
 		},
@@ -1830,10 +1797,9 @@
 		"properties": {
 			"name": "The Commonwealth",
 			"code": "TC",
-			"reddit": "<a href=\"http://www.reddit.com/r/CivCommonwealth/\" target=\"_new\">r/CivCommonwealth/<a></a></a>",
+			"reddit": "r/CivCommonwealth/",
 			"market": "http://civlist.com/shopside/",
-			"map of town": "<a href=\"http://i.imgur.com/RaFdHUB.jpg&apos;\" target=\"_new\">http://i...dHUB.jpg<a></a></a>",
-			"flag": "<img src=\"http://s28.postimg.org/pd5dyx9bh/6_QADL31.png\" style=\"width:50px;height:20px\">",
+			"flag": "http://s28.postimg.org/pd5dyx9bh/6_QADL31.png",
 			"abandoned": false,
 			"type": "city"
 		},
@@ -1850,7 +1816,7 @@
 		"properties": {
 			"name": "The Principality of Loveshack",
 			"code": "PLS",
-			"reddit": "<a href=\"http://www.reddit.com/r/luvsjak\" target=\"_new\">r/luvsjak<a></a></a>",
+			"reddit": "r/luvsjak",
 			"abandoned": false,
 			"type": "city"
 		},
@@ -1867,7 +1833,7 @@
 		"properties": {
 			"name": "Trenzalore",
 			"code": "Tr",
-			"reddit": "<a href=\"http://www.reddit.com/r/CivPetrania/\" target=\"_new\">r/CivPetrania/<a></a></a>",
+			"reddit": "r/CivPetrania/",
 			"abandoned": true,
 			"type": "city"
 		},
@@ -2297,7 +2263,7 @@
 			"code": "SD",
 			"abandoned": false,
 			"type": "farm",
-			"flag": "<img src=\"http://i.imgur.com/E7ivVG1.png\"/>"
+			"flag": "http://i.imgur.com/E7ivVG1.png"
 		},
 		"geometry": {
 			"type": "Point",
@@ -2329,7 +2295,7 @@
 			"name": "Titan",
 			"code": "Ti",
 			"abandoned": false,
-			"reddit": "<a href='http://www.reddit.com/r/civtitan/'>r/civtitan</a>",
+			"reddit": "r/civtitan",
 			"type": "city"
 		},
 		"geometry": {
@@ -2347,8 +2313,8 @@
 			"code": "Nv",
 			"abandoned": false,
 			"type": "city",
-			"reddit": "<a href='http://www.reddit.com/r/CivNeverwhere'>r/CivNeverwhere</a>",
-			"flag": "<img src=\"http://i.imgur.com/BPkUnns.jpg\"/>"
+			"reddit": "r/CivNeverwhere",
+			"flag": "http://i.imgur.com/BPkUnns.jpg"
 		},
 		"geometry": {
 			"type": "Point",
@@ -2364,8 +2330,8 @@
 			"name": "Ñ",
 			"code": "Ñ",
 			"abandoned": false,
-			"type": "town",
-			"flag": "<img src=\"http://i.imgur.com/E7ivVG1.png\"/>"
+			"type": "farm",
+			"flag": "http://i.imgur.com/E7ivVG1.png"
 		},
 		"geometry": {
 			"type": "Point",
@@ -2376,7 +2342,7 @@
 		}
 	},
 	{"type":"Feature","geometry":{"type":"Point","coordinates":[7695,-9590]},"properties":
-	{"type":"city","name":"Aincrad","code":"Ai","reddit":"<a href='http://www.reddit.com/r/civcraft_aincrad'>r/civcraft_aincrad</a>"}},
+	{"type":"city","name":"Aincrad","code":"Ai","reddit":"r/civcraft_aincrad"}},
 	{
 		"type": "Feature",
 		"properties": {
