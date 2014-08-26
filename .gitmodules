@@ -2,3 +2,7 @@
 	path = data
 	url = git@github.com:gipsy-king/civmap-journeymap.git
 	master = master
+[submodule "public/tiles"]
+	path = public/tiles
+	url = git@github.com:gipsy-king/civmap-tiles.git
+	master = master
