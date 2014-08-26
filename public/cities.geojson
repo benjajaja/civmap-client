@@ -2330,7 +2330,7 @@
 			"name": "Ñ",
 			"code": "Ñ",
 			"abandoned": false,
-			"type": "farm",
+			"type": "town",
 			"flag": "http://i.imgur.com/E7ivVG1.png"
 		},
 		"geometry": {
