@@ -1,0 +1,4 @@
+[submodule "data"]
+	path = data
+	url = git@github.com:gipsy-king/civmap-journeymap.git
+	master = master
