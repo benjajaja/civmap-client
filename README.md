@@ -17,12 +17,27 @@ You can also force a tileset to be below no matter what timestamp with `python m
 
 When done, the master tileset is ready to be used to generate the map tileset, and could also be copied back to journeymap so that you can use them in-game.
 
+To commit changes, you must commit them *to the submodule* from `data/`.
+
 ### Map tilesets
 
 Run `python journeymap.py` from the repo root, and go plant some potatoes because it will take a while: the journeymap master tiles from `data/master` will be inserted on top of all existing map tiles inside `public/tiles/x/y/z.png`.
+
+Under normal circumstances it should not be necessary to commit changes to this repo, you may use `journeymap.py` to preview your previously merged tileset.
 
 ### Add other data
 
 Edit `cities.geojson` or `rails.geojson`. The structure of the "JSON objects" are in GeoJSON format.
 
 There is a tool built into the web client to place cities and rails, simply insert the result into the corresponding `.geojson` file.
+
+### How to clone this repo
+
+This repo contains only the static client files except the tiles, and the scripts for generating tiles and building the JS. However, the map tiles and the journeymap master tileset are added as submodules at `data` and `public/tiles` respectively.
+
+Clone the repo as usually and then
+
+    git submodule init
+    git submodule update --remote
+
+You must have git version above 1.8.2 (for the `--remote` flag to work), and always use the `--remote` flag or yoou will have to deal with submodules being in a "detached HEAD" state, which makes working on them a nuisance.
