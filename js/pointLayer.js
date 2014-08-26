@@ -69,8 +69,14 @@ var createPointStyleFunction = function() {
     };
     
     var color;
-    if ([PointType.country, PointType.state, PointType.region, PointType.city].indexOf(feature.get('type')) !== -1) {
-      color = feature.get('abandoned') ? 'rgba(255, 0, 0, 0.5)' : 'rgba(256, 256, 256, 0.5)';
+    if ([PointType.country, PointType.state, PointType.region, PointType.city, PointType.town].indexOf(feature.get('type')) !== -1) {
+      if (feature.get('market')) {
+        color = 'rgba(128, 255, 128, 1)';
+      } else if (feature.get('abandoned')) {
+        color = 'rgba(255, 0, 0, 0.5)';
+      } else {
+        color = 'rgba(256, 256, 256, 0.75)'
+      }
     } else if (feature.get('type') === PointType.farm) {
       color = 'rgba(256, 256, 0, 0.5)';
     } else if (feature.get('type') === PointType.biome) {
@@ -83,7 +89,10 @@ var createPointStyleFunction = function() {
       style.image = new ol.style.Circle({
         radius: 15,
         fill: new ol.style.Fill({color: color}),
-        stroke: new ol.style.Stroke({color: 'gray', width: 1})
+        // stroke: new ol.style.Stroke({
+        //   color: feature.get('market') ? 'green' : 'gray',
+        //   width: feature.get('market') ? 2 : 1
+        // })
       });
     }
     
@@ -145,6 +154,10 @@ var clickHandler = function(evt) {
 
     if (feature.get('reddit')) {
       html.append('<br/>').append($(feature.get('reddit')));
+    }
+
+    if (feature.get('market')) {
+      html.append('<br/>').append($('<a/>').attr('href', feature.get('market')).text('Market'));
     }
 
     html.append('<br/>').append('<a href="http://civcraft.org/doku.php?id=towns:' + feature.get('name').toLowerCase() + '" target="blank">Wiki</a>');
