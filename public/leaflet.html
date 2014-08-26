@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+    <style>
+      html, body {
+        font-family: sans-serif;
+      }
+      .map {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+      }
+    </style>
+    <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+    <title>Civmap</title>
+  </head>
+  <body>
+    <div id="map" class="map"></div>
+    <script type="text/javascript">
+var map = L.map('map').setView([90, 66], 1);
+
+L.tileLayer('tiles/{z}/{x}/{y}.png', {
+  tms: true,
+  maxZoom: 18
+}).addTo(map);
+
+
+    </script>
+  </body>
+</html>

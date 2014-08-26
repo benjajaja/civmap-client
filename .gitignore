@@ -1,0 +1,4 @@
+data/*
+!data/master
+levels/*
+public/js/civmap.js

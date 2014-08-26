@@ -1,0 +1,54 @@
+html, body {
+  font-family: sans-serif;
+}
+#map {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+#toolbar {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  padding: 4px;
+  background: white;
+  border: 1px solid #eee;
+  -webkit-border-radius: 2px 2px 2px 2px;
+  border-radius: 2px 2px 2px 2px;
+  -webkit-box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+#position {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 4px 8px;
+  background: white;
+  border: 1px solid #eee;
+  -webkit-border-radius: 2px 2px 2px 2px;
+  border-radius: 2px 2px 2px 2px;
+  -webkit-box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  font-size: 20px;
+}
+#attribution {
+  display: block;
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  font-weight: bold;
+  color: black;
+  text-shadow: 0 0 2px rgba(255, 255, 255, 0.95);
+}
+
+.dropdown-menu > li > label {
+  display: block;
+  padding: 3px 20px;
+  clear: both;
+  font-weight: 400;
+  line-height: 1.42857143;
+  color: #333;
+  white-space: nowrap;
+}
