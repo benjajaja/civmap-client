@@ -1686,6 +1686,8 @@
     {"type":"Feature","geometry":{"type":"LineString","coordinates":[[0,1946],[0,0]]},"properties":{"origin":"Carbon","destination":"Kappi"}},
     {"type":"Feature","geometry":{"type":"LineString","coordinates":[[-12000,-1399],[-12000,-1574],[-11140,-1574],[-11140,-2049],[-10500,-2049],[-10500,-2524],[-10395,-2623],[-10400,-2951],[-10000,-2949],[-10000,-2999]]},"properties":{"origin":"Aeon","destination":"Venice","color":"#330080"}},
     {"type":"Feature","geometry":{"type":"LineString","coordinates":[[-4850,8232],[-4846,9304],[-6006,10498],[-5299,11259],[-5302,13891]]},"properties":{"origin":"Isle of Arran","destination":"Epicus","color":"#008000"}},
-    {"type":"Feature","geometry": {"type":"LineString","coordinates":[[7799,-3502],[7977,-3814],[8738,-3814]]},"properties": {"origin":"Centauri","destination":"New Leningrad"}}
+    {"type":"Feature","geometry": {"type":"LineString","coordinates":[[7799,-3502],[7977,-3814],[8738,-3814]]},"properties": {"origin":"Centauri","destination":"New Leningrad"}},
+    {"type":"Feature","geometry":{"type":"LineString","coordinates":[[-4664,-5505],[-5840,-5509],[-5840,-4770],[-6103,-4770],[-6210,-4669],[-6731,-4670]]},"properties":{"origin":"Orion","destination":"Haven","color":"#444444"}},
+    {"type":"Feature","geometry":{"type":"LineString","coordinates":[[-5544,-4750],[-5839,-4750],[-5839,-4769]]},"properties":{"origin":"Ñ","destination":"Shady Rail","color":"#444444"}}
   ]
 }
