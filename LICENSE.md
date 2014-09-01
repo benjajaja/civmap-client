@@ -23,4 +23,4 @@ SOFTWARE.
 This license applies to everything created by me in this repository, except:
 
 * Third party libraries (that have their own respective copyright and licenses)
-* The map tile images, which contain data originally compiled by [lamiska / pavel_the_hitman](http://www.reddit.com/user/lamiska), are UNLICENSED until further notice
+* The map tile images, which contain data originally compiled by [lamiska / pavel_the_hitman](http://www.reddit.com/user/lamiska), have their own license, see the submodule/repo's license
