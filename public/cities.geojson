@@ -1795,8 +1795,8 @@
 	{
 		"type": "Feature",
 		"properties": {
-			"name": "The Commonwealth",
-			"code": "TC",
+			"name": "Commonwealth",
+			"code": "CW",
 			"reddit": "r/CivCommonwealth/",
 			"market": "http://civlist.com/shopside/",
 			"flag": "http://s28.postimg.org/pd5dyx9bh/6_QADL31.png",
