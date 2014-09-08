@@ -2341,6 +2341,24 @@
 			]
 		}
 	},
+       {
+                "type": "Feature",
+                "properties": {
+                        "name": "Senntisten",
+                        "code": "Se",
+                        "abandoned": false,
+                        "type": "city",
+			"reddit": "r/Senntisten"
+                },
+                "geometry": {
+                        "type": "Point",
+                        "coordinates": [
+                                -3585,
+                                -6037
+                        ]
+                }
+        },
+
 	{"type":"Feature","geometry":{"type":"Point","coordinates":[7695,-9590]},"properties":
 	{"type":"city","name":"Aincrad","code":"Ai","reddit":"r/civcraft_aincrad"}},
 	{
