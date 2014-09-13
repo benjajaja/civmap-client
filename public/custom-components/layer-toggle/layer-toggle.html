@@ -1,0 +1,36 @@
+<!--<link rel="import" href="../../components/core-selector/core-selector.html">-->
+<!--<link rel="import" href="../../components/polymer/polymer.html">-->
+<link rel="import" href="../../components/core-selector/core-selector.html">
+<link rel="import" href="./layer-item.html">
+
+<polymer-element name="layer-toggle" extends="core-selector">
+<template>
+	<style>
+	:host > div {
+		border-bottom: 1px solid darkgray;
+		margin-bottom: 10px;
+	}
+	</style>
+	<div><content></content></div>
+</template>
+<script>
+Polymer('layer-toggle', {
+	domReady: function() {
+		this.querySelectorAll('layer-item').array().forEach(function(item) {
+			item.addEventListener('change', function(e) {
+				document.querySelector('civ-map').setLayerVisible(e.target.name, e.target.checked);
+				
+		        if (e.target.checked && e.target.exclusive) {
+		        	
+		        	e.target.parentElement.querySelectorAll('layer-item[exclusive]').array().forEach(function(layer) {
+		        		if (layer !== e.target) {
+		        			layer.checked = false;
+		        		}
+		        	});
+		        }
+			});
+		});
+	}
+})
+</script>
+</polymer-element>

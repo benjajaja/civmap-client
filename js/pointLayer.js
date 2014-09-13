@@ -34,26 +34,12 @@ var visible = (function() {
   return r;
 })();
 // Points
-var createPointStyleFunction = function() {
-  return function(feature, resolution) {
-    if (!visible.isVisible('abandoned') && feature.get('abandoned')) {
-      return [];
-    }
-    if (!visible.isVisible('biomes') && feature.get('type') === PointType.biome) {
-      return [];
-    }
-    if (!visible.isVisible('points') && feature.get('type') !== PointType.biome) {
-      return [];
-    }
-
-    // if (resolution > 16 && [PointType.country, PointType.state, PointType.region, PointType.city].indexOf(feature.get('type')) === -1) {
-    //   return [];
-    // }
-    if (resolution > 16 && [PointType.farm, PointType.locality].indexOf(feature.get('type')) !== -1) {
-      return [];
-    }
-    
-    if (feature.get('type') === PointType.biome) {
+var createPointStyleFunction = function(visible) {
+  if (visible === 'points') {
+    return function(feature, resolution) {
+      if ([PointType.country, PointType.state, PointType.region, PointType.city, PointType.farm].indexOf(feature.get('type')) !== -1) {
+        return [];
+      }
       return [new ol.style.Style({
         image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
           anchor: [0.5, 0.5],
@@ -63,10 +49,24 @@ var createPointStyleFunction = function() {
         }))
       })];
     }
+  }
 
-    var style = {
-      text: createTextStyle(feature, resolution, {})
-    };
+  return function(feature, resolution) {
+    if (feature.get('abandoned') && visible !== 'abandoned') {
+      return [];
+    } else if (!feature.get('abandoned') && visible === 'abandoned') {
+      return [];
+    }
+    
+    if (resolution > 16 && [PointType.farm, PointType.locality].indexOf(feature.get('type')) !== -1) {
+      return [];
+    }
+    
+
+    var style = {}
+    if (feature.get('type') !== PointType.biome) {
+      style.text = createTextStyle(feature, resolution, {});
+    }
     
     var color;
     if ([PointType.country, PointType.state, PointType.region, PointType.city, PointType.town].indexOf(feature.get('type')) !== -1) {
@@ -107,22 +107,36 @@ var citiesSource = new ol.source.GeoJSON({
 
 citiesSource.on('change', function(e) {
   citiesSource.un('change', arguments.callee);
-  var select = $('#jump');
-  e.target.getFeatures().sort(function(a, b) {
-    var textA = a.get('name'), textB = b.get('name');
-    return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
-  }).forEach(function(feature) {
-    if (!feature.get('code') || !feature.get('name')) {
-      return;
-    }
-    select.append($('<option value="' + feature.get('code') + '">').text(feature.get('name')));
-  });
-});
-var vectorPoints = new ol.layer.Vector({
-  source: citiesSource,
-  style: createPointStyleFunction()
+  // var select = $('#jump');
+  // e.target.getFeatures().sort(function(a, b) {
+  //   var textA = a.get('name'), textB = b.get('name');
+  //   return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+  // }).forEach(function(feature) {
+  //   if (!feature.get('code') || !feature.get('name')) {
+  //     return;
+  //   }
+  //   select.append($('<option value="' + feature.get('code') + '">').text(feature.get('name')));
+  // });
 });
 
+var citiesLayer = new ol.layer.Vector({
+  name: 'cities',
+  source: citiesSource,
+  style: createPointStyleFunction('cities')
+});
+
+var abandonedLayer = new ol.layer.Vector({
+  name: 'abandoned',
+  visible: false,
+  source: citiesSource,
+  style: createPointStyleFunction('abandoned')
+});
+
+var pointsLayer = new ol.layer.Vector({
+  name: 'points',
+  source: citiesSource,
+  style: createPointStyleFunction('points')
+});
 
 
 var element = document.getElementById('popup');
@@ -132,54 +146,15 @@ var popup = new ol.Overlay({
   stopEvent: false
 });
 
-var clickHandler = function(evt) {
-  $(element).popover('destroy');
-
-  var feature = evt.map.forEachFeatureAtPixel(evt.pixel,
-      function(feature, layer) {
-        return feature;
-      });
-  if (feature && feature.getGeometry().getType() === 'Point' && feature.get('name')) {
-    var geometry = feature.getGeometry();
-    var coord = geometry.getCoordinates();
-    popup.setPosition(coord);
-    var html = $('<div/>');
-    if (feature.get('flag')) {
-      var img = $('<img/>').attr('src', feature.get('flag'));
-      img.css({height: '40px', float: 'right'});
-      html.append(img);
-    }
-
-    html.append($('<strong>' + feature.get('name') + '</strong>'));
-
-    if (feature.get('reddit')) {
-      html.append('<br/>').append($('<a/>').attr('href', 'http://reddit.com/' + feature.get('reddit')).attr('target', 'blank').text(feature.get('reddit')));
-    }
-
-    if (feature.get('market')) {
-      html.append('<br/>').append($('<a/>').attr('href', feature.get('market')).attr('target', 'blank').text('Market'));
-    }
-
-    html.append('<br/>').append('<a href="http://civcraft.org/doku.php?id=towns:' + feature.get('name').toLowerCase() + '" target="blank">Wiki</a>');
-    
-    $(element).popover({
-      'placement': 'top',
-      'html': true,
-      'content': html
-    });
-    $(element).popover('show');
-  } else if (feature) {
-    // console.log(JSON.stringify(feature.getGeometry().getCoordinates()), feature.getProperties());
-  }
-};
 
 var map;
 exports.init = function(_map) {
   map = _map;
-  map.addLayer(vectorPoints);
+  map.addLayer(abandonedLayer);
+  map.addLayer(citiesLayer);
+  map.addLayer(pointsLayer);
 
   map.addOverlay(popup);
-  map.on('click', clickHandler);
 };
 
 exports.toggleVisible = function(name, show) {
@@ -188,7 +163,7 @@ exports.toggleVisible = function(name, show) {
   } else {
     visible.show(name);
   }
-  vectorPoints.setStyle(createPointStyleFunction());
+  citiesLayer.setStyle(createPointStyleFunction());
   return visible.isVisible(name);
 };
 

@@ -1,0 +1,58 @@
+<link rel="import" href="../../components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../../components/paper-radio-button/paper-radio-button.html">
+
+<polymer-element name="layer-item" attributes="name enabled checked exclusive" horizontal center layout>
+<template>
+  <style>
+  :host {
+    margin: 25px 10px;
+  }
+  :host > span {
+    padding-left: 16px;
+  }
+  </style>
+  <template if="{{!exclusive}}">
+    <paper-checkbox checked?="{{checked}}" name="{{name}}" on-change="{{checkboxChanged}}"></paper-checkbox>
+    <span><content></content></span>
+  </template>
+  <template if="{{exclusive}}">
+    <paper-radio-button checked?="{{checked}}" name="{{name}}" on-change="{{checkboxChanged}}"></paper-radio-button>
+    <span><content></content></span>
+  </template>
+</template>
+<script>
+
+  Polymer('layer-item', {
+    
+    publish: {
+      /**
+       * Gets or sets the state, `true` is checked and `false` is unchecked.
+       *
+       * @attribute checked
+       * @type boolean
+       * @default false
+       */
+      checked: {value: false, reflect: true},
+      exclusive: {value: false, reflect: true},
+    },
+
+    checkboxChanged: function(event, whatIsThisObject, element) {
+      this.checked = element.checked;
+      // this.fire('change', this.checked, this.name);
+    },
+
+    checkedChanged: function() {
+      // if (typeof map !== 'undefined') {
+      //   map.getLayers().forEach(function(layer) {
+      //     if (layer.getProperties().name === this.name) {
+      //       layer.setVisible(this.checked);
+      //     }
+      //   }, this);
+      // }
+      this.fire('change', this.name);
+    }
+
+  });
+
+</script>
+</polymer-element>

@@ -5,6 +5,7 @@ var pixelProjection = new ol.proj.Projection({
 });
 
 var layer = new ol.layer.Image({
+  name: 'civballs',
   source:  new ol.source.ImageStatic({
     attributions: [
       new ol.Attribution({

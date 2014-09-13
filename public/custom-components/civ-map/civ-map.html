@@ -1,0 +1,193 @@
+<link rel="import" href="../../components/paper-dialog/paper-dialog.html">
+
+<!-- a simple dialog element made with core-overlay -->
+<polymer-element name="x-dialog" attributes="opened autoCloseDisabled">
+<template>
+	<style>
+
+		:host {
+			box-sizing: border-box;
+			-moz-box-sizing: border-box;
+			font-family: Arial, Helvetica, sans-serif;
+			font-size: 13px;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			overflow: hidden;
+			background: white;
+			padding:15px 20px;
+			outline: 1px solid rgba(0,0,0,0.2);
+			box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+			/*min-width: 500px;*/
+		}
+		polyfill-next-selector { content: '.dialog-header img'; }
+		.dialog-header ::content img {
+			max-height: 40px;
+		}
+		.dialog-link {
+			padding: 10px 20px;
+		}
+		polyfill-next-selector { content: '.dialog-link a[rel]:before'; }
+		.dialog-link ::content a[rel]:before {
+			content: '';
+			display: inline-block;
+			margin-right: 4px;
+			vertical-align: middle;
+		}
+		polyfill-next-selector { content: '.dialog-link a[rel=reddit]:before'; }
+		.dialog-link ::content a[rel=reddit]:before {
+			background: url(http://www.redditstatic.com/spreddit5.gif);
+			width: 20px;
+			height: 17px;
+		}
+		polyfill-next-selector { content: '.dialog-link a[rel=wiki]:before'; }
+		.dialog-link ::content a[rel=wiki]:before {
+			background: url(http://civcraft.org/lib/tpl/monobook/static/3rd/dokuwiki/favicon.ico);
+			background-size: 18px;
+			width: 18px;
+			height: 18px;
+		}
+		polyfill-next-selector { content: '.dialog-link a[rel=market]:before'; }
+		.dialog-link ::content a[rel=market]:before {
+			background: url(market.png);
+			background-size: 20px;
+			width: 20px;
+			height: 20px;
+		}
+	</style>
+	<core-overlay id="overlay" layered backdrop opened="{{opened}}" autoCloseDisabled="{{autoCloseDisabled}}"  transition="core-transition-center"></core-overlay>
+	<div class="dialog-header" layout horizontal>
+		<div flex><content select="h2"></content></div>
+		<div><content select="img"></content></div>
+	</div>
+	<div class="dialog-links" horizontal justified layout>
+		<div class="dialog-link"><content select="a[rel=reddit]"></content></div>
+		<div class="dialog-link"><content select="a[rel=market]"></content></div>
+		<div class="dialog-link"><content select="a[rel=wiki]"></content></div>
+	</div>
+	<content></content>
+</template>
+<script>
+
+Polymer('x-dialog', {
+
+	ready: function() {
+		this.$.overlay.target = this;
+	},
+
+	open: function() {
+		this.$.overlay.open();
+	}
+
+});
+
+</script>
+</polymer-element>
+
+<polymer-element name="civ-map">
+<script>
+Polymer('civ-map', {
+	domReady: function() {
+		var dialog = document.createElement('x-dialog');
+		this.appendChild(dialog);
+		dialog.addEventListener('core-overlay-close-completed', function() {
+			dialog.innerHTML = '';
+		});
+
+		var makeCityHTML = function(dialog, feature) {
+			var header = document.createElement('h2');
+		    header.innerText = feature.get('name');
+		    dialog.appendChild(header);
+
+		    if (feature.get('flag')) {
+		    	var img = document.createElement('img');
+		    	img.src = feature.get('flag');
+		    	dialog.appendChild(img);
+		    }
+
+		    if (feature.get('reddit')) {
+		    	dialog.innerHTML += '<a href="http://reddit.com/' + feature.get('reddit') + '" target="_blank" rel="reddit">' + feature.get('reddit') + '</a>';
+		    }
+		    if (feature.get('market')) {
+		    	dialog.innerHTML += '<a href="' + feature.get('market') + '" target="_blank" class="reddit" rel="market">Market site</a>';
+		    }
+		    dialog.innerHTML += '<a href="http://civcraft.org/doku.php?id=towns:' + feature.get('name').toLowerCase() + '" target="_blank" rel="wiki">Wiki entry</a>';
+		}
+		this.addEventListener('map-click', function(e) {
+			var feature = window.map.forEachFeatureAtPixel(e.detail, function(feature, layer) {
+	        	return feature;
+	      	});
+	      	if (!feature) {
+	      		return;
+	      	}
+	      	
+		    if (feature.get('type') === 'biome') {
+		    	if (feature.get('name') === 'end') {
+			    	dialog.innerHTML += '<h2>End portal</h2><p>This is the only end portal of the map.</p>';
+			    } else if (feature.get('name') === 'nether') {
+			    	dialog.innerHTML += '<h2>Nether biome</h2><p>This is one of the Nether biomes.</p>';
+			    }
+
+		    } else if (feature.get('name')) {
+		    	makeCityHTML(dialog, feature);
+		    } else {
+		    	return;
+		    }
+			
+			dialog.open();
+		}.bind(this));
+	},
+
+	setLayerVisible: function(name, visible) {
+		window.map.getLayers().forEach(function(layer) {
+          if (layer.getProperties().name === name) {
+          	layer.setVisible(visible);
+          }
+        });
+	},
+
+	getZoomHash: function() {
+		var view = map.getView();
+	    var zoom = Math.min(8, Math.max(2, view.getZoom()));
+	    if (zoom !== view.getZoom()) {
+	      map.beforeRender(ol.animation.zoom({
+	        duration: 1000,
+	        resolution: map.getView().getResolution(),
+	      }));
+	      view.setZoom(zoom);
+	    }
+	    return zoom + '/' + view.getCenter().map(function(p, index) {
+	      return Math.floor(p) * (index ? -1 : 1);
+	    }).join('/');
+	},
+
+	goHome: function() {
+		var view = map.getView();
+	    var duration = 1000;
+	    var start = +new Date();
+	    var pan = ol.animation.pan({
+	      duration: duration,
+	      source: /** @type {ol.Coordinate} */ (view.getCenter()),
+	      start: start
+	    });
+	    var bounce = ol.animation.bounce({
+	      duration: duration,
+	      resolution: 64,
+	      start: start
+	    });
+	    map.beforeRender(pan, bounce);
+	    view.setCenter([0, 0]);
+	},
+
+	download: function(anchor) {
+		var anchor = document.createElement('A');
+		anchor.download = 'map.png';
+		map.once('postcompose', function(event) {
+	      var canvas = event.context.canvas;
+	      anchor.href = canvas.toDataURL('image/png');
+	      anchor.click();
+	    });
+	    map.renderSync();
+	}
+})
+</script>
+</polymer-element>

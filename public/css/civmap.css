@@ -7,7 +7,39 @@ html, body {
   left: 0;
   right: 0;
   bottom: 0;
+  background: white;
 }
+
+core-toolbar {
+  background: #0f9d58;
+}
+core-toolbar a, core-toolbar a:hover {
+  color: white;
+  text-decoration: none;
+}
+core-header-panel core-toolbar > img {
+  max-height: 100%;
+  margin-left: -6px !important;
+}
+
+#position {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  padding: 4px 8px;
+  background: white;
+  border: 1px solid #eee;
+  -webkit-border-radius: 2px 2px 2px 2px;
+  border-radius: 2px 2px 2px 2px;
+  -webkit-box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  font-size: 20px;
+}
+
+core-header-panel[drawer] {
+  background: white;
+}
+
 #toolbar {
   position: absolute;
   top: 10px;
@@ -20,19 +52,7 @@ html, body {
   -webkit-box-shadow: 0 2px 8px rgba(0,0,0,0.3);
   box-shadow: 0 2px 8px rgba(0,0,0,0.3);
 }
-#position {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  padding: 4px 8px;
-  background: white;
-  border: 1px solid #eee;
-  -webkit-border-radius: 2px 2px 2px 2px;
-  border-radius: 2px 2px 2px 2px;
-  -webkit-box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-  font-size: 20px;
-}
+
 #attribution {
   display: block;
   position: absolute;
