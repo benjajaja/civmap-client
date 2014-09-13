@@ -49,7 +49,6 @@ var geojson = new ol.format.GeoJSON();
 exports.addRail = function() {
   if (!confirm('You will enter draw-rail mode. Click to start placing your line, keep clicking to add corners, and double click where you want your last point to be.\n'
     + 'Then there will be prompts for origin and destination city names (click cancel if not a city, enter something like "CIC-red-blue" for rail interchanges).\n'
-    + 'Finally there will be a dialog with the rail JSON code which you must copy and submit.\n'
     + '\n'
     + 'Draw lines most exactly where they go, all hoops included. If you mess up just start again. If in doubt, read the subreddit guidelines first.\n'
     + '\n'
@@ -83,7 +82,7 @@ exports.addRail = function() {
       return [Math.floor(c[0]), Math.floor(-c[1])];
     });
     map.removeInteraction(draw);
-    alert(JSON.stringify(json));
+    window.open('http://www.reddit.com/r/civtransportmap/submit?selftext=true&title=[RAIL]&text=' + JSON.stringify(json));
     
     // console.log(JSON.stringify(feature));
   });
@@ -133,7 +132,7 @@ exports.addCity = function() {
     json.geometry.coordinates = json.geometry.coordinates.map(function(c, i) {
       return Math.floor(c) * (i === 1 ? -1 : 1);
     });
-    alert(JSON.stringify(json));
+    window.open('http://www.reddit.com/r/civtransportmap/submit?selftext=true&title=[POINT]&text=' + JSON.stringify(json));
     
     // console.log(JSON.stringify(feature));
   });
