@@ -12,12 +12,15 @@ var handleError = function(r) {
 	console.log('error handling: ', r);
 	if (r === false) {
 		alert('Undescribed API error');
+		throw new Error('Undescribed API error');
 	} else if (typeof r === 'object' && typeof r.message === 'string' && (Object.keys(r).length === 1 || Object.keys(r).length === 2)) {
 		console.error(r);
 		alert('API error: ' + r.message);
+		throw new Error('API error: ' + r.message);
 	} else if (typeof r.errors === 'object' && r.errors.length > 0) {
 		console.error(r);
 		alert('API error: ' + r.message);
+		throw new Error('API error: ' + r.message);
 	}
 };
 exports.update = function(path, json) {

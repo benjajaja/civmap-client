@@ -1,6 +1,16 @@
 var map;
 var featureOverlay;
 var pointLayer = require('./pointLayer.js');
+
+function getLayer(name) {
+  var match = null;
+  window.map.getLayers().forEach(function(layer) {
+    if (layer.getProperties().name === name) {
+      match = layer;
+    }
+  });
+  return match;
+}
 exports.init = function(_map) {
   map = _map;
   featureOverlay = new ol.FeatureOverlay({
@@ -35,9 +45,7 @@ exports.init = function(_map) {
   map.addInteraction(modify);
 
   // map.addInteraction(new ol.interaction.Select());
-  setTimeout(function() {
-    window.modifyFeatures();
-  }, 0);
+  
 };
 
 var draw; // global so we can remove it later
@@ -52,6 +60,7 @@ var geojson = new ol.format.GeoJSON();
 exports.addRail = function() {
   if (!confirm('You will enter draw-rail mode. Click to start placing your line, keep clicking to add corners, and double click where you want your last point to be.\n'
     + 'Then there will be prompts for origin and destination city names (click cancel if not a city, enter something like "CIC-red-blue" for rail interchanges).\n'
+    + 'When finished, press the "Create Pull Request" button.\n'
     + '\n'
     + 'Draw lines most exactly where they go, all hoops included. If you mess up just start again. If in doubt, read the subreddit guidelines first.\n'
     + '\n'
@@ -80,15 +89,19 @@ exports.addRail = function() {
     }
     feature.set('destination', prompt('Destination', feature.get('destination') || ''));
 
-    var json = geojson.writeFeature(e.feature);
-    json.geometry.coordinates = json.geometry.coordinates.map(function(c) {
-      return [Math.floor(c[0]), Math.floor(-c[1])];
-    });
+    getLayer('rails').getSource().addFeature(feature);
+
+    // var json = geojson.writeFeature(e.feature);
+    // json.geometry.coordinates = json.geometry.coordinates.map(function(c) {
+    //   return [Math.floor(c[0]), Math.floor(-c[1])];
+    // });
     map.removeInteraction(draw);
-    window.open('http://www.reddit.com/r/civtransportmap/submit?selftext=true&title=[RAIL]&text=' + JSON.stringify(json));
+    // window.open('http://www.reddit.com/r/civtransportmap/submit?selftext=true&title=[RAIL]&text=' + JSON.stringify(json));
     
     // console.log(JSON.stringify(feature));
   });
+
+  window.exportModified = exportModified;
 };
 
 function capitalize(string) {
@@ -107,8 +120,10 @@ exports.addCity = function() {
     feature.set('type', prompt('Type (one of: city, town, farm, locality, biome)'));
     if (Object.keys(pointLayer.PointType).indexOf(feature.get('type')) === -1) {
       return alert('Unknown point type');
+
     } else if (feature.get('type') === 'biome') {
       feature.set('name', prompt('Biome type (mushroom or nether)'));
+
     } else if (cityTpes.indexOf(feature.get('type')) !== -1) {
       feature.set('name', prompt('Name'));
       feature.set('code', prompt('Code (unique, 2 letters preferred)'));
@@ -125,20 +140,23 @@ exports.addCity = function() {
 
     } else {
       feature.set('name', prompt('Name'));
+
     }
     
-    
+    getLayer('cities').getSource().addFeature(feature);
     
     
 
-    var json = geojson.writeFeature(e.feature);
-    json.geometry.coordinates = json.geometry.coordinates.map(function(c, i) {
-      return Math.floor(c) * (i === 1 ? -1 : 1);
-    });
-    window.open('http://www.reddit.com/r/civtransportmap/submit?selftext=true&title=[POINT]&text=' + JSON.stringify(json));
+    // var json = geojson.writeFeature(e.feature);
+    // json.geometry.coordinates = json.geometry.coordinates.map(function(c, i) {
+    //   return Math.floor(c) * (i === 1 ? -1 : 1);
+    // });
+    // window.open('http://www.reddit.com/r/civtransportmap/submit?selftext=true&title=[POINT]&text=' + JSON.stringify(json));
     
     // console.log(JSON.stringify(feature));
   });
+
+  window.exportModified = exportModified;
 }
 
 window.modifyFeatures = function() {
@@ -215,13 +233,33 @@ window.modifyFeatures = function() {
     style: overlayStyle
   });
 
-  window.exportModified = function() {
+  
+  map.addInteraction(select);
+  map.addInteraction(modify);
+
+  window.exportModified = exportModified;
+};
+
+var exportModified = function(source) {
+  if (!window.confirm('You are about to create a github pull request based on your modifications.\n'
+    + 'A window will be opened to sign in to github (make sure to open it if blocked as popup).\n'
+    + 'If you don\'t already have a github account, you should create one now, in another tab, then retry.\n'
+    + 'If you do have an account, either use the popup to sign in and grant access to this application, or login in '
+    + 'another tab and then retry.\n'
+    + 'If in doubt, retry, this window should not be reloaded (if you do, changes will be lost).\n'
+    + 'Continue?'
+    )) {
+    return;
+  }
+
+  var collection = {
+    type: 'FeatureCollection',
+    features: []
+  };
+
+  if (source === 'rails') {
     window.map.getLayers().forEach(function(layer) {
       if (layer.getProperties().name === 'rails') {
-        var collection = {
-          type: 'FeatureCollection',
-          features: []
-        };
         layer.getSource().getFeatures().forEach(function(feature) {
           var json = geojson.writeFeature(feature);
           json.geometry.coordinates = json.geometry.coordinates.map(function(c) {
@@ -246,23 +284,38 @@ window.modifyFeatures = function() {
           }
           return a.properties.origin.localeCompare(b.properties.origin);
         });
-        // window.open('http://www.reddit.com/r/civtransportmap/submit?selftext=true&title=[EDIT-RAILS]&text=' + JSON.stringify(collection, null, '  '));
-        // window.prompt('Select text, Ctrl+C to copy', JSON.stringify(collection, null, '  '));
-        // window.open('https://github.com/gipsy-king/civmap-client/edit/master/public/rails.geojson');
-        require('./github').update('public/rails.geojson', JSON.stringify(collection, null, '  '));
       }
     });
-    // var feature = select.getFeatures().item(0);
-    // var json = geojson.writeFeature(feature);
-    // console.log(JSON.stringify(json));
-    // json.geometry.coordinates = json.geometry.coordinates.map(function(c, i) {
-    //   return Math.floor(c) * (i === 1 ? -1 : 1);
-    // });
-    // window.open('http://www.reddit.com/r/civtransportmap/submit?selftext=true&title=[POINT]&text=' + JSON.stringify(json));
+  } else if (source === 'cities') {
+    window.map.getLayers().forEach(function(layer) {
+      if (['cities'/*, 'abandoned', 'points'*/].indexOf(layer.getProperties().name) !== -1) {
+        layer.getSource().getFeatures().forEach(function(feature) {
+          var json = geojson.writeFeature(feature);
+          json.geometry.coordinates = json.geometry.coordinates.map(function(c, i) {
+            return Math.floor(c) * (i === 1 ? -1 : 1);
+          });
+          collection.features.push(json);
+        });
+      }
+    });
+    collection.features.sort(function(a, b) {
+      // why teh fuck doesn't this sort???
+      if (a.properties.type === b.properties.type) {
+        if (a.properties.name !== b.properties.name) {
+          return a.properties.name.localeCompare(b.properties.name);
+        }
+        if (a.geometry.coordinates[0] === b.geometry.coordinates[0]) {
+          return a.geometry.coordinates[1] - b.geometry.coordinates[1];
+        } else {
+          return a.geometry.coordinates[0] - b.geometry.coordinates[0];
+        }
+        
+      } else {
+        return a.properties.type.localeCompare(b.properties.type);
+      }
+    });
+    // return console.log(JSON.stringify(collection, null, '  '));
   }
-  
 
-  map.addInteraction(select);
-  map.addInteraction(modify);
-};
-
+  require('./github').update('public/' + source + '.geojson', JSON.stringify(collection, null, '  '));
+}

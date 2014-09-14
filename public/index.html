@@ -33,8 +33,22 @@
         </layer-toggle>
 
         <div layout>
-          <core-icon-button icon="add" add-city>Add city, town, or any other location</core-icon-button>
-          <core-icon-button icon="add" add-rail>Add rail</core-icon-button>
+          <strong>Edit and create features</strong>
+          <div>
+            <core-icon-button icon="add" add-city>Add city, town, or any other point</core-icon-button>
+          </div>
+          <div>
+            <core-icon-button icon="add" add-rail>Add rail</core-icon-button>
+          </div>
+          <div>
+            <core-icon-button icon="create" modify-features>Modify feature mode</core-icon-button>
+          </div>
+          <div>
+            <core-icon-button icon="cloud-upload" create-pr-rails>Rails pull request</core-icon-button>
+          </div>
+          <div>
+            <core-icon-button icon="cloud-upload" create-pr-cities>Points pull request</core-icon-button>
+          </div>
         </div>
 
         <paper-shadow z="3"></paper-shadow>
@@ -76,6 +90,23 @@
     });
     document.querySelector('core-icon-button[add-rail]').addEventListener('click', function() {
       window.addRail();
+    });
+    document.querySelector('core-icon-button[modify-features]').addEventListener('click', function() {
+      window.modifyFeatures();
+    });
+    document.querySelector('core-icon-button[create-pr-rails]').addEventListener('click', function() {
+      if (window.exportModified) {
+        window.exportModified('rails');
+      } else {
+        alert('Edit some features first.');
+      }
+    });
+    document.querySelector('core-icon-button[create-pr-cities]').addEventListener('click', function() {
+      if (window.exportModified) {
+        window.exportModified('cities');
+      } else {
+        alert('Edit some features first.');
+      }
     });
     </script>
     <script src="js/civmap.js"></script>
