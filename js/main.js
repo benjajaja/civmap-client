@@ -18,6 +18,8 @@ setTimeout(function() {
 
 	require('./editMode.js').init(map);
 
+	require('./github.js').init();
+
 	// to hijack map
   	window.map = map;
   	window.addRail = require('./editMode.js').addRail;

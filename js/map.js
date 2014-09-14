@@ -28,6 +28,7 @@ ol.proj.addCoordinateTransforms('EPSG:4326', projection,
 exports.init = function() {
   var map = new ol.Map({
     // renderer: 'webgl',
+    visible: true,
     target: 'map',
     controls: [],
     layers: [

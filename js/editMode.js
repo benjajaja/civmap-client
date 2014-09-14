@@ -35,6 +35,9 @@ exports.init = function(_map) {
   map.addInteraction(modify);
 
   // map.addInteraction(new ol.interaction.Select());
+  setTimeout(function() {
+    window.modifyFeatures();
+  }, 0);
 };
 
 var draw; // global so we can remove it later
@@ -137,3 +140,126 @@ exports.addCity = function() {
     // console.log(JSON.stringify(feature));
   });
 }
+
+window.modifyFeatures = function() {
+  var overlayStyle = (function() {
+    /* jshint -W069 */
+    var styles = {};
+    styles['Polygon'] = [
+      new ol.style.Style({
+        fill: new ol.style.Fill({
+          color: [255, 255, 255, 0.5]
+        })
+      }),
+      new ol.style.Style({
+        stroke: new ol.style.Stroke({
+          color: [255, 255, 255, 1],
+          width: 5
+        })
+      }),
+      new ol.style.Style({
+        stroke: new ol.style.Stroke({
+          color: [0, 153, 255, 1],
+          width: 3
+        })
+      })
+    ];
+    styles['MultiPolygon'] = styles['Polygon'];
+
+    styles['LineString'] = [
+      new ol.style.Style({
+        stroke: new ol.style.Stroke({
+          color: [255, 255, 255, 1],
+          width: 5
+        })
+      }),
+      new ol.style.Style({
+        stroke: new ol.style.Stroke({
+          color: [0, 153, 255, 1],
+          width: 3
+        })
+      })
+    ];
+    styles['MultiLineString'] = styles['LineString'];
+
+    styles['Point'] = [
+      new ol.style.Style({
+        image: new ol.style.Circle({
+          radius: 7,
+          fill: new ol.style.Fill({
+            color: [0, 153, 255, 1]
+          }),
+          stroke: new ol.style.Stroke({
+            color: [255, 255, 255, 0.75],
+            width: 1.5
+          })
+        }),
+        zIndex: 100000
+      })
+    ];
+    styles['MultiPoint'] = styles['Point'];
+
+    styles['GeometryCollection'] = styles['Polygon'].concat(styles['Point']);
+
+    return function(feature, resolution) {
+      return styles[feature.getGeometry().getType()];
+    };
+    /* jshint +W069 */
+  })();
+  var select = new ol.interaction.Select({
+    style: overlayStyle
+  });
+
+  var modify = new ol.interaction.Modify({
+    features: select.getFeatures(),
+    style: overlayStyle
+  });
+
+  window.exportModified = function() {
+    window.map.getLayers().forEach(function(layer) {
+      if (layer.getProperties().name === 'rails') {
+        var collection = {
+          type: 'FeatureCollection',
+          features: []
+        };
+        layer.getSource().getFeatures().forEach(function(feature) {
+          var json = geojson.writeFeature(feature);
+          json.geometry.coordinates = json.geometry.coordinates.map(function(c) {
+            return [Math.floor(c[0]), Math.floor(-c[1])];
+          });
+          collection.features.push(json);
+        });
+        collection.features.sort(function(a, b) {
+          if (a.properties.origin === b.properties.origin) {
+            if (a.properties.destination === null) {
+              return b.properties.destination === null ? 0 : -1;
+            } else if (b.properties.destination === null) {
+              return -1;
+            }
+            return a.properties.destination.localeCompare(b.properties.destination);
+          }
+
+          if (a.properties.origin === null) {
+            return b.properties.origin === null ? 0 : -1;
+          } else if (b.properties.origin === null) {
+            return -1;
+          }
+          return a.properties.origin.localeCompare(b.properties.origin);
+        });
+        require('./github').update('rails.geojson', JSON.stringify(collection, null, '  '));
+      }
+    });
+    // var feature = select.getFeatures().item(0);
+    // var json = geojson.writeFeature(feature);
+    // console.log(JSON.stringify(json));
+    // json.geometry.coordinates = json.geometry.coordinates.map(function(c, i) {
+    //   return Math.floor(c) * (i === 1 ? -1 : 1);
+    // });
+    // window.open('http://www.reddit.com/r/civtransportmap/submit?selftext=true&title=[POINT]&text=' + JSON.stringify(json));
+  }
+  
+
+  map.addInteraction(select);
+  map.addInteraction(modify);
+};
+
