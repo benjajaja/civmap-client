@@ -299,27 +299,6 @@
         "type": "LineString",
         "coordinates": [
           [
-            7997,
-            -2388
-          ],
-          [
-            8617,
-            -3791
-          ]
-        ]
-      },
-      "properties": {
-        "origin": "Brimstone",
-        "destination": "New Leningrad",
-        "unconfirmed": true
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [
             3896,
             -3265
           ],
