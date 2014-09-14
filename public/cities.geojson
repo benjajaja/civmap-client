@@ -50,6 +50,20 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          -9597,
+          -4244
+        ]
+      },
+      "properties": {
+        "type": "biome",
+        "name": "mushroom"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           -9117,
           3907
         ]
