@@ -180,6 +180,42 @@
         "type": "LineString",
         "coordinates": [
           [
+            4515,
+            -1600
+          ],
+          [
+            4516,
+            -1418
+          ],
+          [
+            4478,
+            -1418
+          ],
+          [
+            4478,
+            -1129
+          ],
+          [
+            4421,
+            -1070
+          ],
+          [
+            4416,
+            1526
+          ]
+        ]
+      },
+      "properties": {
+        "origin": "Aurora",
+        "destination": "Holy Tree"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
             -3506,
             -3413
           ],
