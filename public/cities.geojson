@@ -20,38 +20,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -2304,
-          -4558
-        ]
-      },
-      "properties": {
-        "name": "mushroom",
-        "code": "",
-        "type": "biome"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           -14246,
           -1082
-        ]
-      },
-      "properties": {
-        "name": "mushroom",
-        "code": "",
-        "type": "biome"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -9117,
-          3907
         ]
       },
       "properties": {
@@ -80,23 +50,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -3589,
-          -8427
-        ]
-      },
-      "properties": {
-        "name": "mushroom",
-        "code": "",
-        "type": "biome"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -4508,
-          -3606
+          -9117,
+          3907
         ]
       },
       "properties": {
@@ -140,8 +95,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -2204,
-          -3206
+          -4508,
+          -3606
         ]
       },
       "properties": {
@@ -155,8 +110,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -1212,
-          -7518
+          -3589,
+          -8427
         ]
       },
       "properties": {
@@ -170,8 +125,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -1502,
-          -5510
+          -2304,
+          -4558
         ]
       },
       "properties": {
@@ -200,8 +155,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          2785,
-          -1242
+          -2204,
+          -3206
         ]
       },
       "properties": {
@@ -215,14 +170,57 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          2174,
-          11591
+          -1666,
+          -4352
+        ]
+      },
+      "properties": {
+        "type": "biome",
+        "name": "mushroom"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -1502,
+          -5510
         ]
       },
       "properties": {
         "name": "mushroom",
         "code": "",
         "type": "biome"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -1212,
+          -7518
+        ]
+      },
+      "properties": {
+        "name": "mushroom",
+        "code": "",
+        "type": "biome"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          923,
+          -13699
+        ]
+      },
+      "properties": {
+        "type": "biome",
+        "name": "mushroom"
       }
     },
     {
@@ -245,8 +243,37 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          4361,
-          -2105
+          1282,
+          -13842
+        ]
+      },
+      "properties": {
+        "type": "biome",
+        "name": "mushroom"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          2174,
+          11591
+        ]
+      },
+      "properties": {
+        "name": "mushroom",
+        "code": "",
+        "type": "biome"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          2785,
+          -1242
         ]
       },
       "properties": {
@@ -275,14 +302,43 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          13485,
-          -6261
+          3707,
+          11421
         ]
       },
       "properties": {
         "name": "mushroom",
         "code": "",
         "type": "biome"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4361,
+          -2105
+        ]
+      },
+      "properties": {
+        "name": "mushroom",
+        "code": "",
+        "type": "biome"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4366,
+          9077
+        ]
+      },
+      "properties": {
+        "type": "biome",
+        "name": "mushroom"
       }
     },
     {
@@ -320,8 +376,22 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          3707,
-          11421
+          11637,
+          -5896
+        ]
+      },
+      "properties": {
+        "type": "biome",
+        "name": "mushroom"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          13485,
+          -6261
         ]
       },
       "properties": {
@@ -349,98 +419,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          5009,
-          -10204
-        ]
-      },
-      "properties": {
-        "name": "nether",
-        "code": "",
-        "type": "biome"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -3506,
-          -500
-        ]
-      },
-      "properties": {
-        "name": "nether",
-        "type": "biome",
-        "code": ""
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -8616,
-          2003
-        ]
-      },
-      "properties": {
-        "name": "nether",
-        "type": "biome",
-        "code": ""
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4107,
-          -7814
-        ]
-      },
-      "properties": {
-        "name": "nether",
-        "type": "biome",
-        "code": ""
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -2504,
-          -1402
-        ]
-      },
-      "properties": {
-        "name": "nether",
-        "type": "biome",
-        "code": ""
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          3231,
-          -7193
-        ]
-      },
-      "properties": {
-        "name": "nether",
-        "code": "",
-        "type": "biome"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -8245,
-          11271
+          -10119,
+          8616
         ]
       },
       "properties": {
@@ -469,6 +449,36 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          -8616,
+          2003
+        ]
+      },
+      "properties": {
+        "name": "nether",
+        "type": "biome",
+        "code": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -8245,
+          11271
+        ]
+      },
+      "properties": {
+        "name": "nether",
+        "code": "",
+        "type": "biome"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           -7614,
           2604
         ]
@@ -484,14 +494,29 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -10119,
-          8616
+          -3506,
+          -500
         ]
       },
       "properties": {
         "name": "nether",
-        "code": "",
-        "type": "biome"
+        "type": "biome",
+        "code": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -2504,
+          -1402
+        ]
+      },
+      "properties": {
+        "name": "nether",
+        "type": "biome",
+        "code": ""
       }
     },
     {
@@ -507,6 +532,79 @@
         "name": "nether",
         "type": "biome",
         "code": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          3231,
+          -7193
+        ]
+      },
+      "properties": {
+        "name": "nether",
+        "code": "",
+        "type": "biome"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4107,
+          -7814
+        ]
+      },
+      "properties": {
+        "name": "nether",
+        "type": "biome",
+        "code": ""
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5009,
+          -10204
+        ]
+      },
+      "properties": {
+        "name": "nether",
+        "code": "",
+        "type": "biome"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6132,
+          -10654
+        ]
+      },
+      "properties": {
+        "type": "biome",
+        "name": "nether"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6860,
+          -10726
+        ]
+      },
+      "properties": {
+        "type": "biome",
+        "name": "nether"
       }
     },
     {
@@ -551,6 +649,20 @@
         "name": "nether",
         "code": "",
         "type": "biome"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11112,
+          -6690
+        ]
+      },
+      "properties": {
+        "type": "biome",
+        "name": "nether"
       }
     },
     {
@@ -2393,6 +2505,21 @@
         "abandoned": false,
         "type": "farm",
         "flag": "http://i.imgur.com/E7ivVG1.png"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6804,
+          5393
+        ]
+      },
+      "properties": {
+        "type": "locality",
+        "name": "?",
+        "code": ""
       }
     },
     {
