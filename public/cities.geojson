@@ -35,6 +35,48 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          -10879,
+          6900
+        ]
+      },
+      "properties": {
+        "type": "biome",
+        "name": "mushroom"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -10751,
+          8288
+        ]
+      },
+      "properties": {
+        "type": "biome",
+        "name": "mushroom"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -10187,
+          7452
+        ]
+      },
+      "properties": {
+        "type": "biome",
+        "name": "mushroom"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           -10069,
           5109
         ]
@@ -43,6 +85,20 @@
         "name": "mushroom",
         "code": "",
         "type": "biome"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -9976,
+          1378
+        ]
+      },
+      "properties": {
+        "type": "biome",
+        "name": "mushroom"
       }
     },
     {
@@ -79,6 +135,62 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          -8942,
+          -371
+        ]
+      },
+      "properties": {
+        "type": "biome",
+        "name": "mushroom"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -8822,
+          7946
+        ]
+      },
+      "properties": {
+        "type": "biome",
+        "name": "mushroom"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -8051,
+          12169
+        ]
+      },
+      "properties": {
+        "type": "biome",
+        "name": "mushroom"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -7960,
+          1646
+        ]
+      },
+      "properties": {
+        "type": "biome",
+        "name": "mushroom"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           -7063,
           7614
         ]
@@ -87,6 +199,76 @@
         "name": "mushroom",
         "code": "",
         "type": "biome"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6787,
+          13039
+        ]
+      },
+      "properties": {
+        "type": "biome",
+        "name": "mushroom"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6663,
+          10784
+        ]
+      },
+      "properties": {
+        "type": "biome",
+        "name": "mushroom"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6658,
+          -7813
+        ]
+      },
+      "properties": {
+        "type": "biome",
+        "name": "mushroom"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6170,
+          -9320
+        ]
+      },
+      "properties": {
+        "type": "biome",
+        "name": "mushroom"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -5758,
+          -9322
+        ]
+      },
+      "properties": {
+        "type": "biome",
+        "name": "mushroom"
       }
     },
     {
@@ -109,6 +291,20 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          -5364,
+          -10552
+        ]
+      },
+      "properties": {
+        "type": "biome",
+        "name": "mushroom"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           -4508,
           -3606
         ]
@@ -124,6 +320,34 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          -4368,
+          -10124
+        ]
+      },
+      "properties": {
+        "type": "biome",
+        "name": "mushroom"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -4103,
+          -370
+        ]
+      },
+      "properties": {
+        "type": "biome",
+        "name": "mushroom"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           -3589,
           -8427
         ]
@@ -132,6 +356,48 @@
         "name": "mushroom",
         "code": "",
         "type": "biome"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3580,
+          -8348
+        ]
+      },
+      "properties": {
+        "type": "biome",
+        "name": "mushroom"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3347,
+          902
+        ]
+      },
+      "properties": {
+        "type": "biome",
+        "name": "mushroom"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3072,
+          -8227
+        ]
+      },
+      "properties": {
+        "type": "biome",
+        "name": "mushroom"
       }
     },
     {
@@ -228,6 +494,20 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          153,
+          3330
+        ]
+      },
+      "properties": {
+        "type": "biome",
+        "name": "mushroom"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           923,
           -13699
         ]
@@ -286,6 +566,20 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          2701,
+          -10095
+        ]
+      },
+      "properties": {
+        "type": "biome",
+        "name": "mushroom"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           2785,
           -1242
         ]
@@ -294,6 +588,20 @@
         "name": "mushroom",
         "code": "",
         "type": "biome"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          2941,
+          -9831
+        ]
+      },
+      "properties": {
+        "type": "biome",
+        "name": "mushroom"
       }
     },
     {
