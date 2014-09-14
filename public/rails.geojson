@@ -207,7 +207,8 @@
       },
       "properties": {
         "origin": "Aurora",
-        "destination": "Holy Tree"
+        "destination": "Holy Tree",
+        "color":"#ff0000"
       }
     },
     {
