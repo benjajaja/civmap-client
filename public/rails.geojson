@@ -1338,6 +1338,74 @@
         "type": "LineString",
         "coordinates": [
           [
+            5326,
+            -3952
+          ],
+          [
+            4697,
+            -3952
+          ],
+          [
+            4356,
+            -3559
+          ],
+          [
+            4128,
+            -3558
+          ],
+          [
+            4100,
+            -3523
+          ],
+          [
+            3905,
+            -3523
+          ],
+          [
+            3904,
+            -3276
+          ]
+        ]
+      },
+      "properties": {
+        "origin": "Remnant",
+        "destination": "Bryn"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            5342,
+            -3952
+          ],
+          [
+            5575,
+            -3721
+          ],
+          [
+            6149,
+            -3721
+          ],
+          [
+            6150,
+            -2911
+          ]
+        ]
+      },
+      "properties": {
+        "origin": "Remnant",
+        "destination": "Fellowship"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
             -3218,
             -6907
           ],
