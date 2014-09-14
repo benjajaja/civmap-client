@@ -337,19 +337,19 @@
         "type": "LineString",
         "coordinates": [
           [
-            -4231,
-            1292
+            4411,
+            -1012
           ],
           [
-            -3996,
-            1252
+            4411,
+            1532
           ]
         ]
       },
       "properties": {
         "origin": null,
         "destination": null,
-        "color": "#0000FF"
+        "color": "#FF0000"
       }
     },
     {
@@ -526,19 +526,19 @@
         "type": "LineString",
         "coordinates": [
           [
-            4411,
-            -1012
+            -4186,
+            1252
           ],
           [
-            4411,
-            1532
+            -3996,
+            1252
           ]
         ]
       },
       "properties": {
         "origin": null,
         "destination": null,
-        "color": "#FF0000"
+        "color": "#0000FF"
       }
     },
     {
