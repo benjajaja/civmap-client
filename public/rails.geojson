@@ -7,6 +7,31 @@
         "type": "LineString",
         "coordinates": [
           [
+            -5544,
+            -4750
+          ],
+          [
+            -5839,
+            -4750
+          ],
+          [
+            -5839,
+            -4769
+          ]
+        ]
+      },
+      "properties": {
+        "origin": "ï¿½",
+        "destination": "Shady Rail",
+        "color": "#444444"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
             -12002,
             -1402
           ],
@@ -310,7 +335,6 @@
         "color": "#0000FF"
       }
     },
-    
     {
       "type": "Feature",
       "geometry": {
@@ -461,6 +485,47 @@
         "origin": "Carson",
         "destination": "The Commonwealth",
         "color": "#008000"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -4185,
+            1244
+          ],
+          [
+            -3990,
+            1244
+          ],
+          [
+            -3328,
+            622
+          ],
+          [
+            -1682,
+            622
+          ],
+          [
+            -1682,
+            504
+          ],
+          [
+            -1667,
+            489
+          ],
+          [
+            -1599,
+            489
+          ]
+        ]
+      },
+      "properties": {
+        "origin": "Carson",
+        "destination": "Vale",
+        "color": "#0000FF"
       }
     },
     {
@@ -932,31 +997,6 @@
         "origin": "Mount Augusta",
         "destination": "Holy Tree",
         "color": "#FFFF00"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [
-            -5544,
-            -4750
-          ],
-          [
-            -5839,
-            -4750
-          ],
-          [
-            -5839,
-            -4769
-          ]
-        ]
-      },
-      "properties": {
-        "origin": "Ñ",
-        "destination": "Shady Rail",
-        "color": "#444444"
       }
     },
     {
@@ -1453,6 +1493,43 @@
         "type": "LineString",
         "coordinates": [
           [
+            -1596,
+            489
+          ],
+          [
+            -1505,
+            489
+          ],
+          [
+            -1179,
+            153
+          ],
+          [
+            143,
+            151
+          ],
+          [
+            1886,
+            -1612
+          ],
+          [
+            4501,
+            -1614
+          ]
+        ]
+      },
+      "properties": {
+        "origin": "Vale",
+        "destination": "Aurora",
+        "color": "#0000FF"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
             -1730,
             511
           ],
@@ -1578,8 +1655,6 @@
         "destination": "Titan",
         "color": "#FF56DD"
       }
-    },
-    {"type":"Feature","geometry":{"type":"LineString","coordinates":[[-4185,1244],[-3990,1244],[-3328,622],[-1682,622],[-1682,504],[-1667,489],[-1599,489]]},"properties":{"origin":"Carson","destination":"Vale","color":"#0000FF"}},
-    {"type":"Feature","geometry":{"type":"LineString","coordinates":[[-1596,489],[-1505,489],[-1179,153],[143,151],[1886,-1612],[4501,-1614]]},"properties":{"origin":"Vale","destination":"Aurora","color":"#0000FF"}}
+    }
   ]
 }
