@@ -2371,6 +2371,21 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          5335,
+          -3951
+        ]
+      },
+      "properties": {
+        "type": "city",
+        "name": "Remnant",
+        "code": "RM"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           -5510,
           9518
         ]
@@ -2873,21 +2888,6 @@
         "abandoned": false,
         "type": "town",
         "flag": "http://i.imgur.com/E7ivVG1.png"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          4200,
-          -3590
-        ]
-      },
-      "properties": {
-        "type": "town",
-        "name": "Puerto Angel",
-        "code": "PA"
       }
     }
   ]
