@@ -4,33 +4,86 @@ require('./libs/hello.min.js');
 exports.init = function() {
 	hello.init({ 
 		github: 'd1366771fec5776c4a99'
-	},{redirect_uri:'http://txapu.com/#github'});
+	},{redirect_uri:'https://auth-server.herokuapp.com/'});
+};
 
-	hello.on('auth.login', function(auth){
-		console.log('auth.login');
-		// call user information, for the given network
-		hello( auth.network ).api( '/me' ).then( function(r){
-			// Inject it into the container
-			console.log(r.thumbnail);
+var handleError = function(r) {
+	if (r === false) {
+		alert('Undescribed API error');
+	} else if (typeof r === 'object' && typeof r.message === 'string' && (Object.keys(r).length === 1 || Object.keys(r).length === 2)) {
+		console.error(r);
+		alert('API error: ' + r.message);
+	} else if (typeof r.errors === 'object' && r.errors.length > 0) {
+		console.error(r);
+		alert('API error: ' + r.message);
+	}
+};
+exports.update = function(path, json) {
+
+	hello('github').login({
+		scope: 'repo'
+	}).then(function(r) {
+		handleError(r);
+
+		hello('github').api('/repos/gipsy-king/civmap-client/forks', 'post', {}).then(function(r) {
+			handleError(r);
+			console.log('forked');
+			update(r.full_name, path, r.owner.login, 5);
+
+		}, function() {
+			throw new Error('API fork error');
 		});
+	}, function(r) {
+		throw new Error('API login error: ' + JSON.stringify(r));
 	});
-}
 
-exports.update = function(file, json) {
-	hello('github').login().then(function() {
-		console.log('yes');
+	function update(repo, path, login, retries) {
+		console.log('getting /repos/' + repo + '/contents/' + path);
+		hello('github').api('/repos/' + repo + '/contents/' + path, 'get', {
+			path: path
+		}).then(function(r) {
+			if (r === false || !r.sha) {
+				if (retries === 0) {
+					return alert('timeout.');
+				}
+				console.log('retrying...');
+				return setTimeout(function() {
+					update(repo, path, login, retries - 1);
+				}, 3000);
+			}
+			var file = r;
 
-		hello('github').api( '/me' ).then( function(r){
-			// Inject it into the container
-			console.log(r.thumbnail);
-		});
-	}, function(e) {
-		console.log(e);
-		alert('Signin error: ' + e);
-	});
+			var title = prompt('Enter commit message');
+			hello('github').api('/repos/' + repo + '/contents/' + path, 'put', {
+				path: path,
+				message: title,
+				content: btoa(json),
+				sha: file.sha
+
+			}).then(function(res) {
+				handleError(res);
+
+				console.log('changes committed', res);
+
+				if (repo !== 'gipsy-king/civmap-client') {
+					hello('github').api('/repos/gipsy-king/civmap-client/pulls', 'post', {
+						title: title,
+						head: login + ':master',
+						base: 'master',
+						body: 'Automatic PR'
+					}).then(function(r) {
+						handleError(r);
+						window.open('https://github.com/gipsy-king/civmap-client/pulls');
+					}, handleError)
+				} else {
+					alert('Changes committed');
+				}
+			}, handleError);
+		}, handleError);
+	}
 	// window.open('https://github.com/login/oauth/authorize?client_id=d1366771fec5776c4a99&redirect_uri=http://txapu.com/#github');
 };
 
 window.postit = function() {
 
-}
+};

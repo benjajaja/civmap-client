@@ -246,7 +246,10 @@ window.modifyFeatures = function() {
           }
           return a.properties.origin.localeCompare(b.properties.origin);
         });
-        require('./github').update('rails.geojson', JSON.stringify(collection, null, '  '));
+        // window.open('http://www.reddit.com/r/civtransportmap/submit?selftext=true&title=[EDIT-RAILS]&text=' + JSON.stringify(collection, null, '  '));
+        // window.prompt('Select text, Ctrl+C to copy', JSON.stringify(collection, null, '  '));
+        // window.open('https://github.com/gipsy-king/civmap-client/edit/master/public/rails.geojson');
+        require('./github').update('public/rails.geojson', JSON.stringify(collection, null, '  '));
       }
     });
     // var feature = select.getFeatures().item(0);
