@@ -1,0 +1,13 @@
+{
+  "main": "./js/main.js",
+  "browserify-shim": {
+      "./js/libs/base64.js": "Base64",
+      "./js/libs/hello.js": "hello"
+  },
+  "browserify": {
+    "transform": [ "browserify-shim" ]
+  },
+  "dependencies": {
+    "browserify-shim": "~3.2.0"
+  }
+}

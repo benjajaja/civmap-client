@@ -1,5 +1,6 @@
 
-require('./libs/hello.min.js');
+var hello = require('./libs/hello.js');
+var Base64 = require('./libs/base64.js');
 
 exports.init = function() {
 	hello.init({ 
@@ -8,6 +9,7 @@ exports.init = function() {
 };
 
 var handleError = function(r) {
+	console.log('error handling: ', r);
 	if (r === false) {
 		alert('Undescribed API error');
 	} else if (typeof r === 'object' && typeof r.message === 'string' && (Object.keys(r).length === 1 || Object.keys(r).length === 2)) {
@@ -53,11 +55,11 @@ exports.update = function(path, json) {
 			}
 			var file = r;
 
-			var title = prompt('Enter commit message');
+			var title = prompt('Enter commit message', 'Update ' + path);
 			hello('github').api('/repos/' + repo + '/contents/' + path, 'put', {
 				path: path,
 				message: title,
-				content: btoa(json),
+				content: Base64.encode(json),
 				sha: file.sha
 
 			}).then(function(res) {
