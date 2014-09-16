@@ -2156,6 +2156,21 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          13701,
+          1737
+        ]
+      },
+      "properties": {
+        "type": "city",
+        "name": "New Salisbury",
+        "code": "SB"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           -4508,
           -2504
         ]
