@@ -160,6 +160,12 @@ exports.addCity = function() {
 }
 
 window.modifyFeatures = function() {
+  var railsSource = getLayer('rails').getSource();
+  railsSource.getFeatures().forEach(function(feature) {
+    if (feature.getGeometry() instanceof ol.geom.Point) {
+      railsSource.removeFeature(feature);
+    }
+  });
   var overlayStyle = (function() {
     /* jshint -W069 */
     var styles = {};
