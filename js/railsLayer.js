@@ -28,7 +28,7 @@ var vectorLines = new ol.layer.Vector({
     };
     if (resolution <= 16) {
       style.image = new ol.style.Circle({
-        radius: Math.max(10, 2 / resolution),
+        radius: resolution >= 32 ? 14 : Math.max(10, 2 / resolution),
         fill: new ol.style.Fill({color: 'white'}),
         stroke: new ol.style.Stroke({color: color, width: 4})
       });
@@ -46,14 +46,18 @@ railsSource.on('change', function(e) {
 
   setTimeout(function() {
     var endPoints = [];
+    var addPoint = function(coordinate, color, isJunction) {
+      var point = new ol.Feature({
+        geometry: new ol.geom.Point(coordinate),
+        color: color,
+        junction: isJunction
+      });
+      endPoints.push(point);
+    };
     railsSource.getFeatures().forEach(function(feature, i) {
-      [feature.getGeometry().getFirstCoordinate(), feature.getGeometry().getLastCoordinate()].forEach(function(coordinate) {
-        var point = new ol.Feature({
-          geometry: new ol.geom.Point(coordinate),
-          color: feature.get('color')
-        });
-        endPoints.push(point);
-      })
+      var junction = feature.get('junction');
+      addPoint(feature.getGeometry().getFirstCoordinate(), feature.get('color'), junction === 'start' || junction === 'both');
+      addPoint(feature.getGeometry().getLastCoordinate(), feature.get('color'), junction === 'end' || junction === 'both');
     });
 
     setTimeout(function() {
@@ -65,6 +69,9 @@ railsSource.on('change', function(e) {
           var nearCoord = geometry.getCoordinates();
           if (Math.abs(coord[0] - nearCoord[0]) < radius && Math.abs(coord[1] - nearCoord[1]) < radius) {
             geometry.setCoordinates([(coord[0] + nearCoord[0]) / 2, (coord[1] + nearCoord[1]) / 2]);
+            if (endPoints[i].get('color') !== feature.get('color')) {
+              endPoints[i].set('color', '#333333')
+            }
             return false;
           }
         }

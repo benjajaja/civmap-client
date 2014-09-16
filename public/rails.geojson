@@ -22,8 +22,9 @@
       },
       "properties": {
         "origin": "�",
-        "destination": "Shady Rail",
-        "color": "#444444"
+        "destination": "Shady Rail Connection",
+        "color": "#444444",
+        "junction": "end"
       }
     },
     {
@@ -364,7 +365,8 @@
       "properties": {
         "origin": "Bryn",
         "destination": "CIC Connection",
-        "color": "#0000FF"
+        "color": "#0000FF",
+        "junction": "end"
       }
     },
     {
@@ -666,7 +668,8 @@
       },
       "properties": {
         "origin": "CIC connection",
-        "destination": "Bryn"
+        "destination": "Bryn",
+        "junction": "start"
       }
     },
     {
@@ -687,7 +690,8 @@
       "properties": {
         "origin": "CIC Connection",
         "destination": "CIC Blue-Brown",
-        "color": "#0000FF"
+        "color": "#0000FF",
+        "junction": "both"
       }
     },
     {
@@ -949,7 +953,8 @@
       },
       "properties": {
         "origin": "Iria",
-        "destination": "CIC Connection"
+        "destination": "CIC Connection",
+        "junction": "end"
       }
     },
     {

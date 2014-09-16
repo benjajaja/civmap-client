@@ -75,33 +75,43 @@ var createPointStyleFunction = function(visible) {
     
 
     var style = {
-      text: createTextStyle(feature, resolution, resolution <= 16 ? -20 : 0)
+      text: createTextStyle(feature, resolution, resolution <= 16 ? -20 : 1)
     };
     
-    var color;
-    if ([PointType.country, PointType.state, PointType.region, PointType.city, PointType.town].indexOf(feature.get('type')) !== -1) {
-      if (feature.get('market')) {
-        color = 'rgba(128, 255, 128, 1)';
-      } else if (feature.get('abandoned')) {
-        color = 'rgba(255, 0, 0, 0.5)';
-      } else {
-        color = 'rgba(256, 256, 256, 0.75)'
-      }
-    } else if (feature.get('type') === PointType.farm) {
-      color = 'rgba(256, 256, 0, 0.5)';
-    } else if (feature.get('type') === PointType.biome) {
-      color = 'rgba(0, 256, 0, 0.5)';
+    if (feature.get('market')) {
+      style.image = new ol.style.Circle({
+        radius: 17,
+        fill: new ol.style.Fill({color: 'white'}),
+        stroke: new ol.style.Stroke({color: '#065C27', width: 4})
+      });
+
     } else {
-      color = 'rgba(256, 256, 256, 0.25)';
+      var color;
+      if ([PointType.country, PointType.state, PointType.region, PointType.city, PointType.town].indexOf(feature.get('type')) !== -1) {
+        if (feature.get('abandoned')) {
+          color = 'rgba(255,53,39, 0.5)';
+        } else {
+          color = 'rgba(256, 256, 256, 0.75)'
+        }
+      } else if (feature.get('type') === PointType.farm) {
+        color = 'rgba(168,144,54, 0.5)';
+      } else {
+        color = 'rgba(256, 256, 256, 0.25)';
+      }
+
+      if (color && resolution > 16 && feature.get('code')) {
+        style.image = new ol.style.Circle({
+          radius: 15,
+          fill: new ol.style.Fill({color: 'white'}),
+          stroke: new ol.style.Stroke({color: '#999999', width: 2})
+        });
+        // style.image = new ol.style.Circle({
+        //   radius: 15,
+        //   fill: new ol.style.Fill({color: color})
+        // });
+      }
     }
 
-    if (resolution > 16 && feature.get('code')) {
-      style.image = new ol.style.Circle({
-        radius: 15,
-        fill: new ol.style.Fill({color: color})
-      });
-    }
-    
     return [new ol.style.Style(style)];
   };
 };
