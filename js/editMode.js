@@ -261,6 +261,9 @@ var exportModified = function(source) {
     window.map.getLayers().forEach(function(layer) {
       if (layer.getProperties().name === 'rails') {
         layer.getSource().getFeatures().forEach(function(feature) {
+          if (feature.getGeometry() instanceof ol.geom.Point) {
+            return;
+          }
           var json = geojson.writeFeature(feature);
           json.geometry.coordinates = json.geometry.coordinates.map(function(c) {
             return [Math.floor(c[0]), Math.floor(-c[1])];
@@ -299,7 +302,6 @@ var exportModified = function(source) {
       }
     });
     collection.features.sort(function(a, b) {
-      // why teh fuck doesn't this sort???
       if (a.properties.type === b.properties.type) {
         if (a.properties.name !== b.properties.name) {
           return a.properties.name.localeCompare(b.properties.name);

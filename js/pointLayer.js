@@ -1,15 +1,15 @@
 
-var createTextStyle = function(feature, resolution, dom) {
+var createTextStyle = function(feature, resolution, offsetY) {
   var fontSize = resolution < 5000 ? 16 : 12;
   return new ol.style.Text({
     // textAlign: align,
     // textBaseline: baseline,
-    font: 'bold ' + fontSize + 'px Arial',
+    font: 'bold ' + 16 + 'px Arial',
     text: resolution > 16 ? feature.get('code') || '' : feature.get('name') || '?',
     fill: new ol.style.Fill({color: '#000000'}),
     stroke: new ol.style.Stroke({color: '#ffffff', width: 2}),
     // offsetX: offsetX,
-    // offsetY: offsetY,
+    offsetY: offsetY,
     // rotation: rotation
   });
 };
@@ -40,33 +40,43 @@ var createPointStyleFunction = function(visible) {
       if ([PointType.country, PointType.state, PointType.region, PointType.city, PointType.farm].indexOf(feature.get('type')) !== -1) {
         return [];
       }
-      return [new ol.style.Style({
-        image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
-          anchor: [0.5, 0.5],
-          opacity: 1,
-          src: 'img/' + feature.get('name') + '.png',
-          // size: [16, 16]
-        }))
-      })];
+      
+      if (feature.get('type') === PointType.biome) {
+        return [new ol.style.Style({
+          image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
+            anchor: [0.5, 0.5],
+            opacity: 1,
+            src: 'img/' + feature.get('name') + '.png',
+            // size: [16, 16]
+          }))
+        })];
+      } else if (feature.get('type') === PointType.locality) {
+        return [new ol.style.Style({
+          text: createTextStyle(feature, resolution, resolution <= 16 ? -20 : 0)
+        })];
+      }
     }
   }
 
   return function(feature, resolution) {
+    if ([PointType.country, PointType.state, PointType.region, PointType.city, PointType.farm, PointType.town].indexOf(feature.get('type')) === -1) {
+      return [];
+    }
+
     if (feature.get('abandoned') && visible !== 'abandoned') {
       return [];
     } else if (!feature.get('abandoned') && visible === 'abandoned') {
       return [];
     }
     
-    if (resolution > 16 && [PointType.farm, PointType.locality].indexOf(feature.get('type')) !== -1) {
+    if (resolution >= 16 && [PointType.farm, PointType.locality].indexOf(feature.get('type')) !== -1) {
       return [];
     }
     
 
-    var style = {}
-    if (feature.get('type') !== PointType.biome) {
-      style.text = createTextStyle(feature, resolution, {});
-    }
+    var style = {
+      text: createTextStyle(feature, resolution, resolution <= 16 ? -20 : 0)
+    };
     
     var color;
     if ([PointType.country, PointType.state, PointType.region, PointType.city, PointType.town].indexOf(feature.get('type')) !== -1) {
@@ -85,14 +95,10 @@ var createPointStyleFunction = function(visible) {
       color = 'rgba(256, 256, 256, 0.25)';
     }
 
-    if (resolution > 8 && feature.get('code')) {
+    if (resolution > 16 && feature.get('code')) {
       style.image = new ol.style.Circle({
         radius: 15,
-        fill: new ol.style.Fill({color: color}),
-        // stroke: new ol.style.Stroke({
-        //   color: feature.get('market') ? 'green' : 'gray',
-        //   width: feature.get('market') ? 2 : 1
-        // })
+        fill: new ol.style.Fill({color: color})
       });
     }
     
@@ -107,16 +113,6 @@ var citiesSource = new ol.source.GeoJSON({
 
 citiesSource.on('change', function(e) {
   citiesSource.un('change', arguments.callee);
-  // var select = $('#jump');
-  // e.target.getFeatures().sort(function(a, b) {
-  //   var textA = a.get('name'), textB = b.get('name');
-  //   return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
-  // }).forEach(function(feature) {
-  //   if (!feature.get('code') || !feature.get('name')) {
-  //     return;
-  //   }
-  //   select.append($('<option value="' + feature.get('code') + '">').text(feature.get('name')));
-  // });
 });
 
 var citiesLayer = new ol.layer.Vector({

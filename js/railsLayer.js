@@ -12,26 +12,28 @@ function hexToRgb(hex) {
 
   return r + "," + g + "," + b;
 }
+
 var vectorLines = new ol.layer.Vector({
   name: 'rails',
   source: railsSource,
   style: function(feature, resolution) {   
     var color = feature.get('color') ? 'rgba(' + hexToRgb(feature.get('color').slice(1)) + ',0.75)' : 'rgba(200,200,200,0.75)';
 
-    var style = new ol.style.Style({
+    var style = {
       stroke: new ol.style.Stroke({
           color: color,
           width: Math.min(8, Math.max(6, Math.floor(resolution / 16))),
           lineDash: feature.get('unconfirmed') ? [5, 10] : undefined
-        }),
-      // image: new ol.style.Circle({
-      //   radius: 10,
-      //   fill: new ol.style.Fill({color: color}),
-      //   stroke: new ol.style.Stroke({color: 'gray', width: 1})
-      // }),
-      // text: createTextStyle(feature, resolution, {})
-    });
-    return [style];
+        })
+    };
+    if (resolution <= 16) {
+      style.image = new ol.style.Circle({
+        radius: Math.max(10, 2 / resolution),
+        fill: new ol.style.Fill({color: 'white'}),
+        stroke: new ol.style.Stroke({color: color, width: 4})
+      });
+    }
+    return [new ol.style.Style(style)];
   }
 });
 
@@ -39,6 +41,42 @@ exports.init = function(map) {
   map.addLayer(vectorLines);
 };
 
+railsSource.on('change', function(e) {
+  railsSource.un('change', arguments.callee);
+
+  setTimeout(function() {
+    var endPoints = [];
+    railsSource.getFeatures().forEach(function(feature, i) {
+      [feature.getGeometry().getFirstCoordinate(), feature.getGeometry().getLastCoordinate()].forEach(function(coordinate) {
+        var point = new ol.Feature({
+          geometry: new ol.geom.Point(coordinate),
+          color: feature.get('color')
+        });
+        endPoints.push(point);
+      })
+    });
+
+    setTimeout(function() {
+      endPoints = endPoints.filter(function(feature, index) {
+        var radius = 15;
+        var coord = feature.getGeometry().getCoordinates();
+        for (var i = index + 1, ii = endPoints.length; i < ii; i++) {
+          var geometry = endPoints[i].getGeometry();
+          var nearCoord = geometry.getCoordinates();
+          if (Math.abs(coord[0] - nearCoord[0]) < radius && Math.abs(coord[1] - nearCoord[1]) < radius) {
+            geometry.setCoordinates([(coord[0] + nearCoord[0]) / 2, (coord[1] + nearCoord[1]) / 2]);
+            return false;
+          }
+        }
+        return true;
+      });
+
+      setTimeout(function() {
+        railsSource.addFeatures(endPoints);
+      }, 0);
+    }, 0)
+  }, 200);
+});
 
 var showRails = true;
 vectorLines.setVisible(showRails);
