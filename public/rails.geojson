@@ -1270,6 +1270,38 @@
             -5469
           ],
           [
+            -4631,
+            -5451
+          ],
+          [
+            -4628,
+            -4636
+          ],
+          [
+            -4404,
+            -4414
+          ],
+          [
+            -3681,
+            -4411
+          ]
+        ]
+      },
+      "properties": {
+        "origin": "Orion",
+        "destination": "Etherium"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            -4642,
+            -5469
+          ],
+          [
             -4641,
             -6097
           ]
