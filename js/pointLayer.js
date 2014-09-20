@@ -78,7 +78,7 @@ var createPointStyleFunction = function(visible) {
       text: createTextStyle(feature, resolution, resolution <= 16 ? -20 : 1)
     };
     
-    if (feature.get('market')) {
+    if (feature.get('market') && resolution > 16) {
       style.image = new ol.style.Circle({
         radius: 17,
         fill: new ol.style.Fill({color: 'white'}),

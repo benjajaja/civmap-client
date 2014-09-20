@@ -16,15 +16,20 @@ function hexToRgb(hex) {
 var vectorLines = new ol.layer.Vector({
   name: 'rails',
   source: railsSource,
-  style: function(feature, resolution) {   
-    var color = feature.get('color') ? 'rgba(' + hexToRgb(feature.get('color').slice(1)) + ',0.75)' : 'rgba(200,200,200,0.75)';
+  style: function(feature, resolution) {
+    var color;
+    if (resolution > 16) {
+      color = feature.get('color') || 'rgba(200,200,200,1)';
+    } else {
+     color = feature.get('color') ? 'rgba(' + hexToRgb(feature.get('color').slice(1)) + ',0.75)' : 'rgba(200,200,200,0.75)';
+    }
 
     var style = {
       stroke: new ol.style.Stroke({
-          color: color,
-          width: Math.min(8, Math.max(6, Math.floor(resolution / 16))),
-          lineDash: feature.get('unconfirmed') ? [5, 10] : undefined
-        })
+        color: color,
+        width: resolution >= 32 ? 10 : Math.min(8, Math.max(6, Math.floor(resolution / 16))),
+        lineDash: feature.get('unconfirmed') ? [5, 10] : undefined
+      })
     };
     if (resolution <= 16) {
       style.image = new ol.style.Circle({
