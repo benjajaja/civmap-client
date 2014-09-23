@@ -1381,8 +1381,8 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -2771,
-          2976
+          -2826,
+          3116
         ]
       },
       "properties": {
@@ -2808,6 +2808,21 @@
         "code": "Ve",
         "abandoned": false,
         "type": "city"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -1844,
+          8228
+        ]
+      },
+      "properties": {
+        "type": "city",
+        "name": "Viridian",
+        "code": "/v/"
       }
     },
     {
