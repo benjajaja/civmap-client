@@ -1082,7 +1082,7 @@
       "properties": {
         "name": "Apaganifa",
         "code": "Ap",
-        "abandoned": false,
+        "abandoned": true,
         "type": "city"
       }
     },
@@ -1114,7 +1114,7 @@
       "properties": {
         "name": "Argis",
         "code": "Arg",
-        "abandoned": false,
+        "abandoned": true,
         "type": "city"
       }
     },
@@ -1148,7 +1148,7 @@
         "code": "ATL",
         "reddit": "r/CivAtlas",
         "flag": "https://s3.amazonaws.com/f.thumbs.redditmedia.com/InbxX8rCL_bAyEMS.png",
-        "abandoned": false,
+        "abandoned": true,
         "type": "city"
       }
     },
@@ -1523,7 +1523,7 @@
         "name": "ExtraLand",
         "code": "EL",
         "flag": "http://i.imgur.com/yKxyU2G.png",
-        "abandoned": false,
+        "abandoned": true,
         "type": "city"
       }
     },
@@ -1925,7 +1925,7 @@
       "properties": {
         "name": "Megaton",
         "code": "Mg",
-        "abandoned": false,
+        "abandoned": true,
         "type": "city"
       }
     },
@@ -2094,7 +2094,7 @@
         "name": "New Covenant",
         "code": "Nc",
         "reddit": "r/CivNewCovenant",
-        "abandoned": false,
+        "abandoned": true,
         "type": "city"
       }
     },
@@ -2361,7 +2361,7 @@
         "name": "Proletarskaya",
         "code": "PRL",
         "reddit": "r/SovietReunion",
-        "abandoned": false,
+        "abandoned": true,
         "type": "city"
       }
     },
@@ -2408,7 +2408,7 @@
       "properties": {
         "name": "River's End",
         "code": "RE",
-        "abandoned": false,
+        "abandoned": true,
         "type": "city"
       }
     },
@@ -2457,7 +2457,7 @@
         "name": "SandyShores",
         "code": "SS",
         "flag": "http://www.crwflags.com/fotw/images/s/se-scani.gif",
-        "abandoned": false,
+        "abandoned": true,
         "type": "city"
       }
     },
@@ -2625,7 +2625,7 @@
       "properties": {
         "name": "Stonefield",
         "code": "St",
-        "abandoned": false,
+        "abandoned": true,
         "type": "city"
       }
     },
