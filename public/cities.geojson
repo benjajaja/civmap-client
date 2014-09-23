@@ -1625,7 +1625,7 @@
         "name": "Griffin",
         "code": "Gr",
         "flag": "http://i.imgur.com/fYZblaI.png",
-        "abandoned": false,
+        "abandoned": true,
         "type": "city"
       }
     },
