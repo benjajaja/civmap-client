@@ -108,6 +108,37 @@ exports.init = function() {
     })
   }));
 
+  map.addLayer(new ol.layer.Tile({
+    name: 'mapwriter',
+    visible: false,
+    source:  new ol.source.TileImage({
+      attributions: [
+        new ol.Attribution({
+          html: 'Amunak'
+        })
+      ],
+      // tileUrlFunction: ol.TileUrlFunction.createFromTemplates(ol.TileUrlFunction.expandUrl('http://civcraft.slimecraft.eu/tiles/{z}/tile_{x}_{-y}_normal.png')),
+      tileUrlFunction: function(coordinate, ratio, projection) {
+        coordinate = coordinate.getZXY();
+        // https://amunak.net/store/private/cmap/images/z4/-3.0.png
+        var offset = Math.pow(2, coordinate[0] - 1);
+        return 'https://amunak.net/store/private/cmap/images/z'
+          + (7 - coordinate[0])
+          + '/' + (coordinate[1] - offset)
+          + '.' + (coordinate[2] * -1  + offset - 1) + '.png'
+      },
+      // ol.TileUrlFunction.createFromTemplates(ol.TileUrlFunction.expandUrl('tiles/{z}/{x}/{y}.png')),
+      // tileUrlFunction: ol.TileUrlFunction.createFromTemplates(ol.TileUrlFunction.expandUrl('http://localhost:8888/v2/civcraft/{z}/{x}/{y}.png')),
+      // tileGrid: new ol.tilegrid.XYZ({maxZoom: 14}),
+      tilePixelRatio: 2,
+      projection: 'EPSG:3857',
+      maxZoom: 12,
+      // minZoom: 4,
+      // extent: [-size, -size, size, size],
+      wrapX: true
+    })
+  }));
+
   map.on('click', function(e) {
     var event = new CustomEvent('map-click', {detail: e.pixel});
     document.getElementById('map').dispatchEvent(event);
