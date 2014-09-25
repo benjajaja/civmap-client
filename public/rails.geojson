@@ -1764,7 +1764,8 @@
         "destination": "Aurora",
         "color": "#0000FF"
       }
-       {
+    },
+    {
       "type": "Feature",
       "geometry": {
         "type": "LineString",
@@ -1778,8 +1779,9 @@
             -1615
           ],
           [
-          10288
+          10288,
            2735
+          ],
           [
           10288,
             2957
