@@ -1764,6 +1764,33 @@
         "destination": "Aurora",
         "color": "#0000FF"
       }
+       {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+                  [
+           4514,
+           -1615
+          ],
+          [
+            5971,
+            -1615
+          ],
+          [
+          10288
+           2735
+          [
+          10288,
+            2957
+          ]
+        ]
+      },
+      "properties": {
+        "origin": "Aurora",
+        "destination": "Breslau",
+        "color": "#0000FF"
+      }
     },
     {
       "type": "Feature",
