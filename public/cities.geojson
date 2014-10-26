@@ -1686,6 +1686,23 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          -7174,
+          -5571
+        ]
+      },
+      "properties": {
+        "name": "Hogeklif",
+        "code": "Ho",
+        "reddit": "r/Hogeklif",
+        "abandoned": false,
+        "type": "city"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           4408,
           1532
         ]
