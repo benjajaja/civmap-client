@@ -33,7 +33,7 @@
           <layer-item name="mapwriter" exclusive><core-tooltip label="(WIP) by amunak">Mapwriter tiles</core-tooltip></layer-item>
         </layer-toggle>
 
-        <div layout>
+        <!-- <div layout>
           <strong>Edit and create features</strong>
           <div>
             <core-icon-button icon="add" add-city>Add city, town, or any other point</core-icon-button>
@@ -50,7 +50,7 @@
           <div>
             <core-icon-button icon="cloud-upload" create-pr-cities>Points pull request</core-icon-button>
           </div>
-        </div>
+        </div> -->
 
         <paper-shadow z="3"></paper-shadow>
       </core-header-panel>
@@ -86,29 +86,29 @@
       document.querySelector('civ-map').download(this);
     });
 
-    document.querySelector('core-icon-button[add-city]').addEventListener('click', function() {
-      window.addCity();
-    });
-    document.querySelector('core-icon-button[add-rail]').addEventListener('click', function() {
-      window.addRail();
-    });
-    document.querySelector('core-icon-button[modify-features]').addEventListener('click', function() {
-      window.modifyFeatures();
-    });
-    document.querySelector('core-icon-button[create-pr-rails]').addEventListener('click', function() {
-      if (window.exportModified) {
-        window.exportModified('rails');
-      } else {
-        alert('Edit some features first.');
-      }
-    });
-    document.querySelector('core-icon-button[create-pr-cities]').addEventListener('click', function() {
-      if (window.exportModified) {
-        window.exportModified('cities');
-      } else {
-        alert('Edit some features first.');
-      }
-    });
+    // document.querySelector('core-icon-button[add-city]').addEventListener('click', function() {
+    //   window.addCity();
+    // });
+    // document.querySelector('core-icon-button[add-rail]').addEventListener('click', function() {
+    //   window.addRail();
+    // });
+    // document.querySelector('core-icon-button[modify-features]').addEventListener('click', function() {
+    //   window.modifyFeatures();
+    // });
+    // document.querySelector('core-icon-button[create-pr-rails]').addEventListener('click', function() {
+    //   if (window.exportModified) {
+    //     window.exportModified('rails');
+    //   } else {
+    //     alert('Edit some features first.');
+    //   }
+    // });
+    // document.querySelector('core-icon-button[create-pr-cities]').addEventListener('click', function() {
+    //   if (window.exportModified) {
+    //     window.exportModified('cities');
+    //   } else {
+    //     alert('Edit some features first.');
+    //   }
+    // });
     </script>
     <script src="js/civmap.js"></script>
   </body>
