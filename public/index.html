@@ -15,7 +15,7 @@
       
       <core-header-panel drawer>
         <core-toolbar>
-          <img src="img/logo.png"/>
+          <a href="http://reddit.com/r/civtransportmap"><img src="img/logo.png"/></a>
           <core-icon-button icon="home"></core-icon-button>
           <core-tooltip label="Get URL for current view"><core-icon-button icon="link"></core-icon-button></core-tooltip>
           <core-icon-button icon="file-download"></core-icon-button>
@@ -25,7 +25,8 @@
           <layer-item name="rails" checked>Rail network</layer-item>
           <layer-item name="cities" checked>Cities</layer-item>
           <layer-item name="abandoned">Inactive cities</layer-item>
-          <layer-item name="points" checked>Points of interest</layer-item>
+          <layer-item name="points">Points of interest</layer-item>
+          <layer-item name="players" checked>Players on snitches</layer-item>
           <layer-item name="civballs"><core-tooltip label="by Soraendo">Civballs</core-tooltip></layer-item>
           <layer-item name="tiles" checked exclusive>JourneyMap tiles</layer-item>
           <layer-item name="night" exclusive>JourneyMap Night tiles</layer-item>
@@ -33,6 +34,7 @@
           <layer-item name="mapwriter" exclusive><core-tooltip label="(WIP) by amunak">Mapwriter tiles</core-tooltip></layer-item>
         </layer-toggle>
 
+        <player-list></player-list>
         <!-- <div layout>
           <strong>Edit and create features</strong>
           <div>
@@ -84,6 +86,9 @@
     });
     document.querySelector('core-toolbar core-icon-button[icon=file-download]').addEventListener('click', function() {
       document.querySelector('civ-map').download(this);
+    });
+    document.querySelector('civ-map').addEventListener('map-players', function(e) {
+      document.querySelector('player-list').players = e.detail;
     });
 
     // document.querySelector('core-icon-button[add-city]').addEventListener('click', function() {

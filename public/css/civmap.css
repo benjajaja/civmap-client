@@ -17,7 +17,11 @@ core-toolbar a, core-toolbar a:hover {
   color: white;
   text-decoration: none;
 }
-core-header-panel core-toolbar > img {
+core-header-panel core-toolbar > a {
+  display: inline-block;
+  max-height: 100%;
+}
+core-header-panel core-toolbar > a > img {
   max-height: 100%;
   margin-left: -6px !important;
 }

@@ -1,0 +1,27 @@
+
+<polymer-element name="player-list">
+<template>
+	<style>
+	:host > div {
+		margin-bottom: 10px;
+	}
+	ul {
+		list-style: none;
+		padding-left: 10px;
+	}
+	</style>
+	<ul>
+		<template repeat="{{p in players}}">
+        	<li>
+        		<core-item label="{{p}}" src="http://mcsk.in/avatar/{{p}}/16">
+	        		<a href="http://www.reddit.com/r/Civcraft/search?restrict_sr=on&amp;sort=new&amp;q={{p}}" target="_blank"></a>
+	        	</core-item>
+        	</li>
+      	</template>
+	</ul>
+</template>
+<script>
+Polymer('player-list', {
+});
+</script>
+</polymer-element>

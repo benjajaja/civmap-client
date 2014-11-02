@@ -111,11 +111,27 @@ Polymer('civ-map', {
 		    	dialog.innerHTML += '<a href="' + feature.get('market') + '" target="_blank" class="reddit" rel="market">Market site</a>';
 		    }
 		    dialog.innerHTML += '<a href="http://civcraft.org/doku.php?id=towns:' + feature.get('name').toLowerCase() + '" target="_blank" rel="wiki">Wiki entry</a>';
-		}
+		};
+
+		var makePlayerHTML = function(dialog, feature) {
+			var header = document.createElement('h2');
+		    header.innerText = feature.get('player');
+		    dialog.appendChild(header);
+
+	    	var img = document.createElement('img');
+	    	img.src = 'http://mcsk.in/avatar/' + feature.get('player') + '/200';
+
+	    	if (feature.get('bounty') !== -1) {
+	    		dialog.innerHTML += '<a href="http://www.civbounty.com/perpetrators/' + feature.get('bounty') + '/reports" target="_blank" class="civbounty" rel="civbounty">Civbounty reports</a>';
+	    	}
+	    	dialog.appendChild(img);
+		};
+
 		this.addEventListener('map-click', function(e) {
 			var feature = window.map.forEachFeatureAtPixel(e.detail, function(feature, layer) {
 	        	return feature;
 	      	});
+
 	      	if (!feature) {
 	      		return;
 	      	}
@@ -129,6 +145,8 @@ Polymer('civ-map', {
 
 		    } else if (feature.get('name')) {
 		    	makeCityHTML(dialog, feature);
+		    } else if (feature.get('player')) {
+		    	makePlayerHTML(dialog, feature);
 		    } else {
 		    	return;
 		    }

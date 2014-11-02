@@ -140,6 +140,7 @@ var abandonedLayer = new ol.layer.Vector({
 
 var pointsLayer = new ol.layer.Vector({
   name: 'points',
+  visible: false,
   source: citiesSource,
   style: createPointStyleFunction('points')
 });
