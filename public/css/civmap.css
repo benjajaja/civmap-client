@@ -1,3 +1,8 @@
+@font-face {
+  font-family: 'Lato';
+  src: url('../fonts/Lato-Bold.ttf')  format('truetype');
+}
+
 html, body {
   font-family: sans-serif;
 }
@@ -38,6 +43,7 @@ core-header-panel core-toolbar > a > img {
   -webkit-box-shadow: 0 2px 8px rgba(0,0,0,0.3);
   box-shadow: 0 2px 8px rgba(0,0,0,0.3);
   font-size: 20px;
+  font-family: Lato, sans-serif;
 }
 
 core-header-panel[drawer] {
@@ -76,3 +82,4 @@ core-header-panel[drawer] {
   color: #333;
   white-space: nowrap;
 }
+

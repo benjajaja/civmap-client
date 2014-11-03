@@ -1,13 +1,25 @@
 
 var createTextStyle = function(feature, resolution, offsetY) {
-  var fontSize = resolution < 5000 ? 16 : 12;
+  var color = feature.get('abandoned') ? '#222222' : '#000000';
+  var inverse = feature.get('abandoned') ? '#dddddd' : '#ffffff';
+  var fill = inverse;
+  var stroke = color;
+  
+  if (resolution > 16) {
+    if ([PointType.country, PointType.state, PointType.region, PointType.city].indexOf(feature.get('type')) === -1) {
+      return;
+    }
+    fill = color;
+    stroke = inverse;
+  }
+
   return new ol.style.Text({
     // textAlign: align,
     // textBaseline: baseline,
-    font: 'bold ' + 16 + 'px Arial',
+    font: '' + (feature.get('type') === 'city' ? 16 : 12) + 'px Lato, Arial',
     text: resolution > 16 ? feature.get('code') || '' : feature.get('name') || '?',
-    fill: new ol.style.Fill({color: '#000000'}),
-    stroke: new ol.style.Stroke({color: '#ffffff', width: 2}),
+    fill: new ol.style.Fill({color: fill}),
+    stroke: new ol.style.Stroke({color: stroke, width: 1.5}),
     // offsetX: offsetX,
     offsetY: offsetY,
     // rotation: rotation
@@ -52,7 +64,7 @@ var createPointStyleFunction = function(visible) {
         })];
       } else if (feature.get('type') === PointType.locality) {
         return [new ol.style.Style({
-          text: createTextStyle(feature, resolution, resolution <= 16 ? -20 : 0)
+          text: createTextStyle(feature, resolution, resolution <= 16 ? -20 : -1)
         })];
       }
     }
@@ -63,7 +75,7 @@ var createPointStyleFunction = function(visible) {
       return [];
     }
 
-    if (feature.get('abandoned') && visible !== 'abandoned') {
+    if (feature.get('abandoned') && visible !== 'abandoned' && resolution > 8) {
       return [];
     } else if (!feature.get('abandoned') && visible === 'abandoned') {
       return [];
@@ -75,7 +87,7 @@ var createPointStyleFunction = function(visible) {
     
 
     var style = {
-      text: createTextStyle(feature, resolution, resolution <= 16 ? -20 : 1)
+      text: createTextStyle(feature, resolution, resolution <= 16 ? -20 : -1)
     };
     
     if (feature.get('market') && resolution > 16) {
@@ -87,23 +99,23 @@ var createPointStyleFunction = function(visible) {
 
     } else {
       var color;
-      if ([PointType.country, PointType.state, PointType.region, PointType.city, PointType.town].indexOf(feature.get('type')) !== -1) {
+      if ([PointType.country, PointType.state, PointType.region, PointType.city].indexOf(feature.get('type')) !== -1) {
         if (feature.get('abandoned')) {
           color = 'rgba(255,53,39, 0.5)';
         } else {
-          color = 'rgba(256, 256, 256, 0.75)'
+          color = '#999999';
         }
       } else if (feature.get('type') === PointType.farm) {
         color = 'rgba(168,144,54, 0.5)';
-      } else {
-        color = 'rgba(256, 256, 256, 0.25)';
+      // } else {
+      //   color = 'rgba(256, 256, 256, 0.25)';
       }
 
       if (color && resolution > 16 && feature.get('code')) {
         style.image = new ol.style.Circle({
           radius: 15,
           fill: new ol.style.Fill({color: 'white'}),
-          stroke: new ol.style.Stroke({color: '#999999', width: 2})
+          stroke: new ol.style.Stroke({color: color, width: 2})
         });
         // style.image = new ol.style.Circle({
         //   radius: 15,
