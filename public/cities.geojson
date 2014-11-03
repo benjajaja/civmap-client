@@ -1017,6 +1017,7 @@
         "type": "city",
         "name": "Aincrad",
         "code": "Ai",
+        "abandoned": true,
         "reddit": "r/civcraft_aincrad"
       }
     },
@@ -1130,7 +1131,7 @@
       "properties": {
         "name": "Arrakeen",
         "code": "Ar",
-        "abandoned": false,
+        "abandoned": true,
         "type": "city"
       }
     },
@@ -1166,7 +1167,7 @@
         "code": "Au",
         "reddit": "r/civagora",
         "flag": "https://s3.amazonaws.com/c.thumbs.redditmedia.com/jVcacnZsIYoYGISn.png",
-        "abandoned": false,
+        "abandoned": true,
         "type": "city"
       }
     },
@@ -1252,7 +1253,7 @@
       "properties": {
         "name": "Brimstone",
         "code": "Br",
-        "abandoned": false,
+        "abandoned": true,
         "type": "city"
       }
     },
@@ -1425,7 +1426,7 @@
         "code": "DCR",
         "reddit": "r/DPNCCR",
         "flag": "http://theapricity.com/wiki/images/2/26/Poland-flag.gif",
-        "abandoned": false,
+        "abandoned": true,
         "type": "city"
       }
     },
@@ -1458,6 +1459,7 @@
         "name": "Epicus",
         "code": "Ep",
         "abandoned": false,
+        "reddit": "r/CivEpicus",
         "type": "city"
       }
     },
@@ -1473,7 +1475,7 @@
       "properties": {
         "name": "Equinox",
         "code": "Eq",
-        "abandoned": false,
+        "abandoned": true,
         "type": "city"
       }
     },
@@ -1810,7 +1812,7 @@
       "properties": {
         "name": "Jerusalem",
         "code": "Je",
-        "abandoned": false,
+        "abandoned": true,
         "type": "city"
       }
     },
@@ -1992,6 +1994,7 @@
         "name": "Mount Augusta",
         "code": "MA",
         "abandoned": false,
+        "reddit": "r/MtAugusta",
         "type": "city"
       }
     },
@@ -2025,7 +2028,7 @@
         "name": "Nendoshima",
         "code": "Ne",
         "reddit": "r/CivOsaka",
-        "abandoned": false,
+        "abandoned": true,
         "type": "city"
       }
     },
@@ -2676,7 +2679,7 @@
       "properties": {
         "name": "Swisston",
         "code": "Sw",
-        "abandoned": false,
+        "abandoned": true,
         "type": "city"
       }
     },
@@ -2711,7 +2714,7 @@
         "code": "PLS",
         "reddit": "r/luvsjak",
         "abandoned": false,
-        "type": "city"
+        "type": "town"
       }
     },
     {
@@ -2840,7 +2843,8 @@
       "properties": {
         "type": "city",
         "name": "Viridian",
-        "code": "/v/"
+        "code": "/v/",
+        "abandoned": false
       }
     },
     {
