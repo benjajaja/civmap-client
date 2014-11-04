@@ -17,9 +17,9 @@ var createTextStyle = function(feature, resolution, offsetY) {
     // textAlign: align,
     // textBaseline: baseline,
     font: '' + (feature.get('type') === 'city' ? 16 : 12) + 'px Lato, Arial',
-    text: resolution > 16 ? feature.get('code') || '' : feature.get('name') || '?',
+    text: /*resolution > 16 ? feature.get('code') || '' :*/ feature.get('name') || '?',
     fill: new ol.style.Fill({color: fill}),
-    stroke: new ol.style.Stroke({color: stroke, width: 1.5}),
+    stroke: new ol.style.Stroke({color: stroke, width: resolution > 16 ? 2.5 : 1.5}),
     // offsetX: offsetX,
     offsetY: offsetY,
     // rotation: rotation
