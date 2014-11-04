@@ -1991,7 +1991,7 @@
         ]
       },
       "properties": {
-        "name": "Mount Augusta",
+        "name": "Mt. Augusta",
         "code": "MA",
         "abandoned": false,
         "reddit": "r/MtAugusta",
@@ -2341,6 +2341,24 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          9500,
+          -9600
+        ]
+      },
+      "properties": {
+        "name": "Poligred",
+        "code": "Po",
+        "abandoned": false,
+        "reddit": "r/civcraft_poligred/",
+        "flag": "http://i.imgur.com/nAHo205.png",
+        "type": "city"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           270,
           -1112
         ]
@@ -2363,7 +2381,7 @@
       },
       "properties": {
         "name": "Poseidon",
-        "code": "Po",
+        "code": "Pos",
         "abandoned": true,
         "type": "city"
       }
