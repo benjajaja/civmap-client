@@ -233,3 +233,27 @@ var PointType = {
 }
 
 exports.PointType = PointType;
+
+citiesSource.once('change', function() {
+  var xhr = new window.XMLHttpRequest();
+  xhr.open('GET', 'http://civtrade.com/api/cities.php?token=a0vp6mcbxja0', true);
+  xhr.addEventListener("load", function() {
+    var response = typeof xhr.response === 'string' ? JSON.parse(xhr.response) : xhr.response;
+    response = response.map(function(item) {
+      if (typeof item === 'string') {
+        return item.toUpperCase();
+      } else if (typeof item === 'object') {
+        return item.name.toUpperCase();
+      } else {
+        return item;
+      }
+    });
+
+    citiesSource.forEachFeature(function(feature, index) {
+      feature.setProperties({
+        'market': response.indexOf(feature.get('name').toUpperCase()) !== -1 ? 'http://civtrade.com/?want=&have=&loc=' + feature.get('name') : null
+      });
+    });
+  }, false);
+  xhr.send(null);
+});
