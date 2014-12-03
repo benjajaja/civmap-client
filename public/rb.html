@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <title>Civcraft RealisticBiomes</title>
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css"> -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="icon" href="img/favicon.png">
+    <script src="js/esprima.js"></script>
+    <script src="js/js-yaml.js"></script>
+    <script src="https://google.github.io/traceur-compiler/bin/traceur.js"></script>
+    <script src="https://google.github.io/traceur-compiler/src/bootstrap.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.js"></script>
+  </head>
+  <body>
+    <h3><a href="http://txapu.com">Civcraft transport map</a>'s RealisticBiomes configuration as in <a href="https://github.com/Civcraft/RealisticBiomes/">official repo</a></h3>
+<script type="module">
+// traceur.options.experimental = true;
+var element = (tag, parent) => {
+  var element = document.createElement(tag);
+  if (parent) {
+    parent.appendChild(element);
+  }
+  return element;
+}
+var row = (table, columns) => {
+  var tr = element('tr', table);
+  columns.forEach((cell) => {
+    if (typeof cell === 'string') {
+      element('td', tr).innerText = cell;
+    } else if (cell === null) {
+      element('td', tr);
+    } else if (cell instanceof Array) {
+      var td = element('td', tr);
+      td.innerText = cell[0];
+      cell.slice(1).forEach(Function.prototype.apply.bind(td.setAttribute, td));
+    } else {
+      element('td', tr).appendChild(cell);
+    }
+  });
+}
+
+var xhr = new XMLHttpRequest();
+xhr.onload = (e) => {
+  var config = jsyaml.safeLoad(xhr.responseText, {
+    schema: jsyaml.FAILSAFE_SCHEMA
+  }).realistic_biomes;
+
+  var biomes = _.uniq(Object.keys(config.biome_aliases).concat(_.flatten(_.values(config.growth).map((growth) => {
+    return _.keys(growth.biomes);
+  }))));
+
+  var table = element('table', document.body);
+  table.setAttribute('class', 'table table-hover table-condensed');
+  var thead = element('thead', table);
+
+  row(thead, [null,
+  (() => {
+    var span = element('span');
+    span.setAttribute('class', 'glyphicon glyphicon-download');
+    span.setAttribute('title', 'base_rate');
+    return span;
+  })(),
+  (() => {
+    var span = element('span');
+    span.setAttribute('class', 'glyphicon glyphicon-home');
+    span.setAttribute('title', 'greenhouse_rate');
+    return span;
+  })(),
+  (() => {
+    var span = element('span');
+    span.setAttribute('class', 'glyphicon glyphicon-globe');
+    span.setAttribute('title', 'greenhouse_ignore_biome');
+    return span;
+  })(),
+  (() => {
+    var span = element('span');
+    span.setAttribute('class', 'glyphicon glyphicon-certificate');
+    span.setAttribute('title', 'needs_sunlight');
+    return span;
+  })(),
+  (() => {
+    var span = element('span');
+    span.setAttribute('class', 'glyphicon glyphicon-adjust');
+    span.setAttribute('title', 'not_full_sunlight_multiplier, whatever that means');
+    return span;
+  })(),
+  (() => {
+    var span = element('span');
+    span.setAttribute('class', 'glyphicon glyphicon-tower');
+    span.setAttribute('title', 'soil: material ×max-layers +downwards-offset-from-crop = bonus)');
+    return span;
+  })()
+  ]
+
+  .concat(biomes.map((biome) => {
+    if (biome === biome.toUpperCase()) {
+      return biome;
+    }
+    var span = element('span');
+    span.innerText = biome;
+    span.setAttribute('title', config.biome_aliases[biome].join());
+    return span;
+  })));
+
+  var tbody = element('tbody', table);
+
+  // var pre = document.createElement('pre');
+  // document.body.appendChild(pre);
+  // pre.innerText = JSON.stringify(config, null, '\t');
+
+  _.each(config.growth, (growth, key) => {
+    if (key === key.toLowerCase() || key.indexOf('mat_') !== -1 || key.indexOf('tree_') !== -1) {
+      return;
+    }
+    var inherit = growth.inherit;
+    while (typeof inherit !== 'undefined') {
+      var growthBiomes = growth.biomes;
+      growth = _.extend(_.cloneDeep(growth), _.cloneDeep(config.growth[inherit]));
+      growth.biomes = _.extend(growthBiomes || {}, _.cloneDeep(config.growth[inherit].biomes));
+      inherit = config.growth[inherit].inherit;
+    }
+    
+    var biomeValues = biomes.map((biome) => {
+      if (typeof growth.biomes === 'undefined') {
+        return null;
+      }
+      return growth.biomes[biome] || null;
+    });
+    var bestValue = _.max(biomeValues);
+    biomeValues = biomeValues.map((value) => {
+      if (value === bestValue) {
+        return [value, ['class','success']];
+      } else if (value === null) {
+        return ['', ['class','danger']];
+      } else if (value >= bestValue / 2) {
+        return [value, ['class','info']];
+      } else {
+        return [value, ['class','warning']];
+      }
+    });
+
+    row(tbody, [key,
+      growth.base_rate || null,
+      growth.greenhouse_rate || null,
+      growth.greenhouse_ignore_biome ? ['Y', ['class','success']] : ['N', ['class','danger']],
+      growth.needs_sunlight ? ['Y', ['class','success']] : ['N', ['class','danger']],
+      growth.not_full_sunlight_multiplier || null,
+      growth.soil_material
+        ? growth.soil_material.replace('_', ' ') + ' ×' + growth.soil_max_layers + (growth.soil_layer_offset ? '+' + growth.soil_layer_offset : '') + ' = ' + growth.soil_bonus_per_layer
+        : null
+    ].concat(biomeValues));
+  });
+
+  
+}
+xhr.open("GET", 'https://raw.githubusercontent.com/Civcraft/RealisticBiomes/master/config.yml', true);
+xhr.send();
+</script>
+  </body>
+</html>
