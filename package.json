@@ -1,13 +1,12 @@
 {
-  "main": "./js/main.js",
-  "browserify-shim": {
-      "./js/libs/base64.js": "Base64",
-      "./js/libs/hello.js": "hello"
-  },
-  "browserify": {
-    "transform": [ "browserify-shim" ]
-  },
+  "main": "./src/app.ts",
   "dependencies": {
     "browserify-shim": "~3.2.0"
+  },
+  "browserify": {
+    "transform": [ "tsify" ]
+  },
+  "scripts": {
+    "postinstall": "bower install && ./node_modules/browserify/bin/cmd.js src/app.ts -p tsify > public/lasers.js"
   }
 }
