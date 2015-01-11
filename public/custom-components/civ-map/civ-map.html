@@ -39,6 +39,12 @@
 			width: 20px;
 			height: 17px;
 		}
+		polyfill-next-selector { content: '.dialog-link a[rel=url]:before'; }
+		.dialog-link ::content a[rel=url]:before {
+			background: url(https://cdn3.iconfinder.com/data/icons/iconano-text-editor/512/130-Link-16.png);
+			width: 20px;
+			height: 17px;
+		}
 		polyfill-next-selector { content: '.dialog-link a[rel=wiki]:before'; }
 		.dialog-link ::content a[rel=wiki]:before {
 			background: url(http://civcraft.org/lib/tpl/monobook/static/3rd/dokuwiki/favicon.ico);
@@ -106,6 +112,9 @@ Polymer('civ-map', {
 
 		    if (feature.get('reddit')) {
 		    	dialog.innerHTML += '<a href="http://reddit.com/' + feature.get('reddit') + '" target="_blank" rel="reddit">' + feature.get('reddit') + '</a>';
+		    }
+		    if (feature.get('url')) {
+		    	dialog.innerHTML += '<a href="' + feature.get('url') + '" target="_blank" rel="url">' + feature.get('url') + '</a>';
 		    }
 		    if (feature.get('market')) {
 		    	dialog.innerHTML += '<a href="' + feature.get('market') + '" target="_blank" class="reddit" rel="market">Market site</a>';

@@ -2862,7 +2862,8 @@
         "type": "city",
         "name": "Viridian",
         "code": "/v/",
-        "abandoned": false
+        "abandoned": false,
+        "url": "https://8chan.co/civ"
       }
     },
     {
