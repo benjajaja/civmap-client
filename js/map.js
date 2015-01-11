@@ -32,6 +32,18 @@ exports.init = function() {
     target: 'map',
     controls: [],
     layers: [
+      new ol.layer.Vector({
+        source: new ol.source.Vector({
+          features: [new ol.Feature({
+            geometry: new ol.geom.Circle([0, 0], 15000)
+          })]
+        }),
+        style: new ol.style.Style({
+          fill: new ol.style.Fill({
+            color: '#1f2ea6'
+          })
+        })
+      }),
       new ol.layer.Tile({
         name: 'tiles',
         source:  new ol.source.TileImage({

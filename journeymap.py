@@ -18,25 +18,25 @@ def crop(z, x, y, xoffset, yoffset, xdest, ydest):
 	if not os.path.exists("%s/8/%d" % (out, xdest)):
 		os.makedirs("%s/8/%d" % (out, xdest))
 
-	if not os.path.exists("%s/%d/%d/%d.png" % (out, z, xdest, ydest)):
-		call("convert %s/%d,%d.png \
-			%s \
-			-gravity NorthWest -crop 256x256+%d+%d \
-			%s/%d/%d/%d.png" % (inf, x, y, replace, xoffset, yoffset, out, z, xdest, ydest),
-			shell=True)
-	else:
-		call("convert %s/%d,%d.png \
-			%s \
-			-gravity NorthWest -crop 256x256+%d+%d \
-			%s/%d/%d/temp_%d.png" % (inf, x, y, replace, xoffset, yoffset, out, z, xdest, ydest),
-			shell=True)
-		call("composite \
-			%s/%d/%d/temp_%d.png \
-			%s/%d/%d/%d.png \
-			%s/%d/%d/%d.png" % (out, z, xdest, ydest, out, z, xdest, ydest, out, z, xdest, ydest),
-			shell=True)
-		# remove temp file:
-		os.remove("%s/%d/%d/temp_%d.png" % (out, z, xdest, ydest))
+	#if not os.path.exists("%s/%d/%d/%d.png" % (out, z, xdest, ydest)):
+	call("convert %s/%d,%d.png \
+		%s \
+		-gravity NorthWest -crop 256x256+%d+%d \
+		%s/%d/%d/%d.png" % (inf, x, y, replace, xoffset, yoffset, out, z, xdest, ydest),
+		shell=True)
+	# else:
+	# 	call("convert %s/%d,%d.png \
+	# 		%s \
+	# 		-gravity NorthWest -crop 256x256+%d+%d \
+	# 		%s/%d/%d/temp_%d.png" % (inf, x, y, replace, xoffset, yoffset, out, z, xdest, ydest),
+	# 		shell=True)
+	# 	call("composite \
+	# 		%s/%d/%d/temp_%d.png \
+	# 		%s/%d/%d/%d.png \
+	# 		%s/%d/%d/%d.png" % (out, z, xdest, ydest, out, z, xdest, ydest, out, z, xdest, ydest),
+	# 		shell=True)
+	# 	# remove temp file:
+	# 	os.remove("%s/%d/%d/temp_%d.png" % (out, z, xdest, ydest))
 
 
 for y in range(-129, 129):
@@ -54,10 +54,10 @@ for y in range(-129, 129):
 
 		if os.path.exists("%s/%d,%d.png" % (inf, x, y)):
 
-			if not os.path.exists("%s/7/%d/%d.png" % (out, xdest, ydest)):
-				call("convert %s/%d,%d.png %s -resize 256x256 %s/7/%d/%d.png" % (inf, x, y, replace, out, xdest, ydest), shell=True)
-			else:
-				call("composite %s/%d,%d.png -resize 256x256 %s/7/%d/%d.png %s/7/%d/%d.png" % (inf, x, y, out, xdest, ydest, out, xdest, ydest), shell=True)
+			#if not os.path.exists("%s/7/%d/%d.png" % (out, xdest, ydest)):
+			call("convert %s/%d,%d.png %s -resize 256x256 %s/7/%d/%d.png" % (inf, x, y, replace, out, xdest, ydest), shell=True)
+			# else:
+			# 	call("composite %s/%d,%d.png -resize 256x256 %s/7/%d/%d.png %s/7/%d/%d.png" % (inf, x, y, out, xdest, ydest, out, xdest, ydest), shell=True)
 
 			crop(8, x, y, 0, 0, x * 2 + rowSize, -y * 2 + rowSize - 1)
 			crop(8, x, y, 256, 0, x * 2 + rowSize + 1, -y * 2 + rowSize - 1)
@@ -99,7 +99,7 @@ for y in range(-129, 129):
 							command = "composite -gravity NorthWest \
 								%s/%d,%d.png \
 								-geometry %dx%d+%d+%d \
-								black256.png \
+								blank256.png \
 								%s/%d/%d/%d.png" % (
 								inf, 
 								x + xoffset, y + yoffset,
