@@ -40,7 +40,7 @@ exports.init = function() {
         }),
         style: new ol.style.Style({
           fill: new ol.style.Fill({
-            color: '#1f2ea6'
+            color: '#cccccc'
           })
         })
       }),
