@@ -52,6 +52,13 @@
 			width: 18px;
 			height: 18px;
 		}
+		polyfill-next-selector { content: '.dialog-link a[rel=nether]:before'; }
+		.dialog-link ::content a[rel=nether]:before {
+			background: url(nether.png);
+			background-size: 16px;
+			width: 16px;
+			height: 16px;
+		}
 		polyfill-next-selector { content: '.dialog-link a[rel=market]:before'; }
 		.dialog-link ::content a[rel=market]:before {
 			background: url(market.png);
@@ -69,6 +76,7 @@
 		<div class="dialog-link"><content select="a[rel=reddit]"></content></div>
 		<div class="dialog-link"><content select="a[rel=market]"></content></div>
 		<div class="dialog-link"><content select="a[rel=wiki]"></content></div>
+		<div class="dialog-link"><content select="a[rel=nether]"></content></div>
 	</div>
 	<content></content>
 </template>
@@ -118,6 +126,9 @@ Polymer('civ-map', {
 		    }
 		    if (feature.get('market')) {
 		    	dialog.innerHTML += '<a href="' + feature.get('market') + '" target="_blank" class="reddit" rel="market">Market site</a>';
+		    }
+		    if (feature.get('nether')) {
+		    	dialog.innerHTML += '<a href="javascript:void(0)" class="nether" rel="nether">Has nether portal</a>';
 		    }
 		    dialog.innerHTML += '<a href="http://civcraft.org/doku.php?id=towns:' + feature.get('name').toLowerCase() + '" target="_blank" rel="wiki">Wiki entry</a>';
 		};

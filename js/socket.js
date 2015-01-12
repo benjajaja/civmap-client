@@ -32,6 +32,9 @@ setTimeout(function() {
 			e.list.forEach(function(player) {
 				addFeature(player);
 			});
+			if (!(e.online instanceof Array)) {
+				throw new Error('not array');
+			}
 			document.getElementById('map').dispatchEvent(new CustomEvent('map-players', {detail: e.online}));
 		});
 
@@ -49,6 +52,10 @@ setTimeout(function() {
 		});
 
 		socket.on('list', function(online) {
+			if (!(online instanceof Array)) {
+				console.error('bot is still sending inconsistent "list" event');
+				online = online.online;
+			}
 			document.getElementById('map').dispatchEvent(new CustomEvent('map-players', {detail: online}));
 		});
 	});
@@ -61,13 +68,8 @@ var layer = new ol.layer.Vector({
   style: createPointStyleFunction()
 });
 
-exports.init = function(_map) {
-  map = _map;
+exports.init = function(map) {
   map.addLayer(layer);
-
-
-
-  var map;
 };
 
 function createPointStyleFunction() {

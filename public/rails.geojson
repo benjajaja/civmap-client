@@ -1929,6 +1929,18 @@
         "destination": "Titan",
         "color": "#FF56DD"
       }
-    }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates":[[-4641,-6097],[-4630,-6108],[-4629,-7009],[-4000,-7637],[-4000,-13669],[-3140,-13669]]
+      },
+      "properties": {
+        "origin": "Harvest",
+        "destination":
+        "New Augusta"
+      }
+    } 
   ]
 }

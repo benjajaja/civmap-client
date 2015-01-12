@@ -91,14 +91,14 @@ exports.addRail = function() {
 
     getLayer('rails').getSource().addFeature(feature);
 
-    // var json = geojson.writeFeature(e.feature);
-    // json.geometry.coordinates = json.geometry.coordinates.map(function(c) {
-    //   return [Math.floor(c[0]), Math.floor(-c[1])];
-    // });
+    var json = geojson.writeFeature(e.feature);
+    json.geometry.coordinates = json.geometry.coordinates.map(function(c) {
+      return [Math.floor(c[0]), Math.floor(-c[1])];
+    });
     map.removeInteraction(draw);
-    // window.open('http://www.reddit.com/r/civtransportmap/submit?selftext=true&title=[RAIL]&text=' + JSON.stringify(json));
-    
-    // console.log(JSON.stringify(feature));
+    window.open('http://www.reddit.com/r/civtransportmap/submit?selftext=true&title=[RAIL]&text=' + JSON.stringify(json));
+    console.log(JSON.stringify(json));
+    console.log(JSON.stringify(feature));
   });
 
   window.exportModified = exportModified;

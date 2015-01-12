@@ -1001,7 +1001,8 @@
         "code": "Ae",
         "reddit": "r/CivAeon",
         "abandoned": false,
-        "type": "city"
+        "type": "city",
+        "nether": true
       }
     },
     {
@@ -1167,7 +1168,7 @@
         "code": "Au",
         "reddit": "r/civagora",
         "flag": "https://s3.amazonaws.com/c.thumbs.redditmedia.com/jVcacnZsIYoYGISn.png",
-        "abandoned": true,
+        "abandoned": false,
         "type": "city"
       }
     },
@@ -1228,6 +1229,24 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          12350,
+          6700
+        ]
+      },
+      "properties": {
+        "name": "Blackcrown",
+        "code": "BC",
+        "reddit": "r/blackcrown",
+        "abandoned": false,
+        "type": "city",
+        "flag": "http://i.imgur.com/4MmUIaw.png"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           10519,
           2905
         ]
@@ -1238,7 +1257,8 @@
         "reddit": "r/CivcraftPrussia",
         "flag": "https://civcraft.org/lib/exe/fetch.php/cities/das_breslauer_wappen.png",
         "abandoned": false,
-        "type": "city"
+        "type": "city",
+        "nether": true
       }
     },
     {
@@ -1253,7 +1273,7 @@
       "properties": {
         "name": "Brimstone",
         "code": "Br",
-        "abandoned": true,
+        "abandoned": false,
         "type": "city"
       }
     },
@@ -1308,7 +1328,8 @@
         "reddit": "r/civcarson",
         "flag": "https://civcraft.org/lib/exe/fetch.php/factions/xhyy9u0sev9blz9j.png",
         "abandoned": false,
-        "type": "city"
+        "type": "city",
+        "nether": true
       }
     },
     {
@@ -1560,7 +1581,8 @@
         "reddit": "r/CivcraftFellowship",
         "market": "http://civlist.com/hexagon/",
         "abandoned": false,
-        "type": "city"
+        "type": "city",
+        "nether": true
       }
     },
     {
@@ -1680,6 +1702,25 @@
         "reddit": "r/civcrafthobbiton",
         "flag": "https://s3.amazonaws.com/c.thumbs.redditmedia.com/-w9W2nF2PX53VjDz.png",
         "abandoned": true,
+        "type": "city"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11700,
+          -7900
+        ]
+      },
+      "properties": {
+        "name": "Hjaltland",
+        "code": "Hj",
+        "abandoned": false,
+        "reddit": "/r/civhjaltland",
+        "flag": "http://i.imgur.com/toqSxaF.png",
+        "nether": true,
         "type": "city"
       }
     },
@@ -1995,7 +2036,8 @@
         "code": "MA",
         "abandoned": false,
         "reddit": "r/MtAugusta",
-        "type": "city"
+        "type": "city",
+        "nether": true
       }
     },
     {
@@ -2241,6 +2283,22 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          8200,
+          -8500
+        ]
+      },
+      "properties": {
+        "name": "Nova Urbo",
+        "code": "NU",
+        "abandoned": false,
+        "type": "town"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           -1102,
           4107
         ]
@@ -2282,7 +2340,7 @@
         "name": "Original gangster city",
         "code": "OGC",
         "abandoned": true,
-        "type": "city"
+        "type": "town"
       }
     },
     {
@@ -2301,7 +2359,8 @@
         "market": "http://civlist.com/orion/",
         "flag": "http://i.imgur.com/kcBAutZ.png",
         "abandoned": false,
-        "type": "city"
+        "type": "city",
+        "nether": true
       }
     },
     {
@@ -2715,7 +2774,8 @@
         "code": "Te",
         "reddit": "r/civterminus",
         "abandoned": false,
-        "type": "city"
+        "type": "city",
+        "nether": true
       }
     },
     {
@@ -2783,6 +2843,23 @@
         "code": "Va",
         "abandoned": false,
         "type": "city"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4500,
+          5300
+        ]
+      },
+      "properties": {
+        "name": "Valencia",
+        "code": "Val",
+        "abandoned": false,
+        "type": "town",
+        "reddit": "r/valenciacommune"
       }
     },
     {

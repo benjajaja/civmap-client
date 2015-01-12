@@ -90,38 +90,31 @@ var createPointStyleFunction = function(visible) {
       text: createTextStyle(feature, resolution, resolution <= 16 ? -20 : -1)
     };
     
-    if (feature.get('market') && resolution > 16) {
-      style.image = new ol.style.Circle({
-        radius: 17,
+    
+    
+    // if ([PointType.country, PointType.state, PointType.region, PointType.city].indexOf(feature.get('type')) !== -1) {
+    if (feature.get('type') === PointType.city && resolution > 16) {
+      var styleOptions = {
+        radius: 15,
         fill: new ol.style.Fill({color: 'white'}),
-        stroke: new ol.style.Stroke({color: '#065C27', width: 4})
-      });
+        stroke: new ol.style.Stroke({
+          color: feature.get('abandoned') ? 'rgba(255,53,39, 0.5)' : '#999999',
+          width: 2
+        })
+      };
 
-    } else {
-      var color;
-      if ([PointType.country, PointType.state, PointType.region, PointType.city].indexOf(feature.get('type')) !== -1) {
-        if (feature.get('abandoned')) {
-          color = 'rgba(255,53,39, 0.5)';
-        } else {
-          color = '#999999';
+      if (feature.get('code')) {
+        if (feature.get('market')) {
+          styleOptions.radius += 2;
+          styleOptions.stroke = new ol.style.Stroke({color: '#065C27', width: 4});
         }
-      } else if (feature.get('type') === PointType.farm) {
-        color = 'rgba(168,144,54, 0.5)';
-      // } else {
-      //   color = 'rgba(256, 256, 256, 0.25)';
+        if (feature.get('nether') === true) {
+          styleOptions.radius += 2;
+          styleOptions.fill = new ol.style.Fill({color: '#DE6868'});
+        }
       }
 
-      if (color && resolution > 16 && feature.get('code')) {
-        style.image = new ol.style.Circle({
-          radius: 15,
-          fill: new ol.style.Fill({color: 'white'}),
-          stroke: new ol.style.Stroke({color: color, width: 2})
-        });
-        // style.image = new ol.style.Circle({
-        //   radius: 15,
-        //   fill: new ol.style.Fill({color: color})
-        // });
-      }
+      style.image = new ol.style.Circle(styleOptions);
     }
 
     return [new ol.style.Style(style)];
