@@ -1941,6 +1941,8 @@
         "destination":
         "New Augusta"
       }
-    } 
+    },
+    {"type":"Feature","geometry":{"type":"LineString","coordinates":[[10288,2957],[10538,2726],[10539,2612],[10796,2611],[10898,2508],[12004,2503]]},"properties":{"origin":"Breslau","destination":"42"}},
+    {"type":"Feature","geometry":{"type":"LineString","coordinates":[[12004,2503],[12004,2006],[12298,1699],[13684,1699],[13702,1717]]},"properties":{"origin":"42","destination":"New Salisbury"}}
   ]
 }

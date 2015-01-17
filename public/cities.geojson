@@ -1244,7 +1244,9 @@
         "flag": "https://civcraft.org/lib/exe/fetch.php/cities/das_breslauer_wappen.png",
         "abandoned": false,
         "type": "city",
-        "nether": {}
+        "nether": {
+          "public": true
+        }
       }
     },
     {
@@ -2636,15 +2638,32 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          14650,
+          300
+        ]
+      },
+      "properties": {
+        "name": "Riverside",
+        "code": "Ri",
+        "abandoned": false,
+        "type": "town",
+        "flag": "http://i.imgur.com/Pz9Sffj.png"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           -3832,
           6883
         ]
       },
       "properties": {
-        "name": "Riverside",
-        "code": "Rs",
+        "name": "Riverside Old",
+        "code": "RO",
         "abandoned": true,
-        "type": "city"
+        "type": "town"
       }
     },
     {
@@ -3079,6 +3098,59 @@
         "code": "/v/",
         "abandoned": false,
         "url": "https://8chan.co/civ"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          10250,
+          1600
+        ]
+      },
+      "properties": {
+        "type": "city",
+        "name": "Xia",
+        "code": "Xia",
+        "abandoned": false,
+        "reddit": "r/CivCraftXia",
+        "flag": "http://i.imgur.com/VyzZhZM.jpg"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          11800,
+          1400
+        ]
+      },
+      "properties": {
+        "type": "city",
+        "name": "Yakumo",
+        "code": "Ya",
+        "abandoned": false,
+        "reddit": "r/Gensoukyou",
+        "flag": "http://i.imgur.com/6UVLs34.png"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          12000,
+          2500
+        ]
+      },
+      "properties": {
+        "type": "town",
+        "name": "42",
+        "code": "42",
+        "abandoned": false,
+        "flag": "http://i.imgur.com/KW4JSoV.png"
       }
     },
     {
