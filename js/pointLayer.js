@@ -45,6 +45,19 @@ var visible = (function() {
   };
   return r;
 })();
+
+function getLocalityIcon(feature) {
+  if (feature.get('icon')) {
+    return new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
+      anchor: [0.5, 0.5],
+      opacity: 1,
+      src: 'img/' + feature.get('icon') + '.png',
+      // size: [16, 16]
+    }));
+  }
+  return;
+}
+
 // Points
 var createPointStyleFunction = function(visible) {
   if (visible === 'points') {
@@ -62,16 +75,18 @@ var createPointStyleFunction = function(visible) {
             // size: [16, 16]
           }))
         })];
-      } else if (feature.get('type') === PointType.locality) {
+      } else if (resolution >= 4 && feature.get('type') === PointType.locality) {
+        var image = getLocalityIcon(feature);
         return [new ol.style.Style({
-          text: createTextStyle(feature, resolution, resolution <= 16 ? -20 : -1)
+          text: createTextStyle(feature, resolution, image ? -16 : -1),
+          image: image
         })];
       }
     }
   }
 
   return function(feature, resolution) {
-    if ([PointType.country, PointType.state, PointType.region, PointType.city, PointType.farm, PointType.town].indexOf(feature.get('type')) === -1) {
+    if ([PointType.country, PointType.state, PointType.region, PointType.city, PointType.farm, PointType.town, PointType.locality].indexOf(feature.get('type')) === -1) {
       return [];
     }
 
@@ -81,13 +96,23 @@ var createPointStyleFunction = function(visible) {
       return [];
     }
     
-    if (resolution >= 16 && [PointType.farm, PointType.locality].indexOf(feature.get('type')) !== -1) {
+    if (resolution >= 16 && feature.get('type') === PointType.farm) {
+      return [];
+    }
+    if (resolution >= 4 && feature.get('type') === PointType.locality) {
       return [];
     }
     
+    var offsetY = -1;
+    if (resolution <= 16 && (feature.get('type') === PointType.city || feature.get('type') === PointType.town || feature.get('type') === PointType.locality)) {
+      offsetY = -20;
+    }
+    if (resolution <= 16 && feature.get('type') === PointType.locality) {
+      offsetY = -20;
+    }
 
     var style = {
-      text: createTextStyle(feature, resolution, resolution <= 16 ? -20 : -1)
+      text: createTextStyle(feature, resolution, offsetY)
     };
     
     
@@ -108,13 +133,18 @@ var createPointStyleFunction = function(visible) {
           styleOptions.radius += 2;
           styleOptions.stroke = new ol.style.Stroke({color: '#065C27', width: 4});
         }
-        if (feature.get('nether') === true) {
+        var nether = feature.get('nether');
+        if (typeof nether === 'object' && nether.public === true) {
           styleOptions.radius += 2;
           styleOptions.fill = new ol.style.Fill({color: '#DE6868'});
         }
       }
 
       style.image = new ol.style.Circle(styleOptions);
+    }
+
+    if (feature.get('type') === PointType.locality) {
+      style.image = getLocalityIcon(feature);
     }
 
     return [new ol.style.Style(style)];

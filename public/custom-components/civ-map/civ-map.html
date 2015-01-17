@@ -23,6 +23,9 @@
 		.dialog-header ::content img {
 			max-height: 40px;
 		}
+		.dialog-text {
+			padding: 10px 20px;
+		}
 		.dialog-link {
 			padding: 10px 20px;
 		}
@@ -52,13 +55,6 @@
 			width: 18px;
 			height: 18px;
 		}
-		polyfill-next-selector { content: '.dialog-link a[rel=nether]:before'; }
-		.dialog-link ::content a[rel=nether]:before {
-			background: url(nether.png);
-			background-size: 16px;
-			width: 16px;
-			height: 16px;
-		}
 		polyfill-next-selector { content: '.dialog-link a[rel=market]:before'; }
 		.dialog-link ::content a[rel=market]:before {
 			background: url(market.png);
@@ -66,18 +62,33 @@
 			width: 20px;
 			height: 20px;
 		}
+		.dialog-nether {
+			padding: 0 20px;
+		}
+		polyfill-next-selector { content: '.dialog-nether div.nether:before'; }
+		.dialog-nether ::content div.nether:before {
+			content: '';
+			display: inline-block;
+			margin-right: 4px;
+			vertical-align: middle;
+			background: url(nether.png);
+			background-size: 16px;
+			width: 16px;
+			height: 15px;
+		}
 	</style>
 	<core-overlay id="overlay" layered backdrop opened="{{opened}}" autoCloseDisabled="{{autoCloseDisabled}}"  transition="core-transition-center"></core-overlay>
 	<div class="dialog-header" layout horizontal>
 		<div flex><content select="h2"></content></div>
 		<div><content select="img"></content></div>
 	</div>
+	<div class="dialog-text"><content select="p"></content></div>
 	<div class="dialog-links" horizontal justified layout>
 		<div class="dialog-link"><content select="a[rel=reddit]"></content></div>
 		<div class="dialog-link"><content select="a[rel=market]"></content></div>
 		<div class="dialog-link"><content select="a[rel=wiki]"></content></div>
-		<div class="dialog-link"><content select="a[rel=nether]"></content></div>
 	</div>
+	<div class="dialog-nether"><content select="div[class=nether]"></content></div>
 	<content></content>
 </template>
 <script>
@@ -118,6 +129,10 @@ Polymer('civ-map', {
 		    	dialog.appendChild(img);
 		    }
 
+		    if (feature.get('text')) {
+		    	dialog.innerHTML += '<p>' + feature.get('text') + '</p>';
+		    }
+
 		    if (feature.get('reddit')) {
 		    	dialog.innerHTML += '<a href="http://reddit.com/' + feature.get('reddit') + '" target="_blank" rel="reddit">' + feature.get('reddit') + '</a>';
 		    }
@@ -127,10 +142,26 @@ Polymer('civ-map', {
 		    if (feature.get('market')) {
 		    	dialog.innerHTML += '<a href="' + feature.get('market') + '" target="_blank" class="reddit" rel="market">Market site</a>';
 		    }
-		    if (feature.get('nether')) {
-		    	dialog.innerHTML += '<a href="javascript:void(0)" class="nether" rel="nether">Has nether portal</a>';
+		    if (feature.get('type') === 'city' || feature.get('type') === 'town') {
+		    	dialog.innerHTML += '<a href="http://civcraft.org/doku.php?id=towns:' + feature.get('name').toLowerCase() + '" target="_blank" rel="wiki">Wiki entry</a>';
 		    }
-		    dialog.innerHTML += '<a href="http://civcraft.org/doku.php?id=towns:' + feature.get('name').toLowerCase() + '" target="_blank" rel="wiki">Wiki entry</a>';
+
+		    var nether = feature.get('nether');
+		    if (typeof nether === 'object') {
+		    	var netherLink = '<div class="nether">Nether factory portal'
+		    	if (typeof nether.text === 'string') {
+		    		netherLink += ' - ' + nether.text;
+			    }
+			    if (nether.public === true) {
+		    		netherLink += ' (public)';
+		    	} else if (nether.public === false) {
+		    		netherLink += ' (private)';
+		    	} else {
+		    		netherLink += ' (unknown)';
+		    	}
+		    	netherLink += '</div>';
+		    	dialog.innerHTML += netherLink;
+		    }
 		};
 
 		var makePlayerHTML = function(dialog, feature) {
