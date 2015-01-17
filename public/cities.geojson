@@ -2433,22 +2433,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -4207,
-          -4708
-        ]
-      },
-      "properties": {
-        "name": "Original gangster city",
-        "code": "OGC",
-        "abandoned": true,
-        "type": "town"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           -4623,
           -5517
         ]
@@ -2531,6 +2515,23 @@
         "code": "Pol",
         "abandoned": true,
         "type": "city"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -119,
+          -10617
+        ]
+      },
+      "properties": {
+        "name": "Port Nutella",
+        "code": "Nut",
+        "abandoned": false,
+        "type": "farm",
+        "text": "Orion public cocoa farm"
       }
     },
     {
@@ -2710,8 +2711,7 @@
         "name": "Senntisten",
         "code": "Se",
         "abandoned": true,
-        "type": "city",
-        "reddit": "r/Senntisten"
+        "type": "town"
       }
     },
     {
@@ -3094,7 +3094,8 @@
         "name": "Harvest",
         "code": "Har",
         "abandoned": false,
-        "type": "farm"
+        "type": "farm",
+        "text": "Orion public farm: wheat, carrots, potatoes, melons, pumpkin, reeds, ice. Replant!"
       }
     },
     {
@@ -3141,6 +3142,101 @@
       "properties": {
         "name": "H-Dome Spleef",
         "type": "locality"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -4564,
+          -5107
+        ]
+      },
+      "properties": {
+        "name": "Orion Tree Farm",
+        "type": "locality",
+        "icon": "farm",
+        "text": "Public tree farm. Replant!"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -4642,
+          -5468
+        ]
+      },
+      "properties": {
+        "name": "Grand Central Station",
+        "type": "locality",
+        "icon": "rail",
+        "text": "Rails, Nether factory, Markets open to all regardless of residence"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -4623,
+          -5518
+        ]
+      },
+      "properties": {
+        "name": "Capitol",
+        "type": "locality",
+        "icon": "factory",
+        "text": "Public factories for residents"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3100,
+          -5734
+        ]
+      },
+      "properties": {
+        "name": "Cactopolis",
+        "type": "locality",
+        "icon": "farm",
+        "text": "Orion AFK cactus farm"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -4433,
+          -5222
+        ]
+      },
+      "properties": {
+        "name": "Portal farm",
+        "type": "locality",
+        "icon": "farm",
+        "text": "Public portal farm"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -4315,
+          -5585
+        ]
+      },
+      "properties": {
+        "name": "Olympic Stadium",
+        "type": "locality",
+        "text": "Holds sport and other competition events"
       }
     },
     {
