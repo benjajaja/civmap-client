@@ -1459,6 +1459,22 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          -4088,
+          -5227
+        ]
+      },
+      "properties": {
+        "name": "Cuba",
+        "code": "Cu",
+        "abandoned": true,
+        "type": "town"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           7394,
           2970
         ]
