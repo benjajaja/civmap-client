@@ -1029,22 +1029,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          5493,
-          -1903
-        ]
-      },
-      "properties": {
-        "name": "Alkagora",
-        "code": "Alk",
-        "abandoned": true,
-        "type": "city"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           -1502,
           7514
         ]
@@ -2778,6 +2762,22 @@
         "name": "Swisston",
         "code": "Sw",
         "abandoned": true,
+        "type": "city"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          5322,
+          -2017
+        ]
+      },
+      "properties": {
+        "name": "Tel Aviv",
+        "code": "TA",
+        "abandoned": false,
         "type": "city"
       }
     },
