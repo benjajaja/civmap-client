@@ -1038,7 +1038,7 @@
         "code": "Alt",
         "reddit": "r/CivAltorum",
         "abandoned": true,
-        "type": "city"
+        "type": "town"
       }
     },
     {
@@ -2661,7 +2661,7 @@
         "code": "SS",
         "flag": "http://www.crwflags.com/fotw/images/s/se-scani.gif",
         "abandoned": true,
-        "type": "city"
+        "type": "town"
       }
     },
     {
