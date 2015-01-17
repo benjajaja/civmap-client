@@ -1683,6 +1683,22 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          -5663,
+          -3533
+        ]
+      },
+      "properties": {
+        "name": "Freeport",
+        "code": "Fp",
+        "abandoned": false,
+        "type": "town"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           -2546,
           3993
         ]
