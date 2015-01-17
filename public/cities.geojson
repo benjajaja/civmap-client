@@ -1374,6 +1374,23 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          -1431,
+          6782
+        ]
+      },
+      "properties": {
+        "name": "Clacton",
+        "code": "Ct",
+        "abandoned": false,
+        "type": "town",
+        "flag": "https://i.imgur.com/19fbS7P.png"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           -2186,
           1393
         ]
@@ -1773,6 +1790,24 @@
         "reddit": "r/CivPetrania/",
         "abandoned": true,
         "type": "city"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -1366,
+          7577
+        ]
+      },
+      "properties": {
+        "name": "Intis",
+        "code": "/int/",
+        "url": "http://8ch.net/civ/",
+        "abandoned": false,
+        "type": "city",
+        "flag": "https://i.imgur.com/K27kJHx.png"
       }
     },
     {
