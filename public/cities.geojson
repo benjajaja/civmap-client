@@ -1002,7 +1002,9 @@
         "reddit": "r/CivAeon",
         "abandoned": false,
         "type": "city",
-        "nether": true
+        "nether": {
+          "public": true
+        }
       }
     },
     {
@@ -1258,7 +1260,7 @@
         "flag": "https://civcraft.org/lib/exe/fetch.php/cities/das_breslauer_wappen.png",
         "abandoned": false,
         "type": "city",
-        "nether": true
+        "nether": {}
       }
     },
     {
@@ -1329,7 +1331,9 @@
         "flag": "https://civcraft.org/lib/exe/fetch.php/factions/xhyy9u0sev9blz9j.png",
         "abandoned": false,
         "type": "city",
-        "nether": true
+        "nether": {
+          "public": true
+        }
       }
     },
     {
@@ -1530,7 +1534,11 @@
         "name": "Etherium",
         "code": "Et",
         "abandoned": false,
-        "type": "city"
+        "type": "city",
+        "nether": {
+          "public": true,
+          "text": "Joint project of Haven, Orion and Etherium. Located in Orion Central Station"
+        }
       }
     },
     {
@@ -1582,7 +1590,9 @@
         "market": "http://civlist.com/hexagon/",
         "abandoned": false,
         "type": "city",
-        "nether": true
+        "nether": {
+          "public": true
+        }
       }
     },
     {
@@ -1668,7 +1678,11 @@
         "reddit": "r/civhaven",
         "flag": "http://i.imgur.com/LGCcbT4.jpg",
         "abandoned": false,
-        "type": "city"
+        "type": "city",
+        "nether": {
+          "public": true,
+          "text": "Joint project of Haven, Orion and Etherium. Located in Orion Central Station"
+        }
       }
     },
     {
@@ -1720,7 +1734,9 @@
         "abandoned": false,
         "reddit": "/r/civhjaltland",
         "flag": "http://i.imgur.com/toqSxaF.png",
-        "nether": true,
+        "nether": {
+          "public": true
+        },
         "type": "city"
       }
     },
@@ -2037,7 +2053,9 @@
         "abandoned": false,
         "reddit": "r/MtAugusta",
         "type": "city",
-        "nether": true
+        "nether": {
+          "public": true
+        }
       }
     },
     {
@@ -2360,7 +2378,10 @@
         "flag": "http://i.imgur.com/kcBAutZ.png",
         "abandoned": false,
         "type": "city",
-        "nether": true
+        "nether": {
+          "public": true,
+          "text": "Joint project of Haven, Orion and Etherium. Located in Orion Central Station"
+        }
       }
     },
     {
@@ -2775,7 +2796,9 @@
         "reddit": "r/civterminus",
         "abandoned": false,
         "type": "city",
-        "nether": true
+        "nether": {
+          "public": true
+        }
       }
     },
     {
