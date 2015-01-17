@@ -1408,6 +1408,22 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          -2729,
+          2523
+        ]
+      },
+      "properties": {
+        "name": "Concord",
+        "code": "Co",
+        "abandoned": false,
+        "type": "town"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           -2826,
           3116
         ]
@@ -1628,6 +1644,22 @@
         "code": "Fr",
         "abandoned": true,
         "type": "city"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -2546,
+          3993
+        ]
+      },
+      "properties": {
+        "name": "Gastonville",
+        "code": "Ga",
+        "abandoned": false,
+        "type": "town"
       }
     },
     {
