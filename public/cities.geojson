@@ -1509,6 +1509,22 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          7400,
+          -7000
+        ]
+      },
+      "properties": {
+        "name": "El Lucero",
+        "code": "Lu",
+        "abandoned": false,
+        "type": "town"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           -5315,
           13896
         ]
