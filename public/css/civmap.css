@@ -24,7 +24,7 @@ core-toolbar a, core-toolbar a:hover {
 }
 core-header-panel core-toolbar > a {
   display: inline-block;
-  max-height: 100%;
+  height: 100%;
 }
 core-header-panel core-toolbar > a > img {
   max-height: 100%;

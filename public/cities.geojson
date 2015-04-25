@@ -1198,6 +1198,22 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          -4410,
+          -12246
+        ]
+      },
+      "properties": {
+        "name": "Balkania",
+        "code": "Bk",
+        "abandoned": false,
+        "type": "town"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           -11359,
           -259
         ]
@@ -1979,6 +1995,22 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          -7400,
+          -8700
+        ]
+      },
+      "properties": {
+        "name": "Kaiserin",
+        "code": "Ka",
+        "abandoned": false,
+        "type": "city"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           0,
           0
         ]
@@ -2149,10 +2181,11 @@
         ]
       },
       "properties": {
-        "name": "Mt. Augusta",
+        "name": "Mount Augusta",
         "code": "MA",
         "abandoned": false,
         "reddit": "r/MtAugusta",
+        "market": "http://augustan.wix.com/alishaar",
         "type": "city",
         "nether": {
           "public": true
@@ -2358,8 +2391,26 @@
       },
       "properties": {
         "name": "New Sealand",
-        "code": "Ns",
+        "code": "NSL",
         "abandoned": true,
+        "type": "city"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3300,
+          -11000
+        ]
+      },
+      "properties": {
+        "name": "New Senntisten",
+        "code": "NS",
+        "reddit": "r/Senntisten",
+        "flag": "http://i.imgur.com/boqvhvk.png",
+        "abandoned": false,
         "type": "city"
       }
     },
@@ -2974,6 +3025,23 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          8400,
+          1750
+        ]
+      },
+      "properties": {
+        "name": "Trackistan",
+        "code": "Tk",
+        "reddit": "r/Trackistan",
+        "abandoned": false,
+        "type": "city"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           3722,
           3313
         ]
@@ -3088,6 +3156,21 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          -7800,
+          -7100
+        ]
+      },
+      "properties": {
+        "type": "town",
+        "name": "Vienna",
+        "abandoned": false
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           -1844,
           8228
         ]
@@ -3165,7 +3248,7 @@
       "properties": {
         "name": "Weldon",
         "code": "We",
-        "abandoned": true,
+        "abandoned": false,
         "type": "city"
       }
     },
