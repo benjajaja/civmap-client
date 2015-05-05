@@ -1,4 +1,4 @@
-Civcraft Map
+merCivcraft Map
 ============
 
 This is the repo of the civcraft map currently located at http://txapu.com.
@@ -13,7 +13,7 @@ The journeymap "master" tileset is at data/master. These tiles are in journeymap
 
 **tl;dr** to add a land claim you have to do all the work yourself, and do it perfectly
 
-First off, adding land claims is not for the faint of heart. You will have to read through this guide carefully. You will have to draw your claims on the existing svg following extremely strict both technical and aesthetical guidelines. You will have to use git to clone and add your modifications, and use github to create a merge request, which will then be reviewed, and then accepted *only* if there are absolutely no technical or visual faults, and no disputes.
+First off, adding land claims is not for the faint of heart. You will have to read through this guide carefully. You will have to draw your claims on the existing svg following extremely strict both technical and aesthetical guidelines. You will have to use git to clone and add your modifications, and use github to create a pull request, which will then be reviewed, and then accepted *only* if there are absolutely no technical or visual faults, and no disputes.
 
 If you are not familiar with git, you will most likely need the aid of somebody that is. Understanding of the markup structure of SVG files is also required.
 
@@ -35,8 +35,8 @@ The `.svg` files are located in `public/img/`, the format must be "plain svg".
 * Add your changes to git: **make sure that no garbage is added, only your new land claim svg path**. Git's diff doesn't lie - if you don't understand why there are additional changes, you may want to copy your new claim's path, reset the file and reinsert it, or get someone familiar with git and svg files to do it.
 * Commit with relevant message, e.g. "Add Hoogabooga land claims".
 * Push to your fork.
-* Create merge request from your fork with github.
-* Check back for comments on your merge request regarding any technical problems, style problems, and land claim disputes.
+* Create pull request from your fork with github.
+* Check back for comments on your pull request regarding any technical problems, style problems, and land claim disputes.
 * **Be prepared to go back to editing and doing the demanded changes**, and also be ready to use git to clean your git history.
 
 ### Land claims: svg technical guideles
@@ -60,6 +60,12 @@ I strongly recommend to use [inkscape](https://inkscape.org/) - it is free to us
 ### Land claims: how to preview your svg (or, technically, any svg overlay)
 
 Open `http://txapu.com/?svg=file:///your/local/path/to/claims.svg` in your browser.
+
+### Land claims: disputing claims
+
+To dispute another claim, the best moment is during the window of time when the pull request is open. Simply comment on the pull request. If you click the "watch" button on top, you will get notified when new pull request come in.
+
+To dispute merged claims (already on txapu.com), you must can either create a pull request fixing it where you have to notify the author of the claims (with @username), or create an issue in this repo with the details.
 
 ## Building the client for local development and code contribution
 
