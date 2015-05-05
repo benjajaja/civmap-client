@@ -1,4 +1,4 @@
-merCivcraft Map
+Civcraft Map
 ============
 
 This is the repo of the civcraft map currently located at http://txapu.com.
