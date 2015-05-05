@@ -11,9 +11,11 @@ The journeymap "master" tileset is at data/master. These tiles are in journeymap
 
 ## Land claims
 
+**tl;dr** to add a land claim you have to do all the work yourself, and do it perfectly
+
 First off, adding land claims is not for the faint of heart. You will have to read through this guide carefully. You will have to draw your claims on the existing svg following extremely strict both technical and aesthetical guidelines. You will have to use git to clone and add your modifications, and use github to create a merge request, which will then be reviewed, and then accepted *only* if there are absolutely no technical or visual faults, and no disputes.
 
-If you are not familiar with git, you will most likely need the aid of somebody that is. Understanding of the markup structure of SVG files is also required - that is, on top of knowing how to use a vector graphics program to draw.
+If you are not familiar with git, you will most likely need the aid of somebody that is. Understanding of the markup structure of SVG files is also required.
 
 ### Land claims: prerequisites
 
