@@ -2127,6 +2127,24 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          12250,
+          -2600
+        ]
+      },
+      "properties": {
+        "name": "Luxem",
+        "code": "Lx",
+        "reddit": "r/civcraftluxem",
+        "flag": "http://i.imgur.com/HjGzspz.png",
+        "abandoned": false,
+        "type": "city"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           3256,
           5610
         ]
