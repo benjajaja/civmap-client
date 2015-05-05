@@ -8,6 +8,8 @@ setTimeout(function() {
 
 	require('./lineoutLayer.js').init(map);
 
+	require('./claimsLayer.js').init(map);
+
 	require('./railsLayer.js').init(map);
 
 	require('./pointLayer.js').init(map);
