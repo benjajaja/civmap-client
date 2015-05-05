@@ -37,6 +37,7 @@ The `.svg` files are located in `public/img/`, the format must be "plain svg".
 * Push to your fork.
 * Create merge request from your fork with github.
 * Check back for comments on your merge request regarding any technical problems, style problems, and land claim disputes.
+* **Be prepared to go back to editing and doing the demanded changes**, and also be ready to use git to clean your git history.
 
 ### Land claims: svg technical guideles
 
