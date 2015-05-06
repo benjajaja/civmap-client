@@ -25,7 +25,7 @@ If you are not familiar with git, you will most likely need the aid of somebody 
 
 ### Land claims: git contribution guideline
 
-The `.svg` files are located in `public/img/`, the format must be "plain svg".
+The `.svg` files are located in `public/img/`, **the format must be "plain svg". Any other format WILL generate garbage and your pull request will then NOT BE ACCEPTED.**
 
 * Fork this repo
 * Clone your fork on your machine with git.
@@ -41,7 +41,7 @@ The `.svg` files are located in `public/img/`, the format must be "plain svg".
 
 ### Land claims: svg technical guideles
 
-I strongly recommend to use [inkscape](https://inkscape.org/) - it is free to use and download.
+I strongly recommend to use [inkscape](https://inkscape.org/) - it is free to use and download. In any case **you MUST save as plain .svg.** and **you MUST NOT create irrelevant svg elements like groupings**.
 
 * The ONLY change that must appear in the `.svg` files are one or more new paths for your land claims.
 * The paths must ONLY have "d", "id" and "style" attributes.
