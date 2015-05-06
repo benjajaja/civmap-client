@@ -1,7 +1,7 @@
 var pixelProjection = new ol.proj.Projection({
   code: 'pixel',
   units: 'pixels',
-  extent: [-16000, -16000, 16000, 16000]
+  extent: [-15000, -15000, 15000, 15000]
 });
 
 var url = 'img/claims.svg';
@@ -20,7 +20,7 @@ var layer = new ol.layer.Image({
     url: url,
     projection: pixelProjection,
     imageSize: [2000, 2000],
-    imageExtent: [-15100, -14900, 16000, 15150],
+    imageExtent: [-15000, -15000, 15000, 15000],
   })
 });
 
