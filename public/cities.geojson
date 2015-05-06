@@ -2178,6 +2178,23 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          -14190,
+          -3956
+        ]
+      },
+      "properties": {
+        "name": "Mir",
+        "code": "Mi",
+        "flag": "http://i.imgur.com/uRRb9vP.jpg",
+        "abandoned": false,
+        "type": "city"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           3596,
           -4979
         ]
