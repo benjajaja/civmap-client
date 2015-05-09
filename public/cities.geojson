@@ -2708,6 +2708,24 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          -5282,
+          3664
+        ]
+      },
+      "properties": {
+        "type": "city",
+        "name": "Requiem",
+        "abandoned": false,
+        "code": "RQ",
+        "reddit": "r/CivRequiem",
+        "flag": "http://i.imgur.com/LqWQGcF.png"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           -5510,
           9518
         ]
