@@ -3261,6 +3261,24 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          -7200,
+          -9200
+        ]
+      },
+      "properties": {
+        "type": "city",
+        "name": "Volterra",
+        "code": "VT",
+        "abandoned": false,
+        "reddit": "r/UnitedVolterra",
+        "flag": "http://i.imgur.com/V2VlZrA.png"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           10250,
           1600
         ]
