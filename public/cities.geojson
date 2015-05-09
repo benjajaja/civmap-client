@@ -1198,15 +1198,17 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -4410,
-          -12246
+          -4500,
+          -12250
         ]
       },
       "properties": {
         "name": "Balkania",
-        "code": "Bk",
+        "code": "BK",
         "abandoned": false,
-        "type": "town"
+        "type": "town",
+        "flag": "http://i.imgur.com/H1CG3Aq.png",
+        "reddit": "r/Balkania"
       }
     },
     {
