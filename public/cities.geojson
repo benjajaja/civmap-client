@@ -3315,6 +3315,23 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          4300,
+          4200
+        ]
+      },
+      "properties": {
+        "type": "town",
+        "name": "Zomia",
+        "code": "Zo",
+        "abandoned": false,
+        "reddit": "r/zomia"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           12000,
           2500
         ]
