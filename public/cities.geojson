@@ -2719,8 +2719,10 @@
       "properties": {
         "type": "city",
         "name": "Remnant",
-        "abandoned": true,
-        "code": "RM"
+        "abandoned": false,
+        "code": "RM",
+        "reddit": "/r/civcraftVALEX",
+        "flag": "http://i.imgur.com/MOfZEjL.png"
       }
     },
     {
