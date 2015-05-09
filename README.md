@@ -1,6 +1,8 @@
 Civcraft Map
 ============
 
+![](http://txapu.com/img/logo.png)
+
 This is the repo of the civcraft map currently located at http://txapu.com.
 
 The map is the combination of an older compilation of low-res tiles from civcraft.slimecraft.eu and a newer compilation of hi-res journeymap tiles.
@@ -8,6 +10,41 @@ The map is the combination of an older compilation of low-res tiles from civcraf
 The map tileset is at `public/tiles/` and can be used with any XYZ tile (slippy) map such as OpenLayers. It does not contain tiles for 100% of the map, but it is getting more complete as more players map out the civcraft world and submit their data.
 
 The journeymap "master" tileset is at data/master. These tiles are in journeymap format (size and naming scheme), to add a player's journeymap tiles to it it has to be merged. When that is done, you can generate the map tilesets for all zoom levels with `journeymap.py`.
+
+## How to contribute imagery
+
+You can add what you have mapped with journeymap. Go to your journeymap folder, usually  `.minecraft/journeyMap/data/mp/<civcraft>` where `<civcraft>` is a placeholder for whatever journeymap created, it seems that in latest versions it is whatever you named the server in the server list in-game. From there, enter `DIM0` and create an archive of `day`. An example of a full path would be `.minecraft/journeyMap/data/mp/civcraft_0/DIM0/day`. That folder *only* contains your tiles and not your waypoints or other irrelevant but potentially sensitive data.
+
+You should then post an issue in this repo stating that you have imagery in the issue title, and a download link (google drive, dropbox, mediafire...) to the archive.
+
+## How to contribute overlay data
+
+### Points (cities, towns, POI)
+
+Also to be submitted as issues (one issue per entry) in this repo.  
+For points, you must include:
+
+* Type (city, town...)
+* Name
+* Coordinates in this format: `x,y` e.g. `-1000,3400`
+* Flag image link, preferrably "imgur" about 200x100 pixels
+
+Additionally you can optionally include the following info: 
+
+* Subreddit
+* Market link if any (only if your city has an actual market site that is used)
+* Nether portal with specific coordinates, and optional description if coordinates are not sufficient
+* Desired two-letter code
+* If place is abandoned
+
+### Rails
+
+Create an issue with an image with the rails drawn over the map. Rails MUST follow exact underground path. A rail addition may take longer if it is considered necessary to be verified in person (in game).
+
+### How long will it take?
+
+I will try to update *at least* once a month. The merger process is complicated and uses file modification times to decide how to add images, and since git does not track file mtimes, each time an archive must be created previous merge in case there is bad data.
+
 
 ## Land claims
 
@@ -67,6 +104,9 @@ Open `http://txapu.com/?svg=file:///your/local/path/to/claims.svg` in your brows
 To dispute another claim, the best moment is during the window of time when the pull request is open. Simply comment on the pull request. If you click the "watch" button on top, you will get notified when new pull request come in.
 
 To dispute merged claims (already on txapu.com), you must can either create a pull request fixing it where you have to notify the author of the claims (with @username), or create an issue in this repo with the details.
+
+
+---
 
 ## Building the client for local development and code contribution
 
