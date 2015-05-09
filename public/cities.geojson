@@ -2373,6 +2373,24 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          3130,
+          2000
+        ]
+      },
+      "properties": {
+        "name": "New Detroit",
+        "code": "NDE",
+        "reddit": "r/Gensoukyou",
+        "flag": "http://i.imgur.com/GrT66gO.png",
+        "abandoned": false,
+        "type": "city"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           8616,
           -3807
         ]
