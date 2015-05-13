@@ -1127,6 +1127,22 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          -7195,
+          -12830
+        ]
+      },
+      "properties": {
+        "name": "Athens",
+        "code": "ATH",
+        "abandoned": false,
+        "type": "city"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           -2243,
           6967
         ]
@@ -1345,6 +1361,22 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          -10890,
+          -6010
+        ]
+      },
+      "properties": {
+        "name": "Carthage",
+        "code": "Ca",
+        "abandoned": false,
+        "type": "city"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           7814,
           -3506
         ]
@@ -1355,6 +1387,22 @@
         "reddit": "r/CivCentauri",
         "abandoned": false,
         "type": "city"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -11370,
+          -7440
+        ]
+      },
+      "properties": {
+        "name": "Cerabruul",
+        "code": "Cb",
+        "abandoned": false,
+        "type": "town"
       }
     },
     {
@@ -1719,6 +1767,21 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          -7035,
+          -11230
+        ]
+      },
+      "properties": {
+        "name": "Further Gippos",
+        "abandoned": false,
+        "type": "farm"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           -2546,
           3993
         ]
@@ -1728,6 +1791,38 @@
         "code": "Ga",
         "abandoned": false,
         "type": "town"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -8280,
+          -9590
+        ]
+      },
+      "properties": {
+        "name": "Gamma Dum",
+        "code": "GD",
+        "abandoned": false,
+        "type": "town"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -7300,
+          -10720
+        ]
+      },
+      "properties": {
+        "name": "Gippos",
+        "code": "Gip",
+        "abandoned": false,
+        "type": "farm"
       }
     },
     {
@@ -2797,6 +2892,24 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          -11650,
+          -8740
+        ]
+      },
+      "properties": {
+        "name": "Roma",
+        "code": "ROM",
+        "abandoned": false,
+        "reddit": "r/CivcraftRoma",
+        "flag": "http://i.imgur.com/ADGhrvy.png",
+        "type": "city"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           5136,
           -5447
         ]
@@ -2948,23 +3061,6 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -11726,
-          -8786
-        ]
-      },
-      "properties": {
-        "name": "SPQR",
-        "code": "SP",
-        "reddit": "r/CivcraftRoma",
-        "abandoned": false,
-        "type": "city"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
           5410,
           2404
         ]
@@ -3023,6 +3119,22 @@
         "code": "Sw",
         "abandoned": true,
         "type": "city"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -12375,
+          -7440
+        ]
+      },
+      "properties": {
+        "name": "Syracusae",
+        "code": "Sy",
+        "abandoned": false,
+        "type": "town"
       }
     },
     {
@@ -3359,6 +3471,22 @@
         "name": "Weldon",
         "code": "We",
         "abandoned": false,
+        "type": "city"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -10410,
+          -7351
+        ]
+      },
+      "properties": {
+        "name": "West Brynley",
+        "code": "WNB",
+        "abandoned": true,
         "type": "city"
       }
     },
