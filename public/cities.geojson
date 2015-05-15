@@ -1135,7 +1135,7 @@
         "name": "Athens",
         "code": "ATH",
         "abandoned": false,
-        "type": "city"
+        "type": "town"
       }
     },
     {
@@ -1369,7 +1369,7 @@
         "name": "Carthage",
         "code": "Ca",
         "abandoned": false,
-        "type": "city"
+        "type": "town"
       }
     },
     {
@@ -2892,13 +2892,13 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          -11650,
-          -8740
+          -11920,
+          -8730
         ]
       },
       "properties": {
-        "name": "Roma",
-        "code": "ROM",
+        "name": "SPQR",
+        "code": "SPQR",
         "abandoned": false,
         "reddit": "r/CivcraftRoma",
         "flag": "http://i.imgur.com/ADGhrvy.png",
