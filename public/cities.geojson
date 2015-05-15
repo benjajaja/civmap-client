@@ -3327,6 +3327,23 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          -8506,
+          -8931
+        ]
+      },
+      "properties": {
+        "name": "Vendemmia",
+        "code": "Vd",
+        "abandoned": false,
+        "type": "town",
+        "flag": "http://i.imgur.com/V2VlZrA.png"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           -10000,
           -3000
         ]
