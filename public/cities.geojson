@@ -1314,7 +1314,10 @@
         "reddit": "r/BrynCity",
         "flag": "http://i.imgur.com/YgUnVF1.png",
         "abandoned": false,
-        "type": "city"
+        "type": "city",
+        "nether": {
+          "public": true
+        }
       }
     },
     {
