@@ -1969,6 +1969,19 @@
         "origin": "Volterra",
         "destination": "Ancora"
       }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-5033, -7128], [-5033, -7119], [-4885, -7119], [-4643, -6877]
+        ]
+      },
+      "properties": {
+        "origin": "Ancora",
+        "destination": "Harvest"
+      }
     }
   ]
 }
