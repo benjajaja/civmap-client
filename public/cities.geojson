@@ -2564,7 +2564,28 @@
         "reddit": "r/Senntisten",
         "flag": "http://i.imgur.com/boqvhvk.png",
         "abandoned": false,
-        "type": "city"
+        "type": "city",
+        "nether": {
+          "public": true
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -1800,
+          -11000
+        ]
+      },
+      "properties": {
+        "name": "Skrongden",
+        "code": "SD",
+        "reddit": "r/Senntisten",
+        "flag": "http://i.imgur.com/boqvhvk.png",
+        "abandoned": false,
+        "type": "town"
       }
     },
     {
