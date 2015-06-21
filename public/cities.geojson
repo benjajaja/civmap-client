@@ -1969,7 +1969,7 @@
         "name": "Holy Tree",
         "code": "HT",
         "reddit": "r/theholytree",
-        "abandoned": true,
+        "abandoned": false,
         "type": "city"
       }
     },
