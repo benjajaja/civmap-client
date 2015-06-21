@@ -2699,6 +2699,24 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          -11455,
+          -5217
+        ]
+      },
+      "properties": {
+        "name": "Oventic",
+        "code": "Ov",
+        "reddit": "r/CivcraftEZLN",
+        "flag": "http://i.imgur.com/PsO1UIE.png",
+        "abandoned": false,
+        "type": "town"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           0,
           6011
         ]
