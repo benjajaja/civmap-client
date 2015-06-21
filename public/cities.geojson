@@ -2717,6 +2717,23 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          10750,
+          -3832
+        ]
+      },
+      "properties": {
+        "name": "Palusgrad",
+        "code": "Pg",
+        "abandoned": false,
+        "type": "town",
+        "flag": "http://i.imgur.com/tzv3L3H.png"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           0,
           6011
         ]
