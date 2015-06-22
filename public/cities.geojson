@@ -1380,6 +1380,24 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          13605,
+          3975
+        ]
+      },
+      "properties": {
+        "name": "Catalonia",
+        "type": "town",
+        "code": "CAT",
+        "abandoned": false,
+        "flag": "http://i.imgur.com/iXiBe0s.png",
+        "reddit": "r/LibSocMC_Talk"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           7814,
           -3506
         ]
