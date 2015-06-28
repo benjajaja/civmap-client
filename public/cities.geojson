@@ -3272,6 +3272,26 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          -8242,
+          4115
+        ]
+      },
+      "properties": {
+        "name": "Thule",
+        "code": "TH",
+        "reddit": "r/CivThule",
+        "abandoned": false,
+        "type": "city",
+        "nether": {
+          "public": false
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           24,
           11259
         ]
