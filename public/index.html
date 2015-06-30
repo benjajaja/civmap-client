@@ -29,7 +29,7 @@
           <layer-item name="cities" checked>Cities</layer-item>
           <layer-item name="abandoned">Inactive cities</layer-item>
           <layer-item name="points">Points of interest</layer-item>
-          <layer-item name="players" checked>Players on snitches</layer-item>
+          <!-- <layer-item name="players" checked>Players on snitches</layer-item> -->
           <layer-item name="civballs"><core-tooltip label="by Soraendo">Civballs</core-tooltip></layer-item>
           <layer-item name="tiles" checked exclusive>JourneyMap tiles</layer-item>
           <layer-item name="night" exclusive>JourneyMap Night tiles</layer-item>
@@ -76,6 +76,7 @@
     </core-drawer-panel>
     <script>
     document.querySelector('core-drawer-panel').addEventListener('core-responsive-change', function(e) {
+
       document.querySelector('core-header-panel[main] core-toolbar').hidden = !e.detail.narrow;
     });
     document.querySelector('core-header-panel[main] core-icon-button[icon=menu]').addEventListener('click', function() {

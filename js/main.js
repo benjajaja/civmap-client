@@ -22,7 +22,7 @@ setTimeout(function() {
 
 	require('./github.js').init();
 
-	require('./socket.js').init(map);
+	// require('./socket.js').init(map);
 
 	// to hijack map
   	window.map = map;
