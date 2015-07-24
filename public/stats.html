@@ -15,16 +15,21 @@ body, html {
 body {
   padding-top: 1px;
 }
-#container {
+#tps, #players {
   min-width: 310px;
-  min-height: 90%;
   margin: 0 auto
+}
+#tps {
+  min-height: 90%;
 }
     </style>
   </head>
   <body>
-    <div id="container"></div>
+    <div id="tps"></div>
+    <hr/>
+    <div id="players"></div>
     <script src="js/highcharts-custom.js"></script>
+    <script src="js/lodash.js"></script>
     <script src="js/stats.js"></script>
   </body>
 </html>
