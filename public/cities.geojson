@@ -1364,6 +1364,24 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          -6100,
+          -2900
+        ]
+      },
+      "properties": {
+        "name": "Casper",
+        "code": "Cp",
+        "reddit": "r/Civcraft_Casper",
+        "flag": "http://imgur.com/hJ6rmQF",
+        "abandoned": false,
+        "type": "town"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           -10890,
           -6010
         ]
@@ -1557,6 +1575,24 @@
         "code": "Cu",
         "abandoned": true,
         "type": "town"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6900,
+          500
+        ]
+      },
+      "properties": {
+        "name": "Donetsk",
+        "code": "Dn",
+        "abandoned": false,
+        "type": "city",
+        "flag": "https://i.imgur.com/qqaqMv3.png",
+        "reddit": "civrf"
       }
     },
     {
@@ -1988,6 +2024,24 @@
         "code": "HT",
         "reddit": "r/theholytree",
         "abandoned": false,
+        "type": "city"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -6670,
+          -6475
+        ]
+      },
+      "properties": {
+        "name": "Icenia",
+        "code": "Ic",
+        "reddit": "r/Icenia",
+        "abandoned": false,
+        "flag": "http://i.imgur.com/AoK84gp.png",
         "type": "city"
       }
     },
