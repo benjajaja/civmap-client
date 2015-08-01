@@ -1127,6 +1127,23 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          -2200,
+          -3100
+        ]
+      },
+      "properties": {
+        "name": "Arvika",
+        "code": "Av",
+        "abandoned": false,
+        "type": "town",
+        "reddit": "r/CivcraftArvika"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           -7195,
           -12830
         ]
