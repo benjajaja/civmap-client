@@ -1178,6 +1178,23 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          10937,
+          -1538
+        ]
+      },
+      "properties": {
+        "name": "Augustov",
+        "code": "Ag",
+        "flag": "http://i.imgur.com/aBJFLln.png?1",
+        "abandoned": false,
+        "type": "town"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           4503,
           -1544
         ]
