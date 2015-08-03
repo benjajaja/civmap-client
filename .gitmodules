@@ -6,3 +6,6 @@
 	path = public/tiles
 	url = https://github.com/gipsy-king/civmap-tiles.git
 	master = master
+[submodule "voxelmap"]
+	path = voxelmap
+	url = https://github.com/gipsy-king/civcraft-voxelmap.git
