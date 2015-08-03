@@ -22,7 +22,8 @@ function createLayer() {
       projection: pixelProjection,
       imageSize: [2000, 2000],
       imageExtent: [-15000, -15000, 15000, 15000],
-    })
+    }),
+    visible: false
   });
 }
 

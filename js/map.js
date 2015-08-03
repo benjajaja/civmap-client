@@ -32,20 +32,21 @@ exports.init = function() {
     target: 'map',
     controls: [],
     layers: [
-      new ol.layer.Vector({
-        source: new ol.source.Vector({
-          features: [new ol.Feature({
-            geometry: new ol.geom.Circle([0, 0], 15000)
-          })]
-        }),
-        style: new ol.style.Style({
-          fill: new ol.style.Fill({
-            color: '#cccccc'
-          })
-        })
-      }),
+      // new ol.layer.Vector({
+      //   source: new ol.source.Vector({
+      //     features: [new ol.Feature({
+      //       geometry: new ol.geom.Circle([0, 0], 15000)
+      //     })]
+      //   }),
+      //   style: new ol.style.Style({
+      //     fill: new ol.style.Fill({
+      //       color: '#cccccc'
+      //     })
+      //   })
+      // }),
       new ol.layer.Tile({
         name: 'tiles',
+        visible: true,
         source:  new ol.source.TileImage({
           attributions: [
             new ol.Attribution({
@@ -68,6 +69,51 @@ exports.init = function() {
           wrapX: true
         })
       }),
+
+      new ol.layer.Tile({
+        name: 'biomes',
+        visible: true,
+        source:  new ol.source.TileImage({
+          attributions: [],
+          // tileUrlFunction: ol.TileUrlFunction.createFromTemplates(ol.TileUrlFunction.expandUrl('http://civcraft.slimecraft.eu/tiles/{z}/tile_{x}_{-y}_normal.png')),
+          tileUrlFunction: function(coordinate, ratio, projection) {
+            coordinate = coordinate.getZXY();
+            return 'biomes/' + coordinate[0] + '/' + coordinate[1] + '/' + coordinate[2] + '.png'
+          },
+          // ol.TileUrlFunction.createFromTemplates(ol.TileUrlFunction.expandUrl('tiles/{z}/{x}/{y}.png')),
+          // tileUrlFunction: ol.TileUrlFunction.createFromTemplates(ol.TileUrlFunction.expandUrl('http://localhost:8888/v2/civcraft/{z}/{x}/{y}.png')),
+          // tileGrid: new ol.tilegrid.XYZ({maxZoom: 14}),
+          tilePixelRatio: 1,
+          projection: 'EPSG:3857',
+          maxZoom: 12,
+          // minZoom: 4,
+          // extent: [-size, -size, size, size],
+          wrapX: false
+        })
+      }),
+
+      new ol.layer.Tile({
+          name: 'height',
+          visible: false,
+          source:  new ol.source.TileImage({
+            attributions: [],
+            // tileUrlFunction: ol.TileUrlFunction.createFromTemplates(ol.TileUrlFunction.expandUrl('http://civcraft.slimecraft.eu/tiles/{z}/tile_{x}_{-y}_normal.png')),
+            tileUrlFunction: function(coordinate, ratio, projection) {
+              coordinate = coordinate.getZXY();
+              return 'height/' + coordinate[0] + '/' + coordinate[1] + '/' + coordinate[2] + '.png'
+            },
+            // ol.TileUrlFunction.createFromTemplates(ol.TileUrlFunction.expandUrl('tiles/{z}/{x}/{y}.png')),
+            // tileUrlFunction: ol.TileUrlFunction.createFromTemplates(ol.TileUrlFunction.expandUrl('http://localhost:8888/v2/civcraft/{z}/{x}/{y}.png')),
+            // tileGrid: new ol.tilegrid.XYZ({maxZoom: 14}),
+            tilePixelRatio: 1,
+            projection: 'EPSG:3857',
+            maxZoom: 12,
+            // minZoom: 4,
+            // extent: [-size, -size, size, size],
+            wrapX: false
+          })
+      }),
+      
 
 
       
@@ -94,62 +140,8 @@ exports.init = function() {
     })
   });
   
-  map.addLayer(new ol.layer.Tile({
-    name: 'night',
-    visible: false,
-    source:  new ol.source.TileImage({
-      attributions: [
-        new ol.Attribution({
-          html: 'Player map data compiled by pavel_the_hitman at r/civtransport, interface by GipsyKing'
-        })
-      ],
-      // tileUrlFunction: ol.TileUrlFunction.createFromTemplates(ol.TileUrlFunction.expandUrl('http://civcraft.slimecraft.eu/tiles/{z}/tile_{x}_{-y}_normal.png')),
-      tileUrlFunction: function(coordinate, ratio, projection) {
-        coordinate = coordinate.getZXY();
-        return 'night/' + coordinate[0] + '/' + coordinate[1] + '/' + coordinate[2] + '.png'
-      },
-      // ol.TileUrlFunction.createFromTemplates(ol.TileUrlFunction.expandUrl('tiles/{z}/{x}/{y}.png')),
-      // tileUrlFunction: ol.TileUrlFunction.createFromTemplates(ol.TileUrlFunction.expandUrl('http://localhost:8888/v2/civcraft/{z}/{x}/{y}.png')),
-      // tileGrid: new ol.tilegrid.XYZ({maxZoom: 14}),
-      // tilePixelRatio: 2,
-      projection: 'EPSG:3857',
-      maxZoom: 12,
-      // minZoom: 4,
-      // extent: [-size, -size, size, size],
-      wrapX: true
-    })
-  }));
 
-  map.addLayer(new ol.layer.Tile({
-    name: 'mapwriter',
-    visible: false,
-    source:  new ol.source.TileImage({
-      attributions: [
-        new ol.Attribution({
-          html: 'Amunak'
-        })
-      ],
-      // tileUrlFunction: ol.TileUrlFunction.createFromTemplates(ol.TileUrlFunction.expandUrl('http://civcraft.slimecraft.eu/tiles/{z}/tile_{x}_{-y}_normal.png')),
-      tileUrlFunction: function(coordinate, ratio, projection) {
-        coordinate = coordinate.getZXY();
-        // https://amunak.net/store/private/cmap/images/z4/-3.0.png
-        var offset = Math.pow(2, coordinate[0] - 1);
-        return 'https://amunak.net/store/private/cmap/images/z'
-          + (7 - coordinate[0])
-          + '/' + (coordinate[1] - offset)
-          + '.' + (coordinate[2] * -1  + offset - 1) + '.png'
-      },
-      // ol.TileUrlFunction.createFromTemplates(ol.TileUrlFunction.expandUrl('tiles/{z}/{x}/{y}.png')),
-      // tileUrlFunction: ol.TileUrlFunction.createFromTemplates(ol.TileUrlFunction.expandUrl('http://localhost:8888/v2/civcraft/{z}/{x}/{y}.png')),
-      // tileGrid: new ol.tilegrid.XYZ({maxZoom: 14}),
-      tilePixelRatio: 2,
-      projection: 'EPSG:3857',
-      maxZoom: 12,
-      // minZoom: 4,
-      // extent: [-size, -size, size, size],
-      wrapX: true
-    })
-  }));
+
 
   map.on('click', function(e) {
     var event = new CustomEvent('map-click', {detail: e.pixel});

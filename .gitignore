@@ -6,3 +6,5 @@ node_modules/*
 public/components/*
 public/night/*
 public/tiles_old
+public/biomes
+public/height
