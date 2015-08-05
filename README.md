@@ -5,15 +5,18 @@ Civcraft Map
 
 This is the repo of the civcraft map currently located at http://txapu.com.
 
-The map is the combination of an older compilation of low-res tiles from civcraft.slimecraft.eu and a newer compilation of hi-res journeymap tiles.
+The map is the combination of an older compilation of low-res tiles from civcraft.slimecraft.eu and a newer compilation of hi-res journeymap and journeymap tiles.
 
 The map tileset is at `public/tiles/` and can be used with any XYZ tile (slippy) map such as OpenLayers. It does not contain tiles for 100% of the map, but it is getting more complete as more players map out the civcraft world and submit their data.
+
+The voxelmap "master" tileset is at "voxelmap/master".
 
 The journeymap "master" tileset is at data/master. These tiles are in journeymap format (size and naming scheme), to add a player's journeymap tiles to it it has to be merged. When that is done, you can generate the map tilesets for all zoom levels with `journeymap.py`.
 
 ## How to contribute imagery
 
-You can add what you have mapped with journeymap. Go to your journeymap folder, usually  `.minecraft/journeyMap/data/mp/<civcraft>` where `<civcraft>` is a placeholder for whatever journeymap created, it seems that in latest versions it is whatever you named the server in the server list in-game. From there, enter `DIM0` and create an archive of `day`. An example of a full path would be `.minecraft/journeyMap/data/mp/civcraft_0/DIM0/day`. That folder *only* contains your tiles and not your waypoints or other irrelevant but potentially sensitive data.
+You can add what you have mapped with voxelmap. Go to your voxelmap folder, usually  `.minecraft/mods/VoxelMods/voxelMap/cache/mc.civcraft.vg/` where `mc.civcraft.vg/` could vary depending on what address you use to connect to civcraft. From there, create an archive of all contained folders, usually at least `Overworld (dimension 0)`.  
+That folder *only* contains your tiles and not your waypoints or other irrelevant but potentially sensitive data.
 
 You should then post an issue in this repo stating that you have imagery in the issue title, and a download link (google drive, dropbox, mediafire...) to the archive.
 
