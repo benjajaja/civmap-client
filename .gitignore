@@ -8,3 +8,5 @@ public/night/*
 public/tiles_old
 public/biomes
 public/height
+*.pyc
+voxelmap.tar.gz

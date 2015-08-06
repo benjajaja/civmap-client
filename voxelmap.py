@@ -4,14 +4,27 @@ import pdb
 import sys
 import shutil
 
-def generate(out, inf):
-	print "generate: %s" % out;
+if os.path.exists("public/biomes"):
+	shutil.rmtree("public/biomes")
+os.makedirs("public/biomes")
+if os.path.exists("public/height"):
+	shutil.rmtree("public/height")
+os.makedirs("public/height")
 
-	for y in range(-129, 129):
-		pct = 258 / (y + 129) * 100;
-		sys.stdout.write("\r%d%%" % pct);
-    	sys.stdout.flush();
-		for x in range(-129, 129):
+def update_progress(progress):
+    barLength = 20 # Modify this to change the length of the progress bar
+    block = int(round(barLength*progress))
+    text = "\rComplete: [{0}] {1}%".format( "="*block + " "*(barLength-block), round(progress*100))
+    sys.stdout.write(text)
+    sys.stdout.flush()
+
+def generate(out, inf):
+	print "generate: %s" % out
+
+	size = 129
+	for y in range(size * -1, size):
+		update_progress(float(y + size + 1) / (size * 2))
+		for x in range(size * -1, size):
 
 			rowSize = 128
 			xdest = x + rowSize
@@ -21,9 +34,9 @@ def generate(out, inf):
 
 			if os.path.exists("%s/%d,%d.png" % (inf, x, y)):
 				if not os.path.exists("%s/8/%d" % (out, xdest)):
-					os.makedirs("%s/8/%d" % (out, xdest));
+					os.makedirs("%s/8/%d" % (out, xdest))
 
-				shutil.copyfile("%s/%d,%d.png" % (inf, x, y),  "%s/%d/%d/%d.png" % (out, 8, xdest, ydest));
+				shutil.copyfile("%s/%d,%d.png" % (inf, x, y),  "%s/%d/%d/%d.png" % (out, 8, xdest, ydest))
 
 
 			factor = 1
@@ -71,6 +84,6 @@ def generate(out, inf):
 
 							call(command, shell=True)
 
-
-generate("public/height", "voxelmap/height");
-generate("public/biomes", "voxelmap/biomes");
+generate("public/height", "voxelmap/height")
+generate("public/biomes", "voxelmap/biomes")
+print "finished."

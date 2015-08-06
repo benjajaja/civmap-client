@@ -1,3 +1,3 @@
 #!/bin/bash
-
+tar czf public/voxelmap.tar.gz voxelmap/master
 rsync -av public/ gastriko@txapu.com:/var/www
