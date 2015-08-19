@@ -72,7 +72,7 @@ exports.init = function() {
 
       new ol.layer.Tile({
         name: 'biomes',
-        visible: true,
+        visible: false,
         source:  new ol.source.TileImage({
           attributions: [],
           // tileUrlFunction: ol.TileUrlFunction.createFromTemplates(ol.TileUrlFunction.expandUrl('http://civcraft.slimecraft.eu/tiles/{z}/tile_{x}_{-y}_normal.png')),
