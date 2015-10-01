@@ -3866,6 +3866,24 @@
         "type": "town",
         "flag": "http://i.imgur.com/E7ivVG1.png"
       }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9999,
+          9999
+        ]
+      },
+      "properties": {
+        "name": "Nine",
+        "code": "NI",
+        "reddit": "r/civcraftnine",
+        "abandoned": false,
+        "type": "city",
+        "flag": "https://i.imgur.com/wR34hDe.jpg"
+      }
     }
   ]
 }
