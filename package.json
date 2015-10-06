@@ -1,13 +1,17 @@
 {
   "main": "./js/main.js",
   "browserify-shim": {
-      "./js/libs/base64.js": "Base64",
-      "./js/libs/hello.js": "hello"
+    "./js/libs/base64.js": "Base64",
+    "./js/libs/hello.js": "hello"
   },
   "browserify": {
-    "transform": [ "browserify-shim" ]
+    "transform": [
+      "browserify-shim"
+    ]
   },
   "dependencies": {
-    "browserify-shim": "~3.2.0"
+    "browserify": "^3.46.1",
+    "browserify-shim": "~3.2.0",
+    "vulcanize": "^0.4.2"
   }
 }

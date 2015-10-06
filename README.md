@@ -137,7 +137,7 @@ Edit `cities.geojson` or `rails.geojson`. The structure of the "JSON objects" ar
 
 There is a tool built into the web client to place cities and rails, simply insert the result into the corresponding `.geojson` file.
 
-### How to clone this repo
+### How to clone this repo and install dependencies
 
 This repo contains only the static client files except the tiles, and the scripts for generating tiles and building the JS. However, the map tiles and the journeymap master tileset are added as submodules at `data` and `public/tiles` respectively.
 
@@ -145,5 +145,13 @@ Clone the repo as usually and then
 
     git submodule init
     git submodule update --remote
+    npm install
+    bower install
 
 You must have git version above 1.8.2 (for the `--remote` flag to work), and always use the `--remote` flag or yoou will have to deal with submodules being in a "detached HEAD" state, which makes working on them a nuisance.
+
+To build use the simple `./build.js` script, it just runs vulcanize to package polymer and custome components into a single import, and then browserify to package the commonjs modules.
+
+If you want to hack on components, you can also temporarily change the import in `index.html` to `components.html` so that you don't need to rebuild.
+There is no server-side part, it's all static files which is great for hosting. For this reason I recommend to simply open `public/index.html` from your filesystem with the `file://` protocol in your browser, but here you need to enable "insecure mode" because Polymer does some XHRs which are not supported with that protocol; you can allow it if you run Chrome with the `--disable-web-security` flag or equivalent option in your favourite browser.
+

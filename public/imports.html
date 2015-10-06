@@ -23,7 +23,7 @@ Example:
         </core-menu>
       </core-header-panel>
       <div tool>Title</div>
-      <div>Content goes here...</div>
+      <div>Main content goes here...</div>
     </core-scaffold>
 
 Use `mode` to control the header and scrolling behavior of `core-header-panel`
@@ -91,6 +91,9 @@ with `bottom`.
     <core-toolbar class="tall">
       <div id="progressBar" class="bottom fit"></div>
     </core-toolbar>
+    
+`core-toolbar` adapts to mobile/narrow layout when there is a `core-narrow` class set
+on itself or any of its ancestors.
 
 @group Polymer Core Elements
 @element core-toolbar
@@ -443,19 +446,26 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 }
 
 /* narrow layout */
-:host(.narrow) {
+:host(.core-narrow),
+:host-context(.core-narrow) {
   height: 56px;
 }
 
-:host(.narrow.medium-tall) {
+polyfill-next-selector { content: ':host.core-narrow.medium-tall, .core-narrow :host.medium-tall'; }
+:host(.core-narrow.medium-tall),
+:host-context(.core-narrow):host(.medium-tall) {
   height: 112px;
 }
 
-:host(.narrow.tall) {
+polyfill-next-selector { content: ':host.core-narrow.tall, .core-narrow :host.tall'; }
+:host(.core-narrow.tall),
+:host-context(.core-narrow):host(.tall) {
   height: 168px;
 }
 
-:host(.narrow) .toolbar-tools {
+polyfill-next-selector { content: ':host.core-narrow .toolbar-tools, .core-narrow :host .toolbar-tools'; }
+:host(.core-narrow) .toolbar-tools,
+:host-context(.core-narrow) .toolbar-tools {
   height: 56px;
   padding: 0;
 }
@@ -490,7 +500,7 @@ polyfill-next-selector { content: '.toolbar-tools > *'; }
 /* elements spacing */
 polyfill-next-selector { content: '.toolbar-tools > *'; }
 ::content > * {
-  margin: 0px 8px;
+  margin: 0 8px;
 }
 
 /* misc helpers */
@@ -885,7 +895,7 @@ contains the selection state.
 </polymer-element>
 
 
-<polymer-element name="core-selector" attributes="selected multi valueattr selectedClass selectedProperty selectedAttribute selectedItem selectedModel selectedIndex notap target itemsSelector activateEvent" assetpath="components/core-selector/">
+<polymer-element name="core-selector" attributes="selected multi valueattr selectedClass selectedProperty selectedAttribute selectedItem selectedModel selectedIndex notap excludedLocalNames target itemsSelector activateEvent" assetpath="components/core-selector/">
 
   <template>
     <core-selection id="selection" multi="{{multi}}" on-core-select="{{selectionSelect}}"></core-selection>
@@ -979,6 +989,8 @@ contains the selection state.
       /**
        * Returns the currently selected element. In multi-selection this returns
        * an array of selected elements.
+       * Note that you should not use this to set the selection. Instead use
+       * `selected`.
        * 
        * @attribute selectedItem
        * @type Object
@@ -989,6 +1001,8 @@ contains the selection state.
       /**
        * In single selection, this returns the model associated with the
        * selected element.
+       * Note that you should not use this to set the selection. Instead use 
+       * `selected`.
        * 
        * @attribute selectedModel
        * @type Object
@@ -998,12 +1012,34 @@ contains the selection state.
 
       /**
        * In single selection, this returns the selected index.
+       * Note that you should not use this to set the selection. Instead use
+       * `selected`.
        *
        * @attribute selectedIndex
        * @type number
        * @default -1
        */
       selectedIndex: -1,
+
+      /**
+       * Nodes with local name that are in the list will not be included 
+       * in the selection items.  In the following example, `items` returns four
+       * `core-item`'s and doesn't include `h3` and `hr`.
+       *
+       *     <core-selector excludedLocalNames="h3 hr">
+       *       <h3>Header</h3>
+       *       <core-item>Item1</core-item>
+       *       <core-item>Item2</core-item>
+       *       <hr>
+       *       <core-item>Item3</core-item>
+       *       <core-item>Item4</core-item>
+       *     </core-selector>
+       *
+       * @attribute excludedLocalNames
+       * @type string
+       * @default ''
+       */
+      excludedLocalNames: '',
 
       /**
        * The target element that contains items.  If this is not set 
@@ -1017,7 +1053,8 @@ contains the selection state.
 
       /**
        * This can be used to query nodes from the target node to be used for 
-       * selection items.  Note this only works if the 'target' property is set.
+       * selection items.  Note this only works if `target` is set
+       * and is not `core-selector` itself.
        *
        * Example:
        *
@@ -1055,8 +1092,12 @@ contains the selection state.
        */
       notap: false,
 
+      defaultExcludedLocalNames: 'template',
+
       ready: function() {
         this.activateListener = this.activateHandler.bind(this);
+        this.itemFilter = this.filterItem.bind(this);
+        this.excludedLocalNamesChanged();
         this.observer = new MutationObserver(this.updateSelected.bind(this));
         if (!this.target) {
           this.target = this;
@@ -1075,9 +1116,22 @@ contains the selection state.
         var nodes = this.target !== this ? (this.itemsSelector ? 
             this.target.querySelectorAll(this.itemsSelector) : 
                 this.target.children) : this.$.items.getDistributedNodes();
-        return Array.prototype.filter.call(nodes || [], function(n) {
-          return n && n.localName !== 'template';
-        });
+        return Array.prototype.filter.call(nodes, this.itemFilter);
+      },
+
+      filterItem: function(node) {
+        return !this._excludedNames[node.localName];
+      },
+
+      excludedLocalNamesChanged: function() {
+        this._excludedNames = {};
+        var s = this.defaultExcludedLocalNames;
+        if (this.excludedLocalNames) {
+          s += ' ' + this.excludedLocalNames;
+        }
+        s.split(/\s+/g).forEach(function(n) {
+          this._excludedNames[n] = 1;
+        }, this);
       },
 
       targetChanged: function(old) {
@@ -1253,6 +1307,7 @@ contains the selection state.
         var item = this.items[index];
         if (item) {
           this.selected = this.valueForNode(item) || index;
+          return item;
         }
       },
       
@@ -1260,18 +1315,24 @@ contains the selection state.
        * Selects the previous item.  This should be used in single selection only.
        *
        * @method selectPrevious
+       * @param {boolean} wrap if true and it is already at the first item, wrap to the end
+       * @returns the previous item or undefined if there is none
        */
-      selectPrevious: function() {
-        this.selectIndex(this.selectedIndex - 1);
+      selectPrevious: function(wrap) {
+        var i = wrap && !this.selectedIndex ? this.items.length - 1 : this.selectedIndex - 1;
+        return this.selectIndex(i);
       },
       
       /**
        * Selects the next item.  This should be used in single selection only.
        *
        * @method selectNext
+       * @param {boolean} wrap if true and it is already at the last item, wrap to the front
+       * @returns the next item or undefined if there is none
        */
-      selectNext: function() {
-        this.selectIndex(this.selectedIndex + 1);
+      selectNext: function(wrap) {
+        var i = wrap && this.selectedIndex >= this.items.length - 1 ? 0 : this.selectedIndex + 1;
+        return this.selectIndex(i);
       }
       
     });
@@ -1301,7 +1362,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   overflow: hidden;
 }
 
-#drawer {
+core-selector > #drawer {
   position: absolute;
   top: 0;
   left: 0;
@@ -1311,7 +1372,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   -mox-box-sizing: border-box;
 }
 
-.transition #drawer {
+.transition > #drawer {
   transition: -webkit-transform ease-in-out 0.3s, width ease-in-out 0.3s;
   transition: transform ease-in-out 0.3s, width ease-in-out 0.3s;
 }
@@ -1319,12 +1380,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 /*
 right-drawer: make drawer on the right side
 */
-.right-drawer #drawer {
+.right-drawer > #drawer {
   left: auto;
   right: 0;
 }
 
-.right-drawer.transition #drawer {
+.right-drawer.transition > #drawer {
   transition: -webkit-transform ease-in-out 0.3s, width ease-in-out 0.3s;
   transition: transform ease-in-out 0.3s, width ease-in-out 0.3s;
 }
@@ -1340,22 +1401,22 @@ polyfill-next-selector { content: ':host [drawer]'; }
   -moz-box-sizing: border-box;
 }
 
-#main {
+core-selector > #main {
   position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
 }
 
-.transition #main {
+.transition > #main {
   transition: left ease-in-out 0.3s, padding ease-in-out 0.3s;
 }
 
-.right-drawer #main {
+.right-drawer > #main {
   left: 0;
 }
 
-.right-drawer.transition #main {
+.right-drawer.transition > #main {
   transition: right ease-in-out 0.3s, padding ease-in-out 0.3s;
 }
 
@@ -1414,7 +1475,7 @@ polyfill-next-selector { content: ':host .narrow-layout > #drawer > [drawer]'; }
   padding: 0;
 }
 
-.narrow-layout > #main:not(.core-selected) #scrim,
+.narrow-layout > #main:not(.core-selected) > #scrim,
 .dragging #scrim {
   visibility: visible;
   opacity: 1;
@@ -1752,7 +1813,7 @@ Example:
       <div>Content goes here...</div>
     </core-header-panel>
 
-If you want to use other than `core-toolbar` for the header, add 
+If you want to use other than `core-toolbar` for the header, add
 `core-header` class to that element.
 
 Example:
@@ -1761,7 +1822,7 @@ Example:
       <div class="core-header">Header</div>
       <div>Content goes here...</div>
     </core-header-panel>
-    
+
 To have the content fits to the main area, use `fit` attribute.
 
     <core-header-panel>
@@ -1801,9 +1862,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   right: 0;
   bottom: 0;
   left: 0;
-  overflow-y: auto;
-  overflow-x: hidden;
-  -webkit-overflow-scrolling: touch;
 }
 
 #mainPanel {
@@ -1837,6 +1895,12 @@ mode: scroll
   overflow: visible;
 }
 
+:host([mode=scroll]) #outerContainer {
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
 /*
 mode: cover
 */
@@ -1857,19 +1921,19 @@ mode: cover
   width: 100%;
 }
 </style>
-  
-  <div id="outerContainer" on-scroll="{{scroll}}" vertical="" layout="">
+
+  <div id="outerContainer" vertical="" layout="">
 
     <content id="headerContent" select="core-toolbar, .core-header"></content>
 
     <div id="mainPanel" flex="" vertical="" layout="">
-    
-      <div id="mainContainer" flex?="{{mode !== &apos;cover&apos;}}" on-scroll="{{scroll}}">
+
+      <div id="mainContainer" flex?="{{mode !== &apos;cover&apos;}}">
         <content id="mainContent" select="*"></content>
       </div>
-      
+
       <div id="dropShadow"></div>
-      
+
     </div>
 
   </div>
@@ -1878,11 +1942,21 @@ mode: cover
 <script>
 
   Polymer('core-header-panel', {
-    
+
     /**
-     * Fired when the content has been scrolled.  `details.target` returns
+     * Fired when the content has been scrolled.  `event.detail.target` returns
      * the scrollable element which you can use to access scroll info such as
      * `scrollTop`.
+     *
+     *     <core-header-panel on-scroll="{{scrollHandler}}">
+     *       ...
+     *     </core-header-panel>
+     *
+     *
+     *     scrollHandler: function(event) {
+     *       var scroller = event.detail.target;
+     *       console.log(scroller.scrollTop);
+     *     }
      *
      * @event scroll
      */
@@ -1890,20 +1964,19 @@ mode: cover
     publish: {
       /**
        * Controls header and scrolling behavior. Options are
-       * `standard`, `seamed`, `waterfall`, `waterfall-tall`, 
-       * `waterfall-medium-tall`, `scroll` and `cover`.
-       * Default is `standard`.
+       * `standard`, `seamed`, `waterfall`, `waterfall-tall`, `scroll` and 
+       * `cover`. Default is `standard`.
        *
-       * `standard`: The header is a step above the panel. The header will consume the 
-       * panel at the point of entry, preventing it from passing through to the 
+       * `standard`: The header is a step above the panel. The header will consume the
+       * panel at the point of entry, preventing it from passing through to the
        * opposite side.
        *
        * `seamed`: The header is presented as seamed with the panel.
        *
-       * `waterfall`: Similar to standard mode, but header is initially presented as 
+       * `waterfall`: Similar to standard mode, but header is initially presented as
        * seamed with panel, but then separates to form the step.
        *
-       * `waterfall-tall`: The header is initially taller (`tall` class is added to 
+       * `waterfall-tall`: The header is initially taller (`tall` class is added to
        * the header).  As the user scrolls, the header separates (forming an edge)
        * while condensing (`tall` class is removed from the header).
        *
@@ -1921,7 +1994,7 @@ mode: cover
        *         margin: 60px 60px 60px 0;
        *       }
        *     </style>
-       * 
+       *
        *     <core-header-panel mode="cover">
        *       <core-appbar class="tall">
        *         <core-icon-button icon="menu"></core-icon-button>
@@ -1934,7 +2007,7 @@ mode: cover
        * @default ''
        */
       mode: {value: '', reflect: true},
-      
+
       /**
        * The class used in waterfall-tall mode.  Change this if the header
        * accepts a different class for toggling height, e.g. "medium-tall"
@@ -1944,7 +2017,7 @@ mode: cover
        * @default 'tall'
        */
       tallClass: 'tall',
-      
+
       /**
        * If true, the drop-shadow is always shown no matter what mode is set to.
        *
@@ -1954,12 +2027,57 @@ mode: cover
        */
       shadow: false
     },
+
+    animateDuration: 200,
+
+    modeConfigs: {
+      shadowMode: {'waterfall': 1, 'waterfall-tall': 1},
+      noShadow: {'seamed': 1, 'cover': 1, 'scroll': 1},
+      tallMode: {'waterfall-tall': 1},
+      outerScroll: {'scroll': 1}
+    },
     
+    ready: function() {
+      this.scrollHandler = this.scroll.bind(this);
+      this.addListener();
+    },
+    
+    detached: function() {
+      this.removeListener(this.mode);
+    },
+    
+    addListener: function() {
+      this.scroller.addEventListener('scroll', this.scrollHandler);
+    },
+    
+    removeListener: function(mode) {
+      var s = this.getScrollerForMode(mode);
+      s.removeEventListener('scroll', this.scrollHandler);
+    },
+
     domReady: function() {
       this.async('scroll');
     },
 
-    modeChanged: function() {
+    modeChanged: function(old) {
+      var header = this.header;
+      if (header) {
+        var configs = this.modeConfigs;
+        // in tallMode it may add tallClass to the header; so do the cleanup
+        // when mode is changed from tallMode to not tallMode
+        if (configs.tallMode[old] && !configs.tallMode[this.mode]) {
+          header.classList.remove(this.tallClass);
+          this.async(function() {
+            header.classList.remove('animate');
+          }, null, this.animateDuration);
+        } else {
+          header.classList.toggle('animate', configs.tallMode[this.mode]);
+        }
+      }
+      if (configs.outerScroll[this.mode] || configs.outerScroll[old]) {
+        this.removeListener(old);
+        this.addListener();
+      }
       this.scroll();
     },
 
@@ -1967,6 +2085,11 @@ mode: cover
       return this.$.headerContent.getDistributedNodes()[0];
     },
     
+    getScrollerForMode: function(mode) {
+      return this.modeConfigs.outerScroll[mode] ?
+          this.$.outerContainer : this.$.mainContainer;
+    },
+
     /**
      * Returns the scrollable element.
      *
@@ -1974,33 +2097,26 @@ mode: cover
      * @type Object
      */
     get scroller() {
-      return this.mode === 'scroll' ? 
-          this.$.outerContainer : this.$.mainContainer;
+      return this.getScrollerForMode(this.mode);
     },
-    
+
     scroll: function() {
-      var shadowMode = {'waterfall': 1, 'waterfall-tall': 1};
-      var noShadow = {'seamed': 1, 'cover': 1, 'scroll': 1};
-      var tallMode = {'waterfall-tall': 1};
-      
+      var configs = this.modeConfigs;
       var main = this.$.mainContainer;
       var header = this.header;
-      
+
       var sTop = main.scrollTop;
       var atTop = sTop === 0;
-      
-      if (header) {
-        this.$.dropShadow.classList.toggle('hidden', !this.shadow &&
-            (atTop && shadowMode[this.mode] || noShadow[this.mode]));
-        
-        if (tallMode[this.mode]) {
-          header.classList.toggle(this.tallClass, atTop || 
-              main.scrollHeight < this.$.outerContainer.offsetHeight);
-        }
-        
-        header.classList.toggle('animate', tallMode[this.mode]);
+
+      this.$.dropShadow.classList.toggle('hidden', !this.shadow &&
+          (atTop && configs.shadowMode[this.mode] || configs.noShadow[this.mode]));
+
+      if (header && configs.tallMode[this.mode]) {
+        header.classList.toggle(this.tallClass, atTop ||
+            header.classList.contains(this.tallClass) &&
+            main.scrollHeight < this.$.outerContainer.offsetHeight);
       }
-      
+
       this.fire('scroll', {target: this.scroller}, this, false);
     }
 
@@ -2046,7 +2162,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 -->
 <!--
 
-The `core-icon` element displays an icon. By default an icon renders as 24px square.
+The `core-icon` element displays an icon. By default an icon renders as a 24px square.
 
 Example using src:
 
@@ -2063,18 +2179,32 @@ Example setting size to 32px x 32px:
       }
     </style>
 
-Example using icon from default iconset:
+The core elements include several sets of icons. 
+To use the default set of icons, import  `core-icons.html` and use the `icon` attribute to specify an icon:
+
+    &lt;!-- import default iconset and core-icon --&gt;
+    <link rel="import" href="/components/core-icons/core-icons.html">
 
     <core-icon icon="menu"></core-icon>
+    
+To use a different built-in set of icons, import  `core-icons/<iconset>-icons.html`, and
+specify the icon as `<iconset>:<icon>`. For example:
 
-Example using icon `cherry` from custom iconset `fruit`:
+    &lt;!-- import communication iconset and core-icon --&gt;
+    <link rel="import" href="/components/core-icons/communication-icons.html">
+
+    <core-icon icon="communication:email"></core-icon>
+    
+You can also create custom icon sets of bitmap or SVG icons. 
+
+Example of using an icon named `cherry` from a custom iconset with the ID `fruit`:
 
     <core-icon icon="fruit:cherry"></core-icon>
 
 See [core-iconset](#core-iconset) and [core-iconset-svg](#core-iconset-svg) for more information about
-how to use a custom iconset.
+how to create a custom iconset.
 
-See [core-icons](http://www.polymer-project.org/components/core-icons/demo.html) for the default set of icons. To use the default set of icons you'll need to include an import for `core-icons.html`. To use a different built-in set of icons, you'll need to include an import for `core-icons/iconsets/<iconset>.html`.
+See [core-icons](http://www.polymer-project.org/components/core-icons/demo.html) for the default set of icons.
 
 @group Polymer Core Elements
 @element core-icon
@@ -2817,7 +2947,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <g id="add-box"><path d="M19,3H5C3.9,3,3,3.9,3,5v14c0,1.1,0.9,2,2,2h14c1.1,0,2-0.9,2-2V5C21,3.9,20.1,3,19,3z M17,13h-4v4h-2v-4H7v-2h4V7h2v4h4V13z"/></g>
 <g id="add-circle"><path d="M12,2C6.5,2,2,6.5,2,12s4.5,10,10,10c5.5,0,10-4.5,10-10S17.5,2,12,2z M17,13h-4v4h-2v-4H7v-2h4V7h2v4h4V13z"/></g>
 <g id="add-circle-outline"><path d="M13,7h-2v4H7v2h4v4h2v-4h4v-2h-4V7z M12,2C6.5,2,2,6.5,2,12s4.5,10,10,10c5.5,0,10-4.5,10-10S17.5,2,12,2z M12,20c-4.4,0-8-3.6-8-8s3.6-8,8-8c4.4,0,8,3.6,8,8S16.4,20,12,20z"/></g>
-<g id="add-shopping-cart"><polygon points="18.3,6 18.3,6 15.6,11 "><path d="M11,9h2V6h3V4h-3V1h-2v3H8v2h3V9z M7,18c-1.1,0-2,0.9-2,2s0.9,2,2,2s2-0.9,2-2S8.1,18,7,18z M17,18c-1.1,0-2,0.9-2,2s0.9,2,2,2s2-0.9,2-2S18.1,18,17,18z M7.2,14.8c0,0,0-0.1,0-0.1L8.1,13h7.4c0.8,0,1.4-0.4,1.7-1l3.9-7l-1.7-1h0l-1.1,2l-2.8,5h-7l-0.1-0.3L6.2,6L5.2,4L4.3,2H1v2h2l3.6,7.6L5.2,14C5.1,14.3,5,14.7,5,15c0,1.1,0.9,2,2,2h12v-2H7.4C7.3,15,7.2,14.9,7.2,14.8z"/></polygon></g>
+<g id="add-shopping-cart"><polygon points="18.3,6 18.3,6 15.6,11 "/></g>
 <g id="alarm"><path d="M22,5.7l-4.6-3.9l-1.3,1.5l4.6,3.9L22,5.7z M7.9,3.4L6.6,1.9L2,5.7l1.3,1.5L7.9,3.4z M12.5,8H11v6l4.7,2.9l0.8-1.2l-4-2.4V8z M12,4c-5,0-9,4-9,9c0,5,4,9,9,9c5,0,9-4,9-9C21,8,17,4,12,4z M12,20c-3.9,0-7-3.1-7-7c0-3.9,3.1-7,7-7c3.9,0,7,3.1,7,7C19,16.9,15.9,20,12,20z"/></g>
 <g id="alarm-add"><path d="M7.9,3.4L6.6,1.9L2,5.7l1.3,1.5L7.9,3.4z M22,5.7l-4.6-3.9l-1.3,1.5l4.6,3.9L22,5.7z M12,4c-5,0-9,4-9,9c0,5,4,9,9,9c5,0,9-4,9-9C21,8,17,4,12,4z M12,20c-3.9,0-7-3.1-7-7c0-3.9,3.1-7,7-7c3.9,0,7,3.1,7,7C19,16.9,15.9,20,12,20z M13,9h-2v3H8v2h3v3h2v-3h3v-2h-3V9z"/></g>
 <g id="alarm-off"><path d="M12,6c3.9,0,7,3.1,7,7c0,0.8-0.2,1.6-0.4,2.4l1.5,1.5c0.6-1.2,0.9-2.5,0.9-3.9c0-5-4-9-9-9c-1.4,0-2.7,0.3-3.9,0.9l1.5,1.5C10.4,6.2,11.2,6,12,6z M22,5.7l-4.6-3.9l-1.3,1.5l4.6,3.9L22,5.7z M2.9,2.3L1.6,3.6L3,4.9L1.9,5.8l1.4,1.4l1.1-0.9l0.8,0.8C3.8,8.7,3,10.7,3,13c0,5,4,9,9,9c2.3,0,4.3-0.8,5.9-2.2l2.2,2.2l1.3-1.3L3.9,3.3L2.9,2.3z M16.5,18.4c-1.2,1-2.8,1.6-4.5,1.6c-3.9,0-7-3.1-7-7c0-1.7,0.6-3.3,1.6-4.5L16.5,18.4z M8,3.3L6.6,1.9L5.7,2.6L7.2,4L8,3.3z"/></g>
@@ -2827,10 +2957,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <g id="apps"><path d="M4,8h4V4H4V8z M10,20h4v-4h-4V20z M4,20h4v-4H4V20z M4,14h4v-4H4V14z M10,14h4v-4h-4V14z M16,4v4h4V4H16z M10,8h4V4h-4V8z M16,14h4v-4h-4V14z M16,20h4v-4h-4V20z"/></g>
 <g id="archive"><path d="M20.5,5.2l-1.4-1.7C18.9,3.2,18.5,3,18,3H6C5.5,3,5.1,3.2,4.8,3.5L3.5,5.2C3.2,5.6,3,6,3,6.5V19c0,1.1,0.9,2,2,2h14c1.1,0,2-0.9,2-2V6.5C21,6,20.8,5.6,20.5,5.2z M12,17.5L6.5,12H10v-2h4v2h3.5L12,17.5z M5.1,5l0.8-1h12l0.9,1H5.1z"/></g>
 <g id="arrow-back"><path d="M20,11H7.8l5.6-5.6L12,4l-8,8l8,8l1.4-1.4L7.8,13H20V11z"/></g>
-<g id="arrow-drop-down"><polygon points="7,10 12,15 17,10 "></polygon></g>
+<g id="arrow-drop-down"><polygon points="7,10 12,15 17,10 "/></g>
 <g id="arrow-drop-down-circle"><path d="M12,2C6.5,2,2,6.5,2,12s4.5,10,10,10c5.5,0,10-4.5,10-10S17.5,2,12,2z M12,14l-4-4h8L12,14z"/></g>
-<g id="arrow-drop-up"><polygon points="7,14 12,9 17,14 "></polygon></g>
-<g id="arrow-forward"><polygon points="12,4 10.6,5.4 16.2,11 4,11 4,13 16.2,13 10.6,18.6 12,20 20,12 "></polygon></g>
+<g id="arrow-drop-up"><polygon points="7,14 12,9 17,14 "/></g>
+<g id="arrow-forward"><polygon points="12,4 10.6,5.4 16.2,11 4,11 4,13 16.2,13 10.6,18.6 12,20 20,12 "/></g>
 <g id="aspect-ratio"><path d="M19,12h-2v3h-3v2h5V12z M7,9h3V7H5v5h2V9z M21,3H3C1.9,3,1,3.9,1,5v14c0,1.1,0.9,2,2,2h18c1.1,0,2-0.9,2-2V5C23,3.9,22.1,3,21,3z M21,19H3V5h18V19z"/></g>
 <g id="assessment"><path d="M19,3H5C3.9,3,3,3.9,3,5v14c0,1.1,0.9,2,2,2h14c1.1,0,2-0.9,2-2V5C21,3.9,20.1,3,19,3z M9,17H7v-7h2V17z M13,17h-2V7h2V17z M17,17h-2v-4h2V17z"/></g>
 <g id="assignment"><path d="M19,3h-4.2c-0.4-1.2-1.5-2-2.8-2c-1.3,0-2.4,0.8-2.8,2H5C3.9,3,3,3.9,3,5v14c0,1.1,0.9,2,2,2h14c1.1,0,2-0.9,2-2V5C21,3.9,20.1,3,19,3z M12,3c0.6,0,1,0.4,1,1s-0.4,1-1,1s-1-0.4-1-1S11.4,3,12,3z M14,17H7v-2h7V17z M17,13H7v-2h10V13z M17,9H7V7h10V9z"/></g>
@@ -2848,7 +2978,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <g id="bug-report"><path d="M20,8h-2.8c-0.5-0.8-1.1-1.5-1.8-2L17,4.4L15.6,3l-2.2,2.2C13,5.1,12.5,5,12,5s-1,0.1-1.4,0.2L8.4,3L7,4.4L8.6,6C7.9,6.5,7.3,7.2,6.8,8H4v2h2.1C6,10.3,6,10.7,6,11v1H4v2h2v1c0,0.3,0,0.7,0.1,1H4v2h2.8c1,1.8,3,3,5.2,3s4.2-1.2,5.2-3H20v-2h-2.1c0.1-0.3,0.1-0.7,0.1-1v-1h2v-2h-2v-1c0-0.3,0-0.7-0.1-1H20V8z M14,16h-4v-2h4V16z M14,12h-4v-2h4V12z"/></g>
 <g id="cached"><path d="M19,8l-4,4h3c0,3.3-2.7,6-6,6c-1,0-2-0.3-2.8-0.7l-1.5,1.5C9,19.5,10.4,20,12,20c4.4,0,8-3.6,8-8h3L19,8z M6,12c0-3.3,2.7-6,6-6c1,0,2,0.3,2.8,0.7l1.5-1.5C15,4.5,13.6,4,12,4c-4.4,0-8,3.6-8,8H1l4,4l4-4H6z"/></g>
 <g id="cancel"><path d="M12,2C6.5,2,2,6.5,2,12s4.5,10,10,10c5.5,0,10-4.5,10-10S17.5,2,12,2z M17,15.6L15.6,17L12,13.4L8.4,17L7,15.6l3.6-3.6L7,8.4L8.4,7l3.6,3.6L15.6,7L17,8.4L13.4,12L17,15.6z"/></g>
-<g id="check"><polygon points="9,16.2 4.8,12 3.4,13.4 9,19 21,7 19.6,5.6 "></polygon></g>
+<g id="check"><polygon points="9,16.2 4.8,12 3.4,13.4 9,19 21,7 19.6,5.6 "/></g>
 <g id="check-box"><path d="M19,3H5C3.9,3,3,3.9,3,5v14c0,1.1,0.9,2,2,2h14c1.1,0,2-0.9,2-2V5C21,3.9,20.1,3,19,3z M10,17l-5-5l1.4-1.4l3.6,3.6l7.6-7.6L19,8L10,17z"/></g>
 <g id="check-box-blank"><path d="M19,3H5C3.9,3,3,3.9,3,5l0,14c0,1.1,0.9,2,2,2h14c1.1,0,2-0.9,2-2V5C21,3.9,20.1,3,19,3z"/></g>
 <g id="check-box-outline"><path d="M7.9,10.1l-1.4,1.4L11,16L21,6l-1.4-1.4L11,13.2L7.9,10.1z M19,19L5,19V5h10V3H5C3.9,3,3,3.9,3,5v14c0,1.1,0.9,2,2,2h14c1.1,0,2-0.9,2-2v-8h-2V19z"/></g>
@@ -2857,11 +2987,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <g id="check-circle-blank"><path d="M12,2C6.5,2,2,6.5,2,12c0,5.5,4.5,10,10,10c5.5,0,10-4.5,10-10C22,6.5,17.5,2,12,2z"/></g>
 <g id="check-circle-outline"><path d="M7.9,10.1l-1.4,1.4L11,16L21,6l-1.4-1.4L11,13.2L7.9,10.1z M20,12c0,4.4-3.6,8-8,8s-8-3.6-8-8s3.6-8,8-8c0.8,0,1.5,0.1,2.2,0.3l1.6-1.6C14.6,2.3,13.3,2,12,2C6.5,2,2,6.5,2,12s4.5,10,10,10s10-4.5,10-10H20z"/></g>
 <g id="check-circle-outline-blank"><path d="M12,2C6.5,2,2,6.5,2,12s4.5,10,10,10c5.5,0,10-4.5,10-10S17.5,2,12,2z M12,20c-4.4,0-8-3.6-8-8s3.6-8,8-8c4.4,0,8,3.6,8,8S16.4,20,12,20z"/></g>
-<g id="chevron-left"><polygon points="15.4,7.4 14,6 8,12 14,18 15.4,16.6 10.8,12 "></polygon></g>
-<g id="chevron-right"><polygon points="10,6 8.6,7.4 13.2,12 8.6,16.6 10,18 16,12 "></polygon></g>
+<g id="chevron-left"><polygon points="15.4,7.4 14,6 8,12 14,18 15.4,16.6 10.8,12 "/></g>
+<g id="chevron-right"><polygon points="10,6 8.6,7.4 13.2,12 8.6,16.6 10,18 16,12 "/></g>
 <g id="class"><path d="M18,2H6C4.9,2,4,2.9,4,4v16c0,1.1,0.9,2,2,2h12c1.1,0,2-0.9,2-2V4C20,2.9,19.1,2,18,2z M6,4h5v8l-2.5-1.5L6,12V4z"/></g>
-<g id="clear"><polygon points="19,6.4 17.6,5 12,10.6 6.4,5 5,6.4 10.6,12 5,17.6 6.4,19 12,13.4 17.6,19 19,17.6 13.4,12 "></polygon></g>
-<g id="close"><polygon points="19,6.4 17.6,5 12,10.6 6.4,5 5,6.4 10.6,12 5,17.6 6.4,19 12,13.4 17.6,19 19,17.6 13.4,12 "></polygon></g>
+<g id="clear"><polygon points="19,6.4 17.6,5 12,10.6 6.4,5 5,6.4 10.6,12 5,17.6 6.4,19 12,13.4 17.6,19 19,17.6 13.4,12 "/></g>
+<g id="close"><polygon points="19,6.4 17.6,5 12,10.6 6.4,5 5,6.4 10.6,12 5,17.6 6.4,19 12,13.4 17.6,19 19,17.6 13.4,12 "/></g>
 <g id="cloud"><path d="M19.4,10c-0.7-3.4-3.7-6-7.4-6C9.1,4,6.6,5.6,5.4,8C2.3,8.4,0,10.9,0,14c0,3.3,2.7,6,6,6h13c2.8,0,5-2.2,5-5C24,12.4,21.9,10.2,19.4,10z"/></g>
 <g id="cloud-circle"><path d="M12,2C6.5,2,2,6.5,2,12c0,5.5,4.5,10,10,10c5.5,0,10-4.5,10-10C22,6.5,17.5,2,12,2z M16.5,16c0,0-8.5,0-8.5,0c-1.7,0-3-1.3-3-3s1.3-3,3-3c0,0,0.1,0,0.1,0c0.4-1.7,2-3,3.9-3c2.2,0,4,1.8,4,4h0.5c1.4,0,2.5,1.1,2.5,2.5C19,14.9,17.9,16,16.5,16z"/></g>
 <g id="cloud-done"><path d="M19.4,10c-0.7-3.4-3.7-6-7.4-6C9.1,4,6.6,5.6,5.4,8C2.3,8.4,0,10.9,0,14c0,3.3,2.7,6,6,6h13c2.8,0,5-2.2,5-5C24,12.4,21.9,10.2,19.4,10z M10,17l-3.5-3.5l1.4-1.4l2.1,2.1L15.2,9l1.4,1.4L10,17z"/></g>
@@ -2877,7 +3007,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <g id="delete"><path d="M6,19c0,1.1,0.9,2,2,2h8c1.1,0,2-0.9,2-2V7H6V19z M19,4h-3.5l-1-1h-5l-1,1H5v2h14V4z"/></g>
 <g id="description"><path d="M14,2H6C4.9,2,4,2.9,4,4l0,16c0,1.1,0.9,2,2,2h12c1.1,0,2-0.9,2-2V8L14,2z M16,18H8v-2h8V18z M16,14H8v-2h8V14z M13,9V3.5L18.5,9H13z"/></g>
 <g id="developer-mode-tv"><path d="M4,5h16v2h2l0-2c0-1.1-0.9-2-2-2H4C2.9,3,2,3.9,2,5v2h2V5z M7.6,13.8L4.7,11l2.8-2.8L6.1,6.8L1.9,11l4.2,4.2L7.6,13.8z M20,17H4v-2H2v2c0,1.1,0.9,2,2,2h4v2h8v-2h4c1.1,0,2-0.9,2-2l0-2h-2V17z M22,11l-4.2-4.2l-1.4,1.4l2.8,2.8l-2.8,2.8l1.4,1.4L22,11L22,11L22,11L22,11L22,11z"/></g>
-<g id="done"><polygon points="9,16.2 4.8,12 3.4,13.4 9,19 21,7 19.6,5.6 "></polygon></g>
+<g id="done"><polygon points="9,16.2 4.8,12 3.4,13.4 9,19 21,7 19.6,5.6 "/></g>
 <g id="done-all"><path d="M18,7l-1.4-1.4l-6.3,6.3l1.4,1.4L18,7z M22.2,5.6L11.7,16.2L7.5,12l-1.4,1.4l5.6,5.6l12-12L22.2,5.6z M0.4,13.4L6,19l1.4-1.4L1.8,12L0.4,13.4z"/></g>
 <g id="drafts"><path d="M22,8c0-0.7-0.4-1.3-0.9-1.7L12,1L2.9,6.3C2.4,6.7,2,7.3,2,8v10c0,1.1,0.9,2,2,2h16c1.1,0,2-0.9,2-2L22,8z M12,13L3.7,7.8L12,3l8.3,4.8L12,13z"/></g>
 <g id="drawer"><path d="M12,8c1.1,0,2-0.9,2-2s-0.9-2-2-2c-1.1,0-2,0.9-2,2S10.9,8,12,8z M12,10c-1.1,0-2,0.9-2,2s0.9,2,2,2c1.1,0,2-0.9,2-2S13.1,10,12,10z M12,16c-1.1,0-2,0.9-2,2s0.9,2,2,2c1.1,0,2-0.9,2-2S13.1,16,12,16z"/></g>
@@ -2909,36 +3039,36 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <g id="error"><path d="M12,2C6.5,2,2,6.5,2,12s4.5,10,10,10c5.5,0,10-4.5,10-10S17.5,2,12,2z M13,17h-2v-2h2V17z M13,13h-2V7h2V13z"/></g>
 <g id="event"><path d="M17,12h-5v5h5V12z M16,1v2H8V1H6v2H5C3.9,3,3,3.9,3,5l0,14c0,1.1,0.9,2,2,2h14c1.1,0,2-0.9,2-2V5c0-1.1-0.9-2-2-2h-1V1H16z M19,19H5V8h14V19z"/></g>
 <g id="exit-to-app"><path d="M10.1,15.6l1.4,1.4l5-5l-5-5l-1.4,1.4l2.6,2.6H3v2h9.7L10.1,15.6z M19,3H5C3.9,3,3,3.9,3,5v4h2V5h14v14H5v-4H3v4c0,1.1,0.9,2,2,2h14c1.1,0,2-0.9,2-2V5C21,3.9,20.1,3,19,3z"/></g>
-<g id="expand-less"><polygon points="12,8 6,14 7.4,15.4 12,10.8 16.6,15.4 18,14 "></polygon></g>
-<g id="expand-more"><polygon points="16.6,8.6 12,13.2 7.4,8.6 6,10 12,16 18,10 "></polygon></g>
+<g id="expand-less"><polygon points="12,8 6,14 7.4,15.4 12,10.8 16.6,15.4 18,14 "/></g>
+<g id="expand-more"><polygon points="16.6,8.6 12,13.2 7.4,8.6 6,10 12,16 18,10 "/></g>
 <g id="explore"><path d="M12,10.9c-0.6,0-1.1,0.5-1.1,1.1s0.5,1.1,1.1,1.1c0.6,0,1.1-0.5,1.1-1.1S12.6,10.9,12,10.9z M12,2C6.5,2,2,6.5,2,12c0,5.5,4.5,10,10,10c5.5,0,10-4.5,10-10C22,6.5,17.5,2,12,2z M14.2,14.2L6,18l3.8-8.2L18,6L14.2,14.2z"/></g>
 <g id="extension"><path d="M20.5,11H19V7c0-1.1-0.9-2-2-2h-4V3.5C13,2.1,11.9,1,10.5,1C9.1,1,8,2.1,8,3.5V5H4C2.9,5,2,5.9,2,7l0,3.8h1.5c1.5,0,2.7,1.2,2.7,2.7S5,16.2,3.5,16.2H2L2,20c0,1.1,0.9,2,2,2h3.8v-1.5c0-1.5,1.2-2.7,2.7-2.7c1.5,0,2.7,1.2,2.7,2.7V22H17c1.1,0,2-0.9,2-2v-4h1.5c1.4,0,2.5-1.1,2.5-2.5S21.9,11,20.5,11z"/></g>
 <g id="favorite"><path d="M12,21.4L10.6,20C5.4,15.4,2,12.3,2,8.5C2,5.4,4.4,3,7.5,3c1.7,0,3.4,0.8,4.5,2.1C13.1,3.8,14.8,3,16.5,3C19.6,3,22,5.4,22,8.5c0,3.8-3.4,6.9-8.6,11.5L12,21.4z"/></g>
 <g id="favorite-outline"><path d="M16.5,3c-1.7,0-3.4,0.8-4.5,2.1C10.9,3.8,9.2,3,7.5,3C4.4,3,2,5.4,2,8.5c0,3.8,3.4,6.9,8.6,11.5l1.4,1.3l1.4-1.3c5.1-4.7,8.6-7.8,8.6-11.5C22,5.4,19.6,3,16.5,3z M12.1,18.6L12,18.6l-0.1-0.1C7.1,14.2,4,11.4,4,8.5C4,6.5,5.5,5,7.5,5c1.5,0,3,1,3.6,2.4h1.9C13.5,6,15,5,16.5,5c2,0,3.5,1.5,3.5,3.5C20,11.4,16.9,14.2,12.1,18.6z"/></g>
 <g id="file-download"><path d="M19,9h-4V3H9v6H5l7,7L19,9z M5,18v2h14v-2H5z"/></g>
 <g id="file-map"><path d="M12,6.5c-0.8,0-1.5,0.7-1.5,1.5s0.7,1.5,1.5,1.5c0.8,0,1.5-0.7,1.5-1.5S12.8,6.5,12,6.5z M19,1H5C3.9,1,3,1.9,3,3v14c0,1.1,0.9,2,2,2h14c1.1,0,2-0.9,2-2V3C21,1.9,20.1,1,19,1z M12.5,17h-1c-1-4.1-4-5.8-4-9c0-2.5,2-4.5,4.5-4.5c2.5,0,4.5,2,4.5,4.5C16.5,11.2,13.5,12.9,12.5,17z"/></g>
-<g id="file-upload"><polygon points="9,16 15,16 15,10 19,10 12,3 5,10 9,10 "><rect x="5" y="18" width="14" height="2"/></polygon></g>
+<g id="file-upload"><polygon points="9,16 15,16 15,10 19,10 12,3 5,10 9,10 "/></g>
 <g id="filter"><path d="M10,18h4v-2h-4V18z M3,6v2h18V6H3z M6,13h12v-2H6V13z"/></g>
-<g id="flag"><polygon points="14.4,6 14,4 5,4 5,21 7,21 7,14 12.6,14 13,16 20,16 20,6 "></polygon></g>
+<g id="flag"><polygon points="14.4,6 14,4 5,4 5,21 7,21 7,14 12.6,14 13,16 20,16 20,6 "/></g>
 <g id="flip-to-back"><path d="M9,7H7l0,2h2V7z M9,11H7v2h2V11z M9,3C7.9,3,7,3.9,7,5h2V3z M13,15h-2v2h2V15z M19,3v2h2C21,3.9,20.1,3,19,3z M13,3h-2v2h2V3z M9,17v-2H7C7,16.1,7.9,17,9,17z M19,13h2v-2h-2V13z M19,9h2V7h-2V9z M19,17c1.1,0,2-0.9,2-2h-2V17z M5,7H3v2h0l0,10c0,1.1,0.9,2,2,2h12v-2H5V7z M15,5h2V3h-2V5z M15,17h2v-2h-2V17z"/></g>
 <g id="flip-to-front"><path d="M3,13h2v-2H3L3,13z M3,17h2v-2H3V17z M5,21v-2H3C3,20.1,3.9,21,5,21z M3,9h2V7H3V9z M15,21h2v-2h-2V21z M19,3H9C7.9,3,7,3.9,7,5v2h0v2v6c0,1.1,0.9,2,2,2h5h4h1c1.1,0,2-0.9,2-2V5C21,3.9,20.1,3,19,3z M19,15H9V5h10V15z M11,21h2v-2h-2V21z M7,21h2v-2H7V21z"/></g>
 <g id="folder"><path d="M10,4H4C2.9,4,2,4.9,2,6l0,12c0,1.1,0.9,2,2,2h16c1.1,0,2-0.9,2-2V8c0-1.1-0.9-2-2-2h-8L10,4z"/></g>
 <g id="folder-mydrive"><path d="M20,6h-8l-2-2H4C2.9,4,2,4.9,2,6l0,12c0,1.1,0.9,2,2,2h16c1.1,0,2-0.9,2-2V8C22,6.9,21.1,6,20,6z M11.5,17l-1.1-2.1l2.8-5l1.5,2.7L12.3,17H11.5z M18.3,17h-5.5l1.4-2.5h5.1l0.3,0.5L18.3,17z M13.8,9h2.4l2.8,5H16l-2.6-4.5L13.8,9z"/></g>
 <g id="folder-open"><path d="M20,6h-8l-2-2H4C2.9,4,2,4.9,2,6l0,12c0,1.1,0.9,2,2,2h16c1.1,0,2-0.9,2-2V8C22,6.9,21.1,6,20,6z M20,18H4V8h16V18z"/></g>
 <g id="folder-shared"><path d="M20,6h-8l-2-2H4C2.9,4,2,4.9,2,6l0,12c0,1.1,0.9,2,2,2h16c1.1,0,2-0.9,2-2V8C22,6.9,21.1,6,20,6z M15,9c1.1,0,2,0.9,2,2c0,1.1-0.9,2-2,2c-1.1,0-2-0.9-2-2C13,9.9,13.9,9,15,9z M19,17h-8v-1c0-1.3,2.7-2,4-2c1.3,0,4,0.7,4,2V17z"/></g>
-<g id="forward"><polygon points="12,8 12,4 20,12 12,20 12,16 4,16 4,8 "></polygon></g>
+<g id="forward"><polygon points="12,8 12,4 20,12 12,20 12,16 4,16 4,8 "/></g>
 <g id="fullscreen"><path d="M7,14H5v5h5v-2H7V14z M5,10h2V7h3V5H5V10z M17,17h-3v2h5v-5h-2V17z M14,5v2h3v3h2V5H14z"/></g>
 <g id="fullscreen-exit"><path d="M5,16h3v3h2v-5H5V16z M8,8H5v2h5V5H8V8z M14,19h2v-3h3v-2h-5V19z M16,8V5h-2v5h5V8H16z"/></g>
 <g id="gesture"><path d="M4.6,6.9C5.3,6.2,6,5.5,6.3,5.7c0.5,0.2,0,1-0.3,1.5c-0.3,0.4-2.9,3.9-2.9,6.3c0,1.3,0.5,2.3,1.3,3c0.8,0.6,1.7,0.7,2.6,0.5c1.1-0.3,1.9-1.4,3.1-2.8c1.2-1.5,2.8-3.4,4.1-3.4c1.6,0,1.6,1,1.8,1.8c-3.8,0.6-5.4,3.7-5.4,5.4c0,1.7,1.4,3.1,3.2,3.1c1.6,0,4.3-1.3,4.7-6.1H21v-2.5h-2.5c-0.2-1.6-1.1-4.2-4-4.2c-2.2,0-4.2,1.9-4.9,2.8c-0.6,0.7-2.1,2.5-2.3,2.7c-0.3,0.3-0.7,0.8-1.1,0.8c-0.4,0-0.7-0.8-0.4-1.9c0.4-1.1,1.4-2.9,1.9-3.5C8.4,8,8.9,7.2,8.9,5.9C8.9,3.7,7.3,3,6.4,3C5.1,3,4,4,3.7,4.3C3.4,4.6,3.1,4.9,2.8,5.2L4.6,6.9z M13.9,18.6c-0.3,0-0.7-0.3-0.7-0.7c0-0.6,0.7-2.2,2.9-2.8C15.7,17.8,14.6,18.6,13.9,18.6z"/></g>
 <g id="get-app"><path d="M19,9h-4V3H9v6H5l7,7L19,9z M5,18v2h14v-2H5z"/></g>
 <g id="google"><path d="M16.3,13.4l-1.1-0.8c-0.4-0.3-0.8-0.7-0.8-1.4c0-0.7,0.5-1.3,1-1.6c1.3-1,2.6-2.1,2.6-4.3c0-2.1-1.3-3.3-2-3.9h1.7L18.9,0h-6.2C8.3,0,6.1,2.8,6.1,5.8c0,2.3,1.8,4.8,5,4.8h0.8c-0.1,0.3-0.4,0.8-0.4,1.3c0,1,0.4,1.4,0.9,2c-1.4,0.1-4,0.4-5.9,1.6c-1.8,1.1-2.3,2.6-2.3,3.7c0,2.3,2.1,4.5,6.6,4.5c5.4,0,8-3,8-5.9C18.8,15.7,17.7,14.6,16.3,13.4z M8.7,4.3c0-2.2,1.3-3.2,2.7-3.2c2.6,0,4,3.5,4,5.5c0,2.6-2.1,3.1-2.9,3.1C10,9.7,8.7,6.6,8.7,4.3z M12.3,22.3c-3.3,0-5.4-1.5-5.4-3.7c0-2.2,2-2.9,2.6-3.2c1.3-0.4,3-0.5,3.3-0.5c0.3,0,0.5,0,0.7,0c2.4,1.7,3.4,2.4,3.4,4C16.9,20.8,15,22.3,12.3,22.3z"/></g>
 <g id="google-plus"><path d="M21,10V7h-2v3h-3v2h3v3h2v-3h3v-2H21z M13.3,13.4l-1.1-0.8c-0.4-0.3-0.8-0.7-0.8-1.4c0-0.7,0.5-1.3,1-1.6c1.3-1,2.6-2.1,2.6-4.3c0-2.1-1.3-3.3-2-3.9h1.7L15.9,0H9.7C5.3,0,3.1,2.8,3.1,5.8c0,2.3,1.8,4.8,5,4.8h0.8c-0.1,0.3-0.4,0.8-0.4,1.3c0,1,0.4,1.4,0.9,2c-1.4,0.1-4,0.4-5.9,1.6c-1.8,1.1-2.3,2.6-2.3,3.7c0,2.3,2.1,4.5,6.6,4.5c5.4,0,8-3,8-5.9C15.8,15.7,14.7,14.6,13.3,13.4z M5.7,4.3c0-2.2,1.3-3.2,2.7-3.2c2.6,0,4,3.5,4,5.5c0,2.6-2.1,3.1-2.9,3.1C7,9.7,5.7,6.6,5.7,4.3z M9.3,22.3c-3.3,0-5.4-1.5-5.4-3.7c0-2.2,2-2.9,2.6-3.2c1.3-0.4,3-0.5,3.3-0.5c0.3,0,0.5,0,0.7,0c2.4,1.7,3.4,2.4,3.4,4C13.9,20.8,12,22.3,9.3,22.3z"/></g>
-<g id="grade"><polygon points="12,17.3 18.2,21 16.5,14 22,9.2 14.8,8.6 12,2 9.2,8.6 2,9.2 7.5,14 5.8,21 "></polygon></g>
+<g id="grade"><polygon points="12,17.3 18.2,21 16.5,14 22,9.2 14.8,8.6 12,2 9.2,8.6 2,9.2 7.5,14 5.8,21 "/></g>
 <g id="group-work"><path d="M12,2C6.5,2,2,6.5,2,12c0,5.5,4.5,10,10,10c5.5,0,10-4.5,10-10C22,6.5,17.5,2,12,2z M8,17.5c-1.4,0-2.5-1.1-2.5-2.5s1.1-2.5,2.5-2.5s2.5,1.1,2.5,2.5S9.4,17.5,8,17.5z M9.5,8c0-1.4,1.1-2.5,2.5-2.5s2.5,1.1,2.5,2.5s-1.1,2.5-2.5,2.5S9.5,9.4,9.5,8z M16,17.5c-1.4,0-2.5-1.1-2.5-2.5s1.1-2.5,2.5-2.5s2.5,1.1,2.5,2.5S17.4,17.5,16,17.5z"/></g>
 <g id="help"><path d="M12,2C6.5,2,2,6.5,2,12s4.5,10,10,10c5.5,0,10-4.5,10-10S17.5,2,12,2z M13,19h-2v-2h2V19z M15.1,11.3l-0.9,0.9C13.4,12.9,13,13.5,13,15h-2v-0.5c0-1.1,0.4-2.1,1.2-2.8l1.2-1.3C13.8,10.1,14,9.6,14,9c0-1.1-0.9-2-2-2c-1.1,0-2,0.9-2,2H8c0-2.2,1.8-4,4-4c2.2,0,4,1.8,4,4C16,9.9,15.6,10.7,15.1,11.3z"/></g>
 <g id="highlight-remove"><path d="M14.6,8L12,10.6L9.4,8L8,9.4l2.6,2.6L8,14.6L9.4,16l2.6-2.6l2.6,2.6l1.4-1.4L13.4,12L16,9.4L14.6,8z M12,2C6.5,2,2,6.5,2,12s4.5,10,10,10c5.5,0,10-4.5,10-10S17.5,2,12,2z M12,20c-4.4,0-8-3.6-8-8s3.6-8,8-8s8,3.6,8,8S16.4,20,12,20z"/></g>
 <g id="history"><path opacity="0.9" d="M13,3c-5,0-9,4-9,9H1l3.9,3.9c0,0,0,0.1,0.1,0.1l4-4H6c0-3.9,3.1-7,7-7c3.9,0,7,3.1,7,7s-3.1,7-7,7c-1.9,0-3.7-0.8-4.9-2.1l-1.4,1.4C8.3,20,10.5,21,13,21c5,0,9-4,9-9S18,3,13,3z M12,8v5l4.3,2.5l0.7-1.2l-3.5-2.1V8H12z"/></g>
-<g id="home"><polygon points="10,20 10,14 14,14 14,20 19,20 19,12 22,12 12,3 2,12 5,12 5,20 "></polygon></g>
+<g id="home"><polygon points="10,20 10,14 14,14 14,20 19,20 19,12 22,12 12,3 2,12 5,12 5,20 "/></g>
 <g id="https"><path d="M18,8h-1V6c0-2.8-2.2-5-5-5C9.2,1,7,3.2,7,6v2H6c-1.1,0-2,0.9-2,2v10c0,1.1,0.9,2,2,2h12c1.1,0,2-0.9,2-2V10C20,8.9,19.1,8,18,8z M12,17c-1.1,0-2-0.9-2-2s0.9-2,2-2c1.1,0,2,0.9,2,2S13.1,17,12,17z M15.1,8H8.9V6c0-1.7,1.4-3.1,3.1-3.1c1.7,0,3.1,1.4,3.1,3.1V8z"/></g>
 <g id="inbox"><path d="M19,3H5C3.9,3,3,3.9,3,5l0,14c0,1.1,0.9,2,2,2h14c1.1,0,2-0.9,2-2V5C21,3.9,20.1,3,19,3z M19,15h-4c0,1.7-1.3,3-3,3c-1.7,0-3-1.3-3-3H5V5h14V15z M16,10h-2V7h-4v3H8l4,4L16,10z"/></g>
 <g id="info"><path d="M12,2C6.5,2,2,6.5,2,12s4.5,10,10,10c5.5,0,10-4.5,10-10S17.5,2,12,2z M13,17h-2v-6h2V17z M13,9h-2V7h2V9z"/></g>
@@ -2976,9 +3106,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <g id="perm-phone-msg"><path d="M20,15.5c-1.2,0-2.4-0.2-3.6-0.6c-0.3-0.1-0.7,0-1,0.2l-2.2,2.2c-2.8-1.4-5.1-3.8-6.6-6.6l2.2-2.2c0.3-0.3,0.4-0.7,0.2-1C8.7,6.4,8.5,5.2,8.5,4c0-0.6-0.4-1-1-1H4C3.5,3,3,3.4,3,4c0,9.4,7.6,17,17,17c0.6,0,1-0.4,1-1v-3.5C21,15.9,20.6,15.5,20,15.5z M12,3v10l3-3h6V3H12z"/></g>
 <g id="perm-scan-wifi"><path d="M12,3C7,3,3.2,4.9,0,7.2L12,22L24,7.3C20.9,4.9,17.1,3,12,3z M13,16h-2v-6h2V16z M11,8V6h2v2H11z"/></g>
 <g id="picture-in-picture"><path d="M19,7h-8v6h8V7z M21,3H3C1.9,3,1,3.9,1,5v14c0,1.1,0.9,2,2,2h18c1.1,0,2-0.9,2-2V5C23,3.9,22.1,3,21,3z M21,19H3V5h18V19z"/></g>
-<g id="polymer"><polygon points="19,4 15,4 7.1,16.6 4.5,12 9,4 5,4 0.5,12 5,20 9,20 16.9,7.4 19.5,12 15,20 19,20 23.5,12 "></polygon></g>
+<g id="polymer"><polygon points="19,4 15,4 7.1,16.6 4.5,12 9,4 5,4 0.5,12 5,20 9,20 16.9,7.4 19.5,12 15,20 19,20 23.5,12 "/></g>
 <g id="print"><path d="M19,8H5c-1.7,0-3,1.3-3,3v6h4v4h12v-4h4v-6C22,9.3,20.7,8,19,8z M16,19H8v-5h8V19z M19,12c-0.6,0-1-0.4-1-1s0.4-1,1-1c0.6,0,1,0.4,1,1S19.6,12,19,12z M18,3H6v4h12V3z"/></g>
-<g id="query-builder"><path d="M12,2C6.5,2,2,6.5,2,12s4.5,10,10,10c5.5,0,10-4.5,10-10S17.5,2,12,2z M12,20c-4.4,0-8-3.6-8-8s3.6-8,8-8c4.4,0,8,3.6,8,8S16.4,20,12,20z"/><polygon points="12.5,7 11,7 11,13 16.2,16.2 17,14.9 12.5,12.3 "></polygon></g>
+<g id="query-builder"><path d="M12,2C6.5,2,2,6.5,2,12s4.5,10,10,10c5.5,0,10-4.5,10-10S17.5,2,12,2z M12,20c-4.4,0-8-3.6-8-8s3.6-8,8-8c4.4,0,8,3.6,8,8S16.4,20,12,20z"/><polygon points="12.5,7 11,7 11,13 16.2,16.2 17,14.9 12.5,12.3 "/></g>
 <g id="question-answer"><path d="M21,6h-2v9H6v2c0,0.6,0.4,1,1,1h11l4,4V7C22,6.4,21.6,6,21,6z M17,12V3c0-0.6-0.4-1-1-1H3C2.4,2,2,2.4,2,3v14l4-4h10C16.6,13,17,12.6,17,12z"/></g>
 <g id="radio-button-off"><path d="M12,2C6.5,2,2,6.5,2,12s4.5,10,10,10c5.5,0,10-4.5,10-10S17.5,2,12,2z M12,20c-4.4,0-8-3.6-8-8s3.6-8,8-8c4.4,0,8,3.6,8,8S16.4,20,12,20z"/></g>
 <g id="radio-button-on"><path d="M12,7c-2.8,0-5,2.2-5,5s2.2,5,5,5c2.8,0,5-2.2,5-5S14.8,7,12,7z M12,2C6.5,2,2,6.5,2,12s4.5,10,10,10c5.5,0,10-4.5,10-10S17.5,2,12,2z M12,20c-4.4,0-8-3.6-8-8s3.6-8,8-8c4.4,0,8,3.6,8,8S16.4,20,12,20z"/></g>
@@ -3000,10 +3130,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <g id="rotate-right"><path d="M15.5,5.5L11,1v3.1C7.1,4.6,4,7.9,4,12s3.1,7.4,7,7.9v-2C8.2,17.4,6,15,6,12s2.2-5.4,5-5.9V10L15.5,5.5z M19.9,11c-0.2-1.4-0.7-2.7-1.6-3.9l-1.4,1.4c0.5,0.8,0.9,1.6,1,2.5H19.9z M13,17.9v2c1.4-0.2,2.7-0.7,3.9-1.6l-1.4-1.4C14.7,17.4,13.9,17.8,13,17.9z M16.9,15.5l1.4,1.4c0.9-1.2,1.5-2.5,1.6-3.9h-2C17.8,13.9,17.4,14.7,16.9,15.5z"/></g>
 <g id="rotation-3d"><path d="M11,14v-1c0-0.6-0.4-1-1-1c0.6,0,1-0.4,1-1v-1c0-1.1-0.9-2-2-2H6v2h3v1H7v2h2v1l0,0l0,0v0h0H6v2h3C10.1,16,11,15.1,11,14z M15,8h-3v8h3c1.7,0,3-1.3,3-3v-2C18,9.3,16.7,8,15,8z M16,13c0,0.6-0.4,1-1,1h-1v-4h1c0.6,0,1,0.4,1,1V13z M12,0c-0.2,0-0.4,0-0.7,0l3.8,3.8l1.3-1.3c3.3,1.5,5.6,4.7,6,8.5h1.5C23.4,4.8,18.3,0,12,0z M7.5,21.5c-3.3-1.5-5.6-4.7-6-8.5H0.1C0.6,19.2,5.7,24,12,24c0.2,0,0.4,0,0.7,0l-3.8-3.8L7.5,21.5z"/></g>
 <g id="save"><path d="M17,3H5C3.9,3,3,3.9,3,5l0,14c0,1.1,0.9,2,2,2h14c1.1,0,2-0.9,2-2V7L17,3z M12,19c-1.7,0-3-1.3-3-3s1.3-3,3-3c1.7,0,3,1.3,3,3S13.7,19,12,19z M15,9H5V5h10V9z"/></g>
-<g id="schedule"><path fill-opacity="0.9" d="M12,2C6.5,2,2,6.5,2,12s4.5,10,10,10c5.5,0,10-4.5,10-10S17.5,2,12,2z M12,20c-4.4,0-8-3.6-8-8s3.6-8,8-8c4.4,0,8,3.6,8,8S16.4,20,12,20z"/><polygon fill-opacity="0.9" points="12.5,7 11,7 11,13 16.2,16.2 17,14.9 12.5,12.2 "></polygon></g>
+<g id="schedule"><path fill-opacity="0.9" d="M12,2C6.5,2,2,6.5,2,12s4.5,10,10,10c5.5,0,10-4.5,10-10S17.5,2,12,2z M12,20c-4.4,0-8-3.6-8-8s3.6-8,8-8c4.4,0,8,3.6,8,8S16.4,20,12,20z"/><polygon fill-opacity="0.9" points="12.5,7 11,7 11,13 16.2,16.2 17,14.9 12.5,12.2 "/></g>
 <g id="search"><path d="M15.5,14h-0.8l-0.3-0.3c1-1.1,1.6-2.6,1.6-4.2C16,5.9,13.1,3,9.5,3C5.9,3,3,5.9,3,9.5S5.9,16,9.5,16c1.6,0,3.1-0.6,4.2-1.6l0.3,0.3v0.8l5,5l1.5-1.5L15.5,14z M9.5,14C7,14,5,12,5,9.5S7,5,9.5,5C12,5,14,7,14,9.5S12,14,9.5,14z"/></g>
 <g id="select-all"><path d="M3,5h2V3C3.9,3,3,3.9,3,5z M3,13h2v-2H3V13z M7,21h2v-2H7V21z M3,9h2V7H3V9z M13,3h-2v2h2V3z M19,3v2h2C21,3.9,20.1,3,19,3z M5,21v-2H3C3,20.1,3.9,21,5,21z M3,17h2v-2H3V17z M9,3H7v2h2V3z M11,21h2v-2h-2V21z M19,13h2v-2h-2V13z M19,21c1.1,0,2-0.9,2-2h-2V21z M19,9h2V7h-2V9z M19,17h2v-2h-2V17z M15,21h2v-2h-2V21z M15,5h2V3h-2V5z M7,17h10V7H7V17z M9,9h6v6H9V9z"/></g>
-<g id="send"><polygon points="2,21 23,12 2,3 2,10 17,12 2,14 "></polygon></g>
+<g id="send"><polygon points="2,21 23,12 2,3 2,10 17,12 2,14 "/></g>
 <g id="send-money"><path d="M2,12c0-2.6,1.7-4.8,4-5.7V4.3c-3.4,0.9-6,4-6,7.7s2.6,6.8,6,7.7v-2.1C3.7,16.8,2,14.6,2,12z M24,12l-4-4v3h-7v2h7v3L24,12z M14,18c-3.3,0-6-2.7-6-6s2.7-6,6-6c1.7,0,3.2,0.7,4.2,1.8l1.4-1.4C18.2,4.9,16.2,4,14,4c-4.4,0-8,3.6-8,8s3.6,8,8,8c2.2,0,4.2-0.9,5.7-2.3l-1.4-1.4C17.2,17.3,15.7,18,14,18z"/></g>
 <g id="settings"><path d="M19.4,13c0-0.3,0.1-0.6,0.1-1s0-0.7-0.1-1l2.1-1.7c0.2-0.2,0.2-0.4,0.1-0.6l-2-3.5C19.5,5.1,19.3,5,19,5.1l-2.5,1c-0.5-0.4-1.1-0.7-1.7-1l-0.4-2.6C14.5,2.2,14.2,2,14,2h-4C9.8,2,9.5,2.2,9.5,2.4L9.1,5.1C8.5,5.3,8,5.7,7.4,6.1L5,5.1C4.7,5,4.5,5.1,4.3,5.3l-2,3.5C2.2,8.9,2.3,9.2,2.5,9.4L4.6,11c0,0.3-0.1,0.6-0.1,1s0,0.7,0.1,1l-2.1,1.7c-0.2,0.2-0.2,0.4-0.1,0.6l2,3.5C4.5,18.9,4.7,19,5,18.9l2.5-1c0.5,0.4,1.1,0.7,1.7,1l0.4,2.6c0,0.2,0.2,0.4,0.5,0.4h4c0.2,0,0.5-0.2,0.5-0.4l0.4-2.6c0.6-0.3,1.2-0.6,1.7-1l2.5,1c0.2,0.1,0.5,0,0.6-0.2l2-3.5c0.1-0.2,0.1-0.5-0.1-0.6L19.4,13z M12,15.5c-1.9,0-3.5-1.6-3.5-3.5s1.6-3.5,3.5-3.5s3.5,1.6,3.5,3.5S13.9,15.5,12,15.5z"/></g>
 <g id="settings-applications"><path d="M12,10c-1.1,0-2,0.9-2,2s0.9,2,2,2s2-0.9,2-2S13.1,10,12,10z M19,3H5C3.9,3,3,3.9,3,5v14c0,1.1,0.9,2,2,2h14c1.1,0,2-0.9,2-2V5C21,3.9,20.1,3,19,3z M17.2,12c0,0.2,0,0.5,0,0.7l1.5,1.2c0.1,0.1,0.2,0.3,0.1,0.4l-1.4,2.4c-0.1,0.2-0.3,0.2-0.4,0.2l-1.7-0.7c-0.4,0.3-0.8,0.5-1.2,0.7l-0.3,1.9c0,0.2-0.2,0.3-0.3,0.3h-2.8c-0.2,0-0.3-0.1-0.3-0.3L10,16.9c-0.4-0.2-0.8-0.4-1.2-0.7l-1.7,0.7c-0.2,0.1-0.3,0-0.4-0.2l-1.4-2.4c-0.1-0.2,0-0.3,0.1-0.4l1.5-1.2c0-0.2,0-0.5,0-0.7s0-0.5,0-0.7l-1.5-1.2c-0.1-0.1-0.2-0.3-0.1-0.4l1.4-2.4c0.1-0.2,0.3-0.2,0.4-0.2l1.7,0.7C9.2,7.6,9.6,7.3,10,7.1l0.3-1.9c0-0.2,0.2-0.3,0.3-0.3h2.8c0.2,0,0.3,0.1,0.3,0.3L14,7.1c0.4,0.2,0.8,0.4,1.2,0.7l1.7-0.7c0.2-0.1,0.3,0,0.4,0.2l1.4,2.4c0.1,0.2,0,0.3-0.1,0.4l-1.5,1.2C17.2,11.5,17.2,11.8,17.2,12z"/></g>
@@ -3027,10 +3157,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <g id="shopping-basket"><path d="M17.2,9l-4.4-6.6C12.6,2.2,12.3,2,12,2c-0.3,0-0.6,0.1-0.8,0.4L6.8,9H2c-0.6,0-1,0.4-1,1c0,0.1,0,0.2,0,0.3l2.5,9.3c0.2,0.8,1,1.5,1.9,1.5h13c0.9,0,1.7-0.6,1.9-1.5l2.5-9.3c0-0.1,0-0.2,0-0.3c0-0.6-0.4-1-1-1H17.2z M9,9l3-4.4L15,9H9z M12,17c-1.1,0-2-0.9-2-2s0.9-2,2-2c1.1,0,2,0.9,2,2S13.1,17,12,17z"/></g>
 <g id="shopping-cart"><path d="M7,18c-1.1,0-2,0.9-2,2s0.9,2,2,2c1.1,0,2-0.9,2-2S8.1,18,7,18z M1,2v2h2l3.6,7.6L5.2,14C5.1,14.3,5,14.7,5,15c0,1.1,0.9,2,2,2h12v-2H7.4c-0.1,0-0.2-0.1-0.2-0.2c0,0,0-0.1,0-0.1L8.1,13h7.4c0.8,0,1.4-0.4,1.7-1l3.6-6.5C21,5.3,21,5.2,21,5c0-0.6-0.4-1-1-1H5.2L4.3,2H1z M17,18c-1.1,0-2,0.9-2,2s0.9,2,2,2c1.1,0,2-0.9,2-2S18.1,18,17,18z"/></g>
 <g id="sort"><path d="M3,18h6v-2H3V18z M3,6v2h18V6H3z M3,13h12v-2H3V13z"/></g>
-<g id="star"><polygon points="12,17.273 18.18,21 16.545,13.971 22,9.244 14.809,8.627 12,2 9.191,8.627 2,9.244 7.455,13.971 5.82,21 "></polygon></g>
+<g id="star"><polygon points="12,17.273 18.18,21 16.545,13.971 22,9.244 14.809,8.627 12,2 9.191,8.627 2,9.244 7.455,13.971 5.82,21 "/></g>
 <g id="star-half"><path d="M22,9.744l-7.191-0.617L12,2.5L9.191,9.127L2,9.744v0l0,0l5.455,4.727L5.82,21.5L12,17.772l0,0l6.18,3.727l-1.635-7.029L22,9.744z M12,15.896V6.595l1.71,4.036l4.38,0.376l-3.322,2.878l0.996,4.281L12,15.896z"/></g>
 <g id="star-outline"><path d="M22,9.244l-7.191-0.617L12,2L9.191,8.627L2,9.244l5.455,4.727L5.82,21L12,17.272L18.18,21l-1.635-7.029L22,9.244z M12,15.396l-3.763,2.27l0.996-4.281L5.91,10.507l4.38-0.376L12,6.095l1.71,4.036l4.38,0.376l-3.322,2.878l0.996,4.281L12,15.396z"/></g>
-<g id="star-rate"><polygon points="12,14.3 15.7,17 14.3,12.6 18,10 13.5,10 12,5.5 10.5,10 6,10 9.7,12.6 8.3,17 "></polygon></g>
+<g id="star-rate"><polygon points="12,14.3 15.7,17 14.3,12.6 18,10 13.5,10 12,5.5 10.5,10 6,10 9.7,12.6 8.3,17 "/></g>
 <g id="stars"><path d="M12,2C6.5,2,2,6.5,2,12s4.5,10,10,10c5.5,0,10-4.5,10-10S17.5,2,12,2z M16.2,18L12,15.4L7.8,18l1.1-4.8L5.2,10l4.9-0.4L12,5l1.9,4.5l4.9,0.4l-3.7,3.2L16.2,18z"/></g>
 <g id="store"><path d="M20,4H4v2h16V4z M21,14v-2l-1-5H4l-1,5v2h1v6h10v-6h4v6h2v-6H21z M12,18H6v-4h6V18z"/></g>
 <g id="subject"><path d="M14,17H4v2h10V17z M20,9H4v2h16V9z M4,15h16v-2H4V15z M4,5v2h16V5H4z"/></g>
@@ -3049,9 +3179,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <g id="toc"><path d="M3,9h14V7H3V9z M3,13h14v-2H3V13z M3,17h14v-2H3V17z M19,17h2v-2h-2V17z M19,7v2h2V7H19z M19,13h2v-2h-2V13z"/></g>
 <g id="today"><path d="M19,3h-1V1h-2v2H8V1H6v2H5C3.9,3,3,3.9,3,5l0,14c0,1.1,0.9,2,2,2h14c1.1,0,2-0.9,2-2V5C21,3.9,20.1,3,19,3z M19,19H5V8h14V19z"/><rect x="7" y="10" width="5" height="5"/></g>
 <g id="translate"><path d="M12.9,15.1l-2.5-2.5l0,0c1.7-1.9,3-4.2,3.7-6.5H17V4h-7V2H8v2H1v2l11.2,0c-0.7,1.9-1.7,3.8-3.2,5.4c-0.9-1-1.7-2.2-2.3-3.4h-2c0.7,1.6,1.7,3.2,3,4.6l-5.1,5L4,19l5-5l3.1,3.1L12.9,15.1z M18.5,10h-2L12,22h2l1.1-3h4.8l1.1,3h2L18.5,10z M15.9,17l1.6-4.3l1.6,4.3H15.9z"/></g>
-<g id="trending-down"><polygon points="16,18 18.3,15.7 13.4,10.8 9.4,14.8 2,7.4 3.4,6 9.4,12 13.4,8 19.7,14.3 22,12 22,18 "></polygon></g>
-<g id="trending-neutral"><polygon points="22,12 18,8 18,11 3,11 3,13 18,13 18,16 "></polygon></g>
-<g id="trending-up"><polygon points="16,6 18.3,8.3 13.4,13.2 9.4,9.2 2,16.6 3.4,18 9.4,12 13.4,16 19.7,9.7 22,12 22,6 "></polygon></g>
+<g id="trending-down"><polygon points="16,18 18.3,15.7 13.4,10.8 9.4,14.8 2,7.4 3.4,6 9.4,12 13.4,8 19.7,14.3 22,12 22,18 "/></g>
+<g id="trending-neutral"><polygon points="22,12 18,8 18,11 3,11 3,13 18,13 18,16 "/></g>
+<g id="trending-up"><polygon points="16,6 18.3,8.3 13.4,13.2 9.4,9.2 2,16.6 3.4,18 9.4,12 13.4,16 19.7,9.7 22,12 22,6 "/></g>
 <g id="turned-in"><path d="M17,3H7C5.9,3,5,3.9,5,5l0,16l7-3l7,3V5C19,3.9,18.1,3,17,3z"/></g>
 <g id="turned-in-not"><path d="M17,3H7C5.9,3,5,3.9,5,5l0,16l7-3l7,3V5C19,3.9,18.1,3,17,3z M17,18l-5-2.2L7,18V5h10V18z"/></g>
 <g id="undo"><path d="M12,5V1.5l-5,5l5,5V7c3.3,0,6,2.7,6,6s-2.7,6-6,6c-3.3,0-6-2.7-6-6H4c0,4.4,3.6,8,8,8c4.4,0,8-3.6,8-8S16.4,5,12,5z"/></g>
@@ -3241,7 +3371,7 @@ core-icon {
 
     </div>
     
-    <core-header-panel main="" mode="{{mode}}">
+    <core-header-panel id="headerPanel" main="" mode="{{mode}}">
 
       <core-toolbar>
         <core-icon-button id="menuButton" icon="menu" on-tap="{{togglePanel}}"></core-icon-button>
@@ -3258,6 +3388,24 @@ core-icon {
 <script>
 
   Polymer('core-scaffold', {
+    
+    /**
+     * Fired when the main content has been scrolled.  `event.detail.target` returns
+     * the scrollable element which you can use to access scroll info such as
+     * `scrollTop`.
+     *
+     *     <core-scaffold on-scroll="{{scrollHandler}}">
+     *       ...
+     *     </core-scaffold>
+     *
+     *
+     *     scrollHandler: function(event) {
+     *       var scroller = event.detail.target;
+     *       console.log(scroller.scrollTop);
+     *     }
+     *
+     * @event scroll
+     */
     
     publish: {
       /**
@@ -3279,6 +3427,15 @@ core-icon {
        * @default 'seamed'
        */     
       mode: {value: 'seamed', reflect: true}
+    },
+    
+    ready: function() {
+      this._scrollHandler = this.scroll.bind(this);
+      this.$.headerPanel.addEventListener('scroll', this._scrollHandler);
+    },
+    
+    detached: function() {
+      this.$.headerPanel.removeEventListener('scroll', this._scrollHandler);
     },
 
     /**
@@ -3303,6 +3460,10 @@ core-icon {
       */     
     closeDrawer: function() {
       this.$.drawerPanel.closeDrawer();
+    },
+    
+    scroll: function(e) {
+      this.fire('scroll', {target: e.detail.target}, this, false);
     }
     
   });
@@ -3372,7 +3533,10 @@ The `core-select` event signals selection change.
 
 
 
-<style shim-shadowdom="">/*
+<polymer-element name="core-menu" extends="core-selector" assetpath="components/core-menu/">
+<template>
+
+  <style>/*
 Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
 This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
 The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
@@ -3381,18 +3545,21 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-html /deep/ core-menu {
+:host {
   display: block;
   margin: 12px;
 }
 
-polyfill-next-selector { content: 'core-menu > core-item'; }
-html /deep/ core-menu::shadow ::content > core-item {
+polyfill-next-selector { content: ':host > core-item'; }
+::content > core-item {
   cursor: default;
 }
 </style>
-
-<polymer-element name="core-menu" extends="core-selector" assetpath="components/core-menu/"><script>Polymer('core-menu');</script></polymer-element>
+  
+  <shadow></shadow>
+  
+</template>
+<script>Polymer('core-menu');</script></polymer-element>
 </div>
 <div hidden><!--
 Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
@@ -3426,7 +3593,9 @@ Example:
 
 
 
-<style shim-shadowdom="">/*
+<polymer-element name="core-item" attributes="label icon src" horizontal="" center="" layout="" assetpath="components/core-item/">
+<template>
+  <style>/*
 Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
 This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
 The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
@@ -3435,32 +3604,33 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 */
 
-html /deep/ core-item {
+:host {
   display: block;
   position: relative;
   min-height: 40px;
   white-space: nowrap;
 }
 
-html /deep/ core-item.font-scalable {
+:host(.font-scalable) {
   min-height: 2.5em;
 }
 
-html /deep/ core-item.core-selected {
+:host(.core-selected) {
   font-weight: bold;
 }
 
-html /deep/ core-item::shadow core-icon {
+#icon {
   margin: 0 16px 0 4px;
 }
 
-html /deep/ core-item.font-scalable::shadow core-icon {
+:host(.font-scalable) #icon {
   margin: 0 1em 0 0.25em;
   height: 1.5em;
   width: 1.5em;
 }
 
-html /deep/ core-item::shadow ::content > a {
+polyfill-next-selector { content: ':host > a'; }
+::content > a {
   position: absolute;
   top: 0;
   right: 0;
@@ -3471,14 +3641,11 @@ html /deep/ core-item::shadow ::content > a {
   background-color: rgba(0, 0, 0, 0.000001);
 }
 </style>
-
-<polymer-element name="core-item" attributes="label icon src" horizontal="" center="" layout="" assetpath="components/core-item/">
-<template>
-
-  <core-icon src="{{src}}" icon="{{icon}}" hidden?="{{!src &amp;&amp; !icon}}"></core-icon>
+  <template if="{{icon || src}}">
+    <core-icon src="{{src}}" id="icon" icon="{{icon}}" hidden?="{{!src &amp;&amp; !icon}}"></core-icon>
+  </template>
   <div id="label">{{label}}</div>
   <content></content>
-  
 </template>
 <script>
 
@@ -3539,13 +3706,19 @@ content.
 <b>Example</b> - positioning the tooltip to the right:
 
     <core-tooltip label="I'm a tooltip to the right" position="right">
-      <polymer-ui-icon-button icon="drawer"></polymer-ui-icon-button>
+      <core-icon-button icon="drawer"></core-icon-button>
     </core-tooltip>
 
 <b>Example</b> - no arrow and showing by default:
 
     <core-tooltip label="Tooltip with no arrow and always on" noarrow show>
       <img src="image.jpg">
+    </core-tooltip>
+
+<b>Example</b> - disable the tooltip.
+
+    <core-tooltip label="Disabled label never shows" disabled>
+      ...
     </core-tooltip>
 
 <b>Example</b> - rich tooltip using the `tip` attribute:
@@ -3557,11 +3730,168 @@ content.
       </div>
     </core-tooltip>
 
+By default, the `tip` attribute specifies the HTML content for a rich tooltip.
+You can customize this attribute with the `tipAttribute` attribute:
+
+    <core-tooltip tipAttribute="htmltooltip">
+      <div>Example of a rich information tooltip</div>
+      <div htmltooltip>
+        ...
+      </div>
+    </core-tooltip>
+
 @group Polymer Core Elements
 @element core-tooltip
-@homepage http://polymer.github.io/core-tooltip
+@extends paper-focusable
+@homepage http://www.polymer-project.org/components/core-tooltip/index.html
 -->
 
+
+<!--
+Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<!--
+/**
+ * @group Paper Elements
+ *
+ * paper-focusable is a base class for paper elements that can be focused.
+ *
+ * @element paper-focusable
+ * @status beta
+ * @homepage github.io
+ */
+-->
+
+
+
+<polymer-element name="paper-focusable" attributes="active focused disabled isToggle" tabindex="0" on-down="{{downAction}}" on-up="{{upAction}}" on-focus="{{focusAction}}" on-blur="{{blurAction}}" on-contextmenu="{{contextMenuAction}}" assetpath="components/paper-focusable/">
+
+  <template>
+    <style>
+      :host([disabled]) {
+        pointer-events: none;
+      }
+    </style>
+    <content></content>
+  </template>
+
+  <script>
+    Polymer('paper-focusable', {
+
+      publish: {
+
+        /**
+         * If true, the button is currently active either because the
+         * user is holding down the button, or the button is a toggle
+         * and is currently in the active state.
+         *
+         * @attribute active
+         * @type boolean
+         * @default false
+         */
+        active: {value: false, reflect: true},
+
+        /**
+         * If true, the element currently has focus due to keyboard
+         * navigation.
+         *
+         * @attribute focused
+         * @type boolean
+         * @default false
+         */
+        focused: {value: false, reflect: true},
+
+        /**
+         * If true, the user is currently holding down the button.
+         *
+         * @attribute pressed
+         * @type boolean
+         * @default false
+         */
+        pressed: {value: false, reflect: true},
+
+        /**
+         * If true, the user cannot interact with this element.
+         *
+         * @attribute disabled
+         * @type boolean
+         * @default false
+         */
+        disabled: {value: false, reflect: true},
+
+        /**
+         * If true, the button toggles the active state with each tap.
+         * Otherwise, the button becomes active when the user is holding
+         * it down.
+         *
+         * @attribute isToggle
+         * @type boolean
+         * @default false
+         */
+        isToggle: {value: false, reflect: false}
+
+      },
+
+      disabledChanged: function() {
+        if (this.disabled) {
+          this.removeAttribute('tabindex');
+        } else {
+          this.setAttribute('tabindex', 0);
+        }
+      },
+
+      downAction: function() {
+        this.pressed = true;
+
+        if (this.isToggle) {
+          this.active = !this.active;
+        } else {
+          this.active = true;
+        }
+      },
+
+      // Pulling up the context menu for an item should focus it; but we need to
+      // be careful about how we deal with down/up events surrounding context
+      // menus. The up event typically does not fire until the context menu
+      // closes: so we focus immediately.
+      //
+      // This fires _after_ downAction.
+      contextMenuAction: function(e) {
+        // Note that upAction may fire _again_ on the actual up event.
+        this.upAction(e);
+        this.focusAction();
+      },
+
+      upAction: function() {
+        this.pressed = false;
+
+        if (!this.isToggle) {
+          this.active = false;
+        }
+      },
+
+      focusAction: function() {
+        if (!this.pressed) {
+          // Only render the "focused" state if the element gains focus due to
+          // keyboard navigation.
+          this.focused = true;
+        }
+      },
+
+      blurAction: function() {
+        this.focused = false;
+      }
+
+    });
+
+  </script>
+</polymer-element>
 
 
 <!-- TODO: would be nice to inherit from label to get .htmlFor, and .control,
@@ -3570,7 +3900,7 @@ content.
 <!-- TODO: detect mobile and apply the .large class, instead of manual
            control. -->
 <!-- TODO: possibly reuse core-overlay. -->
-<polymer-element name="core-tooltip" attributes="noarrow position label show" tabindex="0" assetpath="components/core-tooltip/">
+<polymer-element name="core-tooltip" extends="paper-focusable" attributes="noarrow position label show tipAttribute" role="tooltip" assetpath="components/core-tooltip/">
 <template>
 
   <style>/* Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
@@ -3584,21 +3914,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   box-sizing: border-box;
   position: relative;
   display: inline-block;
+  outline: none;
 }
 
-:host(:hover) .polymer-tooltip {
+:host(:hover:not([disabled])) .core-tooltip {
   visibility: visible !important;
 }
 
-:host(:focus) .polymer-tooltip {
+:host([focused]) .core-tooltip {
   visibility: visible !important;
 }
 
-.polymer-tooltip:not(.show) {
+.core-tooltip:not(.show) {
   visibility: hidden;
 }
 
-.polymer-tooltip {
+.core-tooltip {
   position: absolute;
   font-size: 10px;
   font-family: sans-serif;
@@ -3614,17 +3945,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   user-select: none;
 }
 
-:host([large]) .polymer-tooltip {
+:host([large]) .core-tooltip {
   line-height: 14px;
   font-size: 14px;
   padding: 16px;
 }
 
-.polymer-tooltip.noarrow::after {
+.core-tooltip.noarrow::after {
   display: none;
 }
 
-.polymer-tooltip::after {
+.core-tooltip::after {
   position: absolute;
   border: solid transparent;
   content: '';
@@ -3653,33 +3984,32 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   right: 100%;
 }
 
-.polymer-tooltip.bottom::after {
+.core-tooltip.bottom::after {
   bottom: 100%;
   left: calc(50% - 4px);
   border-bottom-color: rgba(0,0,0,0.8);
 }
 
-.polymer-tooltip.left::after {
+.core-tooltip.left::after {
   left: 100%;
   top: calc(50% - 4px);
   border-left-color: rgba(0,0,0,0.8);
 }
 
-.polymer-tooltip.top::after {
+.core-tooltip.top::after {
   top: 100%;
   left: calc(50% - 4px);
   border-top-color: rgba(0,0,0,0.8);
 }
 
-.polymer-tooltip.right::after {
+.core-tooltip.right::after {
   right: 100%;
   top: calc(50% - 4px);
   border-right-color: rgba(0,0,0,0.8);
 }
 </style>
-
-  <div id="tooltip" class="polymer-tooltip {{position}} {{ {noarrow: noarrow, show: show} | tokenList}}" layout="" horizontal="" center="">
-    <content select="[tip]">{{label}}</content>
+  <div id="tooltip" hidden?="{{!hasTooltipContent}}" class="core-tooltip {{position}} {{ {noarrow: noarrow, show: show &amp;&amp; !disabled} | tokenList}}">
+    <content id="c" select="[{{tipAttribute}}]">{{label}}</content>
   </div>
 
   <content></content>
@@ -3687,11 +4017,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 </template>
 <script>
 
-  Polymer('core-tooltip', {
+  Polymer('core-tooltip',{
 
     /**
      * A simple string label for the tooltip to display. To display a rich
-     * that includes HTML, use the `tip` attribute on the content.
+     * HTML tooltip instead, omit `label` and include the `tip` attribute
+     * on a child node of `core-tooltip`.
      *
      * @attribute label
      * @type string
@@ -3699,59 +4030,95 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
      */
     label: null,
 
-    /**
-     * If true, the tooltip an arrow pointing towards the content.
-     *
-     * @attribute noarrow
-     * @type boolean
-     * @default false
-     */
-    noarrow: false,
+    computed: {
+      // Indicates whether the tooltip has a set label propety or
+      // an element with the `tip` attribute.
+      hasTooltipContent: 'label || !!tipElement'
+    },
+
+    publish: {
+      /**
+       * Forces the tooltip to display. If `disabled` is set, this property is ignored.
+       *
+       * @attribute show
+       * @type boolean
+       * @default false
+       */
+      show: {value: false, reflect: true},
+
+      /**
+       * Positions the tooltip to the top, right, bottom, left of its content.
+       *
+       * @attribute position
+       * @type string
+       * @default 'bottom'
+       */
+      position: {value: 'bottom', reflect: true},
+
+      /**
+       * If true, the tooltip an arrow pointing towards the content.
+       *
+       * @attribute noarrow
+       * @type boolean
+       * @default false
+       */
+      noarrow: {value: false, reflect: true}
+    },
 
     /**
-     * If true, the tooltip displays by default.
+     * Customizes the attribute used to specify which content
+     * is the rich HTML tooltip.
      *
-     * @attribute show
-     * @type boolean
-     * @default false
-     */
-    show: false,
-
-    /**
-     * Positions the tooltip to the top, right, bottom, left of its content.
-     *
-     * @attribute position
+     * @attribute tipAttribute
      * @type string
-     * @default 'bottom'
+     * @default 'tip'
      */
-    position: 'bottom',
+    tipAttribute: 'tip',
 
     attached: function() {
-      this.setPosition();
+      this.updatedChildren();
+    },
+
+    updatedChildren: function () {
+      this.tipElement = null;
+
+      for (var i = 0, el; el = this.$.c.getDistributedNodes()[i]; ++i) {
+        if (el.hasAttribute && el.hasAttribute('tip')) {
+          this.tipElement = el;
+          break;
+        }
+      }
+
+      // Job ensures we're not double calling setPosition() on DOM attach.
+      this.job('positionJob', this.setPosition);
+
+      // Monitor children to re-position tooltip when light dom changes.
+      this.onMutation(this, this.updatedChildren);
     },
 
     labelChanged: function(oldVal, newVal) {
-      // Run if we're not after attached().
-      if (oldVal) {
-        this.setPosition();
-      }
+      this.job('positionJob', this.setPosition);
+    },
+
+    positionChanged: function(oldVal, newVal) {
+      this.job('positionJob', this.setPosition);
     },
 
     setPosition: function() {
       var controlWidth = this.clientWidth;
       var controlHeight = this.clientHeight;
-
-      var styles = getComputedStyle(this.$.tooltip);
-      var toolTipWidth = parseFloat(styles.width);
-      var toolTipHeight = parseFloat(styles.height);
+      var toolTipWidth = this.$.tooltip.clientWidth;
+      var toolTipHeight = this.$.tooltip.clientHeight;
 
       switch (this.position) {
         case 'top':
         case 'bottom':
           this.$.tooltip.style.left = (controlWidth - toolTipWidth) / 2 + 'px';
+          this.$.tooltip.style.top = null;
           break;
         case 'left':
         case 'right':
+          this.$.tooltip.style.left = null;
           this.$.tooltip.style.top = (controlHeight - toolTipHeight) / 2 + 'px';
           break;
       }
@@ -4081,10 +4448,15 @@ presses the escape key. This behavior can be turned off via the
     </core-overlay>
 
 `core-overlay` will automatically size and position itself according to the 
-following rules. If the target's style.top and style.left are unset, the 
-target will be centered. The size of the target is constrained to be no larger
-than the window dimensions. The `margin` property specifies the extra amount
-of space that should be reserved around the overlay. This can be used to ensure
+following rules. The overlay's size is constrained such that it does not
+overflow the screen. This is done by setting maxHeight/maxWidth on the 
+`sizingTarget`. If the `sizingTarget` already has a setting for one of these
+properties, it will not be overridden. The overlay should
+be positioned via css or imperatively using the `core-overlay-position` event.
+If the overlay is not positioned vertically via setting `top` or `bottom`, it
+will be centered vertically. The same is true horizontally via a setting to 
+`left` or `right`. In addition, css `margin` can be used to provide some space
+around the overlay. This can be used to ensure
 that, for example, a drop shadow is always visible around the overlay.
 
 @group Core Elements
@@ -4107,6 +4479,20 @@ Fired when the `core-overlay` has completely opened.
 Fired when the `core-overlay` has completely closed.
 
 @event core-overlay-close-completed
+-->
+<!--
+Fired when the `core-overlay` needs to position itself. Optionally, implement
+in order to position an overlay via code. If the overlay was not otherwise
+positioned, it's important to indicate how the overlay has been positioned by
+setting the `dimensions.position` object. For example, if the overlay has been
+positioned via setting `right` and `top`, set dimensions.position to an
+object like this: `{v: 'top', h: 'right'}`.
+
+@event core-overlay-position
+@param {Object} detail
+@param {Object} detail.target the overlay target
+@param {Object} detail.sizingTarget the overlay sizing target
+@param {Object} detail.opened the opened state
 -->
 <style>
   .core-overlay-backdrop {
@@ -4199,6 +4585,16 @@ Fired when the `core-overlay` has completely closed.
       autoCloseDisabled: false,
 
       /**
+       * By default an overlay will focus its target or an element inside
+       * it with the `autoFocus` attribute. Disable this
+       * behavior by setting the `autoFocusDisabled` property to true.
+       * @attribute autoFocusDisabled
+       * @type boolean
+       * @default false
+       */
+      autoFocusDisabled: false,
+
+      /**
        * This property specifies an attribute on elements that should
        * close the overlay on tap. Should not set `closeSelector` if this
        * is set.
@@ -4219,18 +4615,6 @@ Fired when the `core-overlay` has completely closed.
        * @default ""
        */
       closeSelector: '',
-
-      /**
-       * A `core-overlay` target's size is constrained to the window size.
-       * The `margin` property specifies a pixel amount around the overlay 
-       * that will be reserved. It's useful for ensuring that, for example, 
-       * a shadow displayed outside the target will always be visible.
-       *
-       * @attribute margin
-       * @type number
-       * @default 0
-       */
-      margin: 0,
 
       /**
        * The transition property specifies a string which identifies a 
@@ -4305,6 +4689,7 @@ Fired when the `core-overlay` has completely closed.
         }
         this.addElementListenerList(this.target, this.targetListeners);
         this.target.style.display = 'none';
+        this.target.__overlaySetup = false;
       }
       if (old) {
         this.removeElementListenerList(old, this.targetListeners);
@@ -4319,11 +4704,24 @@ Fired when the `core-overlay` has completely closed.
       }
     },
 
+    transitionChanged: function(old) {
+      if (!this.target) {
+        return;
+      }
+      if (old) {
+        this.getTransition(old).teardown(this.target);
+      }
+      this.target.__overlaySetup = false;
+    },
+
     // NOTE: wait to call this until we're as sure as possible that target
     // is styled.
     ensureTargetSetup: function() {
       if (!this.target || this.target.__overlaySetup) {
         return;
+      }
+      if (!this.sizingTarget) {
+        this.sizingTarget = this.target;
       }
       this.target.__overlaySetup = true;
       this.target.style.display = '';
@@ -4331,29 +4729,25 @@ Fired when the `core-overlay` has completely closed.
       if (transition) {
         transition.setup(this.target);
       }
+      var style = this.target.style;
       var computed = getComputedStyle(this.target);
-      this.targetStyle = {
-        position: computed.position === 'static' ? 'fixed' :
-            computed.position
+      if (computed.position === 'static') {
+        style.position = 'fixed';
       }
-      if (!transition) {
-        this.target.style.position = this.targetStyle.position;
-        this.target.style.outline = 'none';
-      }
-      this.target.style.display = 'none';
+      style.outline = 'none';
+      style.display = 'none';
     },
 
     openedChanged: function() {
       this.transitioning = true;
       this.ensureTargetSetup();
       this.prepareRenderOpened();
-      // continue styling after delay so display state can change
-      // without aborting transitions
-      // note: we wait a full frame so that transition changes executed
-      // during measuring do not cause transition
+      // async here to allow overlay layer to become visible.
       this.async(function() {
         this.target.style.display = '';
-        this.async('renderOpened');
+        // force layout to ensure transitions will go
+        this.target.offsetWidth;
+        this.renderOpened();
       });
       this.fire('core-overlay-open', this.opened);
     },
@@ -4375,20 +4769,14 @@ Fired when the `core-overlay` has completely closed.
           'resizeHandler');
 
       if (this.opened) {
-        // TODO(sorvell): force SD Polyfill to render
-        forcePolyfillRender(this.target);
-        if (!this._shouldPosition) {
-          this.target.style.position = 'absolute';
-          var computed = getComputedStyle(this.target);
-          var t = (computed.top === 'auto' && computed.bottom === 'auto');
-          var l = (computed.left === 'auto' && computed.right === 'auto');
-          this.target.style.position = this.targetStyle.position;
-          this._shouldPosition = {top: t, left: l};
-        }
-        // if we are showing, then take care when measuring
-        this.prepareMeasure(this.target);
+        // force layout so SD Polyfill renders
+        this.target.offsetHeight;
+        this.discoverDimensions();
+        // if we are showing, then take care when positioning
+        this.preparePositioning();
+        this.positionTarget();
         this.updateTargetDimensions();
-        this.finishMeasure(this.target);
+        this.finishPositioning();
         if (this.layered) {
           this.layer.addElement(this.target);
           this.layer.opened = this.opened;
@@ -4457,20 +4845,49 @@ Fired when the `core-overlay` has completely closed.
       }
     },
 
-    prepareMeasure: function(target) {
-      target.style.transition = target.style.webkitTransition = 'none';
-      target.style.transform = target.style.webkitTransform = 'none';
-      target.style.display = '';
+    preparePositioning: function() {
+      this.target.style.transition = this.target.style.webkitTransition = 'none';
+      this.target.style.transform = this.target.style.webkitTransform = 'none';
+      this.target.style.display = '';
     },
 
-    finishMeasure: function(target) {
-      target.style.display = 'none';
-      target.style.transform = target.style.webkitTransform = '';
-      target.style.transition = target.style.webkitTransition = '';
+    discoverDimensions: function() {
+      if (this.dimensions) {
+        return;
+      }
+      var target = getComputedStyle(this.target);
+      var sizer = getComputedStyle(this.sizingTarget);
+      this.dimensions = {
+        position: {
+          v: target.top !== 'auto' ? 'top' : (target.bottom !== 'auto' ?
+            'bottom' : null),
+          h: target.left !== 'auto' ? 'left' : (target.right !== 'auto' ?
+            'right' : null),
+          css: target.position
+        },
+        size: {
+          v: sizer.maxHeight !== 'none',
+          h: sizer.maxWidth !== 'none'
+        },
+        margin: {
+          top: parseInt(target.marginTop) || 0,
+          right: parseInt(target.marginRight) || 0,
+          bottom: parseInt(target.marginBottom) || 0,
+          left: parseInt(target.marginLeft) || 0
+        }
+      };
     },
 
-    getTransition: function() {
-      return this.meta.byId(this.transition);
+    finishPositioning: function(target) {
+      this.target.style.display = 'none';
+      this.target.style.transform = this.target.style.webkitTransform = '';
+      // force layout to avoid application of transform
+      this.target.offsetWidth;
+      this.target.style.transition = this.target.style.webkitTransition = '';
+    },
+
+    getTransition: function(name) {
+      return this.meta.byId(name || this.transition);
     },
 
     getFocusNode: function() {
@@ -4480,7 +4897,9 @@ Fired when the `core-overlay` has completely closed.
     applyFocus: function() {
       var focusNode = this.getFocusNode();
       if (this.opened) {
-        focusNode.focus();
+        if (!this.autoFocusDisabled) {
+          focusNode.focus();
+        }
       } else {
         focusNode.blur();
         if (currentOverlay() == this) {
@@ -4491,49 +4910,74 @@ Fired when the `core-overlay` has completely closed.
       }
     },
 
-    updateTargetDimensions: function() {
-      this.positionTarget();
-      this.sizeTarget();
-      //
-      if (this.layered) {
-        var rect = this.target.getBoundingClientRect();
-        this.target.style.top = rect.top + 'px';
-        this.target.style.left = rect.left + 'px';
-        this.target.style.right = this.target.style.bottom = 'auto';
+    positionTarget: function() {
+      // fire positioning event
+      this.fire('core-overlay-position', {target: this.target,
+          sizingTarget: this.sizingTarget, opened: this.opened});
+      if (!this.dimensions.position.v) {
+        this.target.style.top = '0px';
       }
+      if (!this.dimensions.position.h) {
+        this.target.style.left = '0px';
+      }
+    },
+
+    updateTargetDimensions: function() {
+      this.sizeTarget();
+      this.repositionTarget();
     },
 
     sizeTarget: function() {
-      var sizer = this.sizingTarget || this.target;
-      var rect = sizer.getBoundingClientRect();
-      var mt = rect.top === this.margin ? this.margin : this.margin * 2;
-      var ml = rect.left === this.margin ? this.margin : this.margin * 2;
-      var h = window.innerHeight - rect.top - mt;
-      var w = window.innerWidth - rect.left - ml;
-      sizer.style.maxHeight = h + 'px';
-      sizer.style.maxWidth = w + 'px';
-      sizer.style.boxSizing = 'border-box';
+      this.sizingTarget.style.boxSizing = 'border-box';
+      var dims = this.dimensions;
+      var rect = this.target.getBoundingClientRect();
+      if (!dims.size.v) {
+        this.sizeDimension(rect, dims.position.v, 'top', 'bottom', 'Height');
+      }
+      if (!dims.size.h) {
+        this.sizeDimension(rect, dims.position.h, 'left', 'right', 'Width');
+      }
     },
 
-    positionTarget: function() {
-      // vertically and horizontally center if not positioned
-      if (this._shouldPosition.top) {
-        var t = Math.max((window.innerHeight - 
-            this.target.offsetHeight - this.margin*2) / 2, this.margin);
+    sizeDimension: function(rect, positionedBy, start, end, extent) {
+      var dims = this.dimensions;
+      var flip = (positionedBy === end);
+      var m = flip ? start : end;
+      var ws = window['inner' + extent];
+      var o = dims.margin[m] + (flip ? ws - rect[end] : 
+          rect[start]);
+      var offset = 'offset' + extent;
+      var o2 = this.target[offset] - this.sizingTarget[offset];
+      this.sizingTarget.style['max' + extent] = (ws - o - o2) + 'px';
+    },
+
+    // vertically and horizontally center if not positioned
+    repositionTarget: function() {
+      // only center if position fixed.      
+      if (this.dimensions.position.css !== 'fixed') {
+        return; 
+      }
+      if (!this.dimensions.position.v) {
+        var t = (window.innerHeight - this.target.offsetHeight) / 2;
+        t -= this.dimensions.margin.top;
         this.target.style.top = t + 'px';
       }
-      if (this._shouldPosition.left) {
-        var l = Math.max((window.innerWidth - 
-            this.target.offsetWidth - this.margin*2) / 2, this.margin);
+
+      if (!this.dimensions.position.h) {
+        var l = (window.innerWidth - this.target.offsetWidth) / 2;
+        l -= this.dimensions.margin.left;
         this.target.style.left = l + 'px';
       }
     },
 
     resetTargetDimensions: function() {
-      this.target.style.top = this.target.style.left = '';
-      this.target.style.right = this.target.style.bottom = '';
-      this.target.style.width = this.target.style.height = '';
-      this._shouldPosition = null;
+      if (!this.dimensions.size.v) {
+        this.sizingTarget.style.maxHeight = '';  
+      }
+      if (!this.dimensions.size.h) {
+        this.sizingTarget.style.maxWidth = '';  
+      }
+      this.dimensions = null;
     },
 
     tapHandler: function(e) {
@@ -4626,17 +5070,11 @@ Fired when the `core-overlay` has completely closed.
       if (!this[bound]) {
         this[bound] = function(e) {
           method.call(self, e);
-        }
+        };
       }
       return this[bound];
     },
   });
-
-  function forcePolyfillRender(target) {
-    if (window.ShadowDOMPolyfill) {
-      target.offsetHeight;
-    }
-  }
 
   // TODO(sorvell): This should be an element with private state so it can
   // be independent of overlay.
@@ -4731,18 +5169,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <!--
 
-`paper-dropdown` is a control where the user can choose from an array of
+`paper-dropdown-menu` is a control where the user can choose from an array of
 options in a drop-down menu. The currently selected option is displayed in
 the control.
 
 Example:
 
-    <paper-dropdown selected="Financier" valueattr="label">
+    <paper-dropdown-menu selected="Financier" valueattr="label">
         <paper-item label="Croissant"></paper-item>
         <paper-item label="Donut"></paper-item>
         <paper-item label="Financier"></paper-item>
         <paper-item label="Madeleine"></paper-item>
-    </core-dropdown>
+    </paper-dropdown-menu>
 
 This example renders a drop-down menu with 4 options, with the option
 `Financier` pre-selected.
@@ -4750,17 +5188,17 @@ This example renders a drop-down menu with 4 options, with the option
 Theming
 -------
 
-Style the drop-down menu with the `paper-dropdown::shadow #menu` selector.
+Style the drop-down menu with the `paper-dropdown-menu::shadow #menu` selector.
 
 Example:
 
-    paper-dropdown::shadow #menu {
+    paper-dropdown-menu::shadow #dropdown {
         background-color: #eee;
         border: 1px solid #ccc;
     }
 
 @group Paper Elements
-@element paper-dropdown
+@element paper-dropdown-menu
 @status beta
 @homepage github.io
 -->
@@ -4777,7 +5215,6 @@ contains the selection state.
 -->
 
 
-
 <!--
 Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
 This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
@@ -4789,37 +5226,65 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <!--
 
-`core-popup-menu` is a popup menu that can be positioned relative to another
-element, usually the element that opens or closes the menu. It can be used
-to implement drop-downs, menu buttons, etc..
+`core-dropdown` is an element that is initially hidden and is positioned relatively to another
+element, usually the element that triggers the dropdown. The dropdown and the triggering element
+should be children of the same offsetParent, e.g. the same `<div>` with `position: relative`.
+It can be used to implement dropdown menus, menu buttons, etc..
 
 Example:
 
     <template is="auto-binding">
-        <div id="control">Your favorite pastry:</div>
-        <core-popup-menu relatedTarget="{{$.control}}" on-core-select="{{selectAction}}">
-          <core-item label="Churro"></core-item>
-          <core-item label="Donut"></core-item>
-          <core-item label="Macaron"></core-item>
-        </core-popup-menu>
+      <div relative>
+        <core-icon-button id="trigger" icon="menu"></core-icon-button>
+        <core-dropdown relatedTarget="{{$.trigger}}">
+          <core-menu>
+            <core-item>Cut</core-item>
+            <core-item>Copy</core-item>
+            <core-item>Paste</core-item>
+          </core-menu>
+        </core-dropdown>
+      </div>
+    </template>
+
+Positioning
+-----------
+
+By default, the dropdown is absolutely positioned on top of the `relatedTarget` with the top and
+left edges aligned. The `halign` and `valign` properties controls the various alignments. The size
+of the dropdown is automatically restrained such that it is entirely visible on the screen. Use the
+`margin`
+
+If you need more control over the dropdown's position, use CSS. The `halign` and `valign` properties are
+ignored if the dropdown is positioned with CSS.
+
+Example:
+
+    <style>
+      /* manually position the dropdown below the trigger */
+      core-dropdown {
+        position: absolute;
+        top: 38px;
+        left: 0;
+      }
+    </style>
+
+    <template is="auto-binding">
+      <div relative>
+        <core-icon-button id="trigger" icon="menu"></core-icon-button>
+        <core-dropdown relatedTarget="{{$.trigger}}">
+          <core-menu>
+            <core-item>Cut</core-item>
+            <core-item>Copy</core-item>
+            <core-item>Paste</core-item>
+          </core-menu>
+        </core-dropdown>
+      </div>
     </template>
 
 @group Polymer Core Elements
-@element core-popup-menu
+@element core-dropdown
 @homepage github.io
 -->
-
-<!--
-Fired when an item's selection state is changed. This event is fired both
-when an item is selected or deselected. The `isSelected` detail property
-contains the selection state.
-
-@event core-select
-@param {Object} detail
-  @param {boolean} detail.isSelected true for selection and false for de-selection
-  @param {Object} detail.item the item element
--->
-
 
 
 <!--
@@ -4836,50 +5301,84 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <!--
 
-`core-popup-overlay` is a helper class to position an overlay relative to another
-element.
+`core-dropdown-overlay` is a helper class to position an overlay relative to another
+element within the same offsetParent.
 
 @group Polymer Core Elements
-@element core-popup-overlay
+@element core-dropdown-overlay
 @extends core-overlay
 @homepage github.io
 -->
 
-<polymer-element name="core-popup-overlay" extends="core-overlay" assetpath="components/core-popup-menu/">
+<polymer-element name="core-dropdown-overlay" extends="core-overlay" assetpath="components/core-dropdown/">
 <script>
-    Polymer('core-popup-overlay',{
+    Polymer('core-dropdown-overlay',{
 
       publish: {
 
         /**
-         * The `relatedTarget` is an element used to position the overlay, for example a
-         * button the user taps to show a menu.
+         * The `relatedTarget` is an element used to position the overlay. It should have
+         * the same offsetParent as the target.
          *
          * @attribute relatedTarget
-         * @type Element
+         * @type Node
          */
         relatedTarget: null,
 
         /**
          * The horizontal alignment of the overlay relative to the `relatedTarget`.
+         * `left` means the left edges are aligned together and `right` means the right
+         * edges are aligned together.
          *
          * @attribute halign
-         * @type 'left'|'right'|'auto'
+         * @type 'left' | 'right'
          * @default 'auto'
          */
-        halign: 'auto',
+        halign: 'left',
 
         /**
-         * The vertical alignment of the overlay relative to the `relatedTarget`.
+         * The vertical alignment of the overlay relative to the `relatedTarget`. `top`
+         * means the top edges are aligned together and `bottom` means the bottom edges
+         * are aligned together.
          *
          * @attribute valign
-         * @type 'top'|'bottom'|'auto'
-         * @default 'bottom'
+         * @type 'top' | 'bottom'
+         * @default 'top'
          */
-        valign: 'auto',
+        valign: 'top'
 
-        margin: 12
+      },
 
+      measure: function() {
+        var target = this.target;
+        // remember position, because core-overlay may have set the property
+        var pos = target.style.position;
+
+        // get the size of the target as if it's positioned in the top left
+        // corner of the screen
+        target.style.position = 'fixed';
+        target.style.left = '0px';
+        target.style.top = '0px';
+
+        var rect = target.getBoundingClientRect();
+
+        target.style.position = pos;
+        target.style.left = null;
+        target.style.top = null;
+
+        return rect;
+      },
+
+      resetTargetDimensions: function() {
+        var dims = this.dimensions;
+        var style = this.target.style;
+        if (dims.position.h_by === this.localName) {
+          style[dims.position.h] = null;
+        }
+        if (dims.position.v_by === this.localName) {
+          style[dims.position.v] = null;
+        }
+        this.super();
       },
 
       positionTarget: function() {
@@ -4888,46 +5387,54 @@ element.
           return;
         }
 
-        var top, left, bottom, right;
-        var ref = this.relatedTarget.getBoundingClientRect();
+        var target = this.target;
+        var related = this.relatedTarget;
 
-        if (this.halign === 'left') {
-          left = ref.left;
-        } else if (this.halign === 'right') {
-          right = window.innerWidth - ref.right;
-        } else if (this.halign === 'auto') {
-          if (ref.left + this.target.offsetWidth > window.innerWidth) {
-            right = window.innerWidth - ref.right;
-          } else {
-            left = ref.left;
-          }
+        // explicitly set width/height, because we don't want it constrained
+        // to the offsetParent
+        var rect = this.measure();
+        target.style.width = rect.width + 'px';
+        target.style.height = rect.height + 'px';
+
+        var t_op = target.offsetParent;
+        var r_op = related.offsetParent;
+        if (window.ShadowDOMPolyfill) {
+          t_op = wrap(t_op);
+          r_op = wrap(r_op);
         }
 
-        if (this.valign === 'top') {
-          bottom = window.innerHeight - ref.bottom;
-        } else if (this.valign === 'bottom') {
-          top = ref.top;
-        } else if (this.valign === 'auto') {
-          if (ref.top + this.target.offsetHeight > window.innerHeight && this.target.offsetHeight < window.innerHeight) {
-            bottom = window.innerHeight - ref.bottom;
-          } else {
-            top = ref.top;
-          }
+        if (t_op !== r_op && t_op !== related) {
+          console.warn('core-dropdown-overlay: dropdown\'s offsetParent must be the relatedTarget or the relatedTarget\'s offsetParent!');
         }
 
-        (top !== undefined) && (this.target.style.top = top + 'px');
-        (left !== undefined) && (this.target.style.left = left + 'px');
-        (bottom !== undefined) && (this.target.style.bottom = bottom + 'px');
-        (right !== undefined) && (this.target.style.right = right + 'px');
-      },
+        // Don't use CSS to handle halign/valign so we can use
+        // dimensions.position to detect custom positioning
 
-      sizeTarget: function() {
-        var rect = this.relatedTarget.getBoundingClientRect();
-        var sizer = this.sizingTarget || this.target;
+        var dims = this.dimensions;
+        var margin = dims.margin;
+        var inside = t_op === related;
 
-        sizer.style.minWidth = rect.width + 'px';
+        if (!dims.position.h) {
+          if (this.halign === 'right') {
+            target.style.right = ((inside ? 0 : t_op.offsetWidth - related.offsetLeft - related.offsetWidth) - margin.right) + 'px';
+            dims.position.h = 'right';
+          } else {
+            target.style.left = ((inside ? 0 : related.offsetLeft) - margin.left) + 'px';
+            dims.position.h = 'left';
+          }
+          dims.position.h_by = this.localName;
+        }
 
-        this.super();
+        if (!dims.position.v) {
+          if (this.valign === 'bottom') {
+            target.style.bottom = ((inside ? 0 : t_op.offsetHeight - related.offsetTop - related.offsetHeight) - margin.bottom) + 'px';
+            dims.position.v = 'bottom';
+          } else {
+            target.style.top = ((inside ? 0 : related.offsetTop) - margin.top) + 'px';
+            dims.position.v = 'top';
+          }
+          dims.position.v_by = this.localName;
+        }
       }
 
     });
@@ -4935,7 +5442,7 @@ element.
 </polymer-element>
 
 
-<polymer-element name="core-popup-menu" assetpath="components/core-popup-menu/">
+<polymer-element name="core-dropdown" assetpath="components/core-dropdown/">
 <template>
 
   <style>/*
@@ -4948,41 +5455,25 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 */
 
 :host {
-	display: block;
-	border-radius: 3px;
-	background-color: #fff;
-	color: #000;
-	max-height: inherit;
-}
-
-#menu {
-	max-height: inherit;
-	overflow: scroll;
-	-webkit-overflow-scrolling: touch;
-	margin: 0;
-}
-
-polyfill-next-selector { content: ':host > .core-selected'; }
-::content .core-selected {
-	background-color: #eee;
+  position: absolute;
+  overflow: auto;
+  background-color: #fff;
 }</style>
 
-  <core-popup-overlay id="overlay" target="{{}}" sizingtarget="{{$.menu}}" relatedtarget="{{relatedTarget}}" opened="{{opened}}" halign="{{halign}}" valign="{{valign}}" transition="{{transition}}"></core-popup-overlay>
+  <core-dropdown-overlay id="overlay" target="{{}}" relatedtarget="{{relatedTarget}}" opened="{{opened}}" halign="{{halign}}" valign="{{valign}}" margin="{{margin}}" transition="{{transition}}" autofocusdisabled="{{autoFocusDisabled}}"></core-dropdown-overlay>
 
-  <core-menu id="menu" selected="{{selected}}" valueattr="{{valueattr}}" selectedclass="{{selectedClass}}" selectedproperty="{{selectedProperty}}" selectedattribute="{{selectedAttribute}}" selecteditem="{{selectedItem}}" selectedmodel="{{selectedModel}}" selectedindex="{{selectedIndex}}" on-core-select="{{selectAction}}">
-    <content></content>
-  </core-menu>
+  <content></content>
 
 </template>
 <script>
 
-  Polymer('core-popup-menu',{
+  Polymer('core-dropdown',{
 
     publish: {
 
       /**
-       * The element associated with this menu, usually the element that
-       * causes the menu the open.
+       * The element associated with this dropdown, usually the element that triggers
+       * the menu.
        *
        * @attribute relatedTarget
        * @type Node
@@ -4999,22 +5490,37 @@ polyfill-next-selector { content: ':host > .core-selected'; }
       opened: false,
 
       /**
-       * The horizontal alignment of the pulldown menu relative to the button.
+       * The horizontal alignment of the popup relative to `relatedTarget`. `left`
+       * means the left edges are aligned together. `right` means the right edges
+       * are aligned together.
        *
        * @attribute halign
-       * @type 'left' | 'right' | 'auto'
-       * @default 'auto'
+       * @type 'left' | 'right'
+       * @default 'left'
        */
-      halign: { value: 'auto', reflect: true },
+      halign: 'left',
 
       /**
-       * The vertical alignment of the pulldown menu relative to the button.
+       * The vertical alignment of the popup relative to `relatedTarget`. `top` means
+       * the top edges are aligned together. `bottom` means the bottom edges are
+       * aligned together.
        *
        * @attribute valign
-       * @type 'bottom' | 'top' | 'auto'
-       * @default 'auto'
+       * @type 'top' | 'bottom'
+       * @default 'top'
        */
-      valign: { value: 'auto', reflect: true },
+      valign: 'top',
+
+     /**
+       * By default an overlay will focus its target or an element inside
+       * it with the `autoFocus` attribute. Disable this
+       * behavior by setting the `autoFocusDisabled` property to true.
+       *
+       * @attribute autoFocusDisabled
+       * @type boolean
+       * @default false
+       */
+      autoFocusDisabled: false,
 
       /**
        * The transition property specifies a string which identifies a 
@@ -5024,96 +5530,20 @@ polyfill-next-selector { content: ':host > .core-selected'; }
        *
        * @attribute transition
        * @type string
-       * @default 'core-transition-fade'
-       */
-      transition: null,
-
-      /**
-       * Gets or sets the selected element.  Default to use the index
-       * of the item element.
-       *
-       * @attribute selected
-       * @type Object
        * @default null
        */
-      selected: null,
+      transition: null
 
-      /**
-       * Specifies the attribute to be used for "selected" attribute.
-       *
-       * @attribute valueattr
-       * @type string
-       * @default 'name'
-       */
-      valueattr: 'name',
-
-      /**
-       * Specifies the CSS class to be used to add to the selected element.
-       * 
-       * @attribute selectedClass
-       * @type string
-       * @default 'core-selected'
-       */
-      selectedClass: 'core-selected',
-
-      /**
-       * Specifies the property to be used to set on the selected element
-       * to indicate its active state.
-       *
-       * @attribute selectedProperty
-       * @type string
-       * @default ''
-       */
-      selectedProperty: '',
-
-      /**
-       * Specifies the attribute to set on the selected element to indicate
-       * its active state.
-       *
-       * @attribute selectedAttribute
-       * @type string
-       * @default 'active'
-       */
-      selectedAttribute: 'active',
-
-      /**
-       * Returns the currently selected element.
-       * 
-       * @attribute selectedItem
-       * @type Object
-       * @default null
-       */
-      selectedItem: null,
-
-      /**
-       * In single selection, this returns the model associated with the
-       * selected element.
-       * 
-       * @attribute selectedModel
-       * @type Object
-       * @default null
-       */
-      selectedModel: null,
-
-      /**
-       * In single selection, this returns the selected index.
-       *
-       * @attribute selectedIndex
-       * @type number
-       * @default -1
-       */
-      selectedIndex: -1
-
-    },
-
-    selectAction: function() {
-      this.opened = false;
     }
 
   });
 
 </script>
 </polymer-element>
+
+
+
+
 
 <!--
 Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
@@ -5426,7 +5856,7 @@ root if there is one. This implies:
 </polymer-element>
 
 
-<polymer-element name="paper-dropdown" assetpath="components/paper-dropdown/">
+<polymer-element name="paper-dropdown-menu" assetpath="components/paper-dropdown-menu/">
 <template>
 
   <style>/*
@@ -5474,10 +5904,20 @@ core-icon {
   margin: 0.3em 0 0.2em 0.25em;
 }
 
-#menu::shadow #menu {
-  margin: 8px 0;
+#dropdown {
+  margin: 12px;
 }
-</style>
+
+#menu {
+  padding: 8px 0;
+  margin: 0;
+}
+
+.menu-container {
+  overflow: auto;
+  max-height: 100%;
+  max-width: 100%;
+}</style>
 
   <div id="control" layout="" horizontal="" selected?="{{selectedItem}}" on-tap="{{toggle}}">
     <div flex="">
@@ -5486,15 +5926,22 @@ core-icon {
     <core-icon id="arrow" icon="{{opened ? &apos;arrow-drop-up&apos; : &apos;arrow-drop-down&apos;}}"></core-icon>
   </div>
 
-  <core-popup-menu id="menu" relatedtarget="{{$.control}}" opened="{{opened}}" halign="{{halign}}" valign="{{valign}}" selected="{{selected}}" selecteditem="{{selectedItem}}" selectedclass="{{selectedClass}}" valueattr="{{valueattr}}" selectedproperty="{{selectedProperty}}" selectedattribute="{{selectedAttribute}}" on-core-select="{{selectAction}}">
-    <paper-shadow z="1" target="{{$.menu}}" hasposition=""></paper-shadow>
-    <content select="*"></content>
-  </core-popup-menu>
+  <core-dropdown id="dropdown" relatedtarget="{{$.control}}" opened="{{opened}}" halign="{{halign}}" valign="{{valign}}">
+
+    <paper-shadow z="1" target="{{$.dropdown}}" hasposition=""></paper-shadow>
+
+    <div class="menu-container">
+      <core-menu id="menu" selected="{{selected}}" selecteditem="{{selectedItem}}" selectedclass="{{selectedClass}}" valueattr="{{valueattr}}" selectedproperty="{{selectedProperty}}" selectedattribute="{{selectedAttribute}}" on-core-activate="{{activateAction}}">
+        <content></content>
+      </core-menu>
+    </div>
+
+  </core-dropdown>
 
 </template>
 <script>
 
-  Polymer('paper-dropdown',{
+  Polymer('paper-dropdown-menu',{
 
     publish: {
 
@@ -5580,15 +6027,15 @@ core-icon {
        * @type "left"|"right"
        * @default "left"
        */
-      halign: {value: 'left', reflect: true},
+      halign: 'left',
 
       /**
        * Vertically align the dropdown menu with the control.
        * @attribute valign
        * @type "top"|"bottom"
-       * @default "bottom"
+       * @default "top"
        */
-      valign: {value: 'bottom', reflect: true}
+      valign: 'top'
 
     },
 
@@ -5596,7 +6043,7 @@ core-icon {
       this.opened = !this.opened;
     },
 
-    selectAction: function() {
+    activateAction: function() {
       this.opened = false;
     }
 
@@ -5733,7 +6180,7 @@ Example:
     <paper-ripple></paper-ripple>
 
 `paper-ripple` listens to "down" and "up" events so it would display ripple
-effect when touches on it.  You can also defeat the default behavior and 
+effect when touches on it.  You can also defeat the default behavior and
 manually route the down and up actions to the ripple element.  Note that it is
 important if you call downAction() you will have to make sure to call upAction()
 so that `paper-ripple` would end the animation loop.
@@ -5783,9 +6230,15 @@ Apply `circle` class to make the rippling effect within a circle.
     :host {
       display: block;
       position: relative;
+      border-radius: inherit;
+      overflow: hidden;
     }
 
-    #canvas {
+    :host-context([noink]) {
+      pointer-events: none;
+    }
+
+    #bg, #waves, .wave-container, .wave {
       pointer-events: none;
       position: absolute;
       top: 0;
@@ -5794,11 +6247,32 @@ Apply `circle` class to make the rippling effect within a circle.
       height: 100%;
     }
 
-    :host(.circle) #canvas {
+    #bg, .wave {
+      opacity: 0;
+    }
+
+    #waves, .wave {
+      overflow: hidden;
+    }
+
+    .wave-container, .wave {
       border-radius: 50%;
     }
 
+    :host(.circle) #bg,
+    :host(.circle) #waves {
+      border-radius: 50%;
+    }
+
+    :host(.circle) .wave-container {
+      overflow: hidden;
+    }
+
   </style>
+
+  <div id="bg"></div>
+  <div id="waves">
+  </div>
 
 </template>
 <script>
@@ -5851,34 +6325,39 @@ Apply `circle` class to make the rippling effect within a circle.
     // Determines whether the wave should be completely removed.
     function waveDidFinish(wave, radius, anim) {
       var waveOpacity = waveOpacityFn(wave.tDown, wave.tUp, anim);
+
       // If the wave opacity is 0 and the radius exceeds the bounds
       // of the element, then this is finished.
-      if (waveOpacity < 0.01 && radius >= Math.min(wave.maxRadius, waveMaxRadius)) {
-        return true;
-      }
-      return false;
+      return waveOpacity < 0.01 && radius >= Math.min(wave.maxRadius, waveMaxRadius);
     };
 
     function waveAtMaximum(wave, radius, anim) {
       var waveOpacity = waveOpacityFn(wave.tDown, wave.tUp, anim);
-      if (waveOpacity >= anim.initialOpacity && radius >= Math.min(wave.maxRadius, waveMaxRadius)) {
-        return true;
-      }
-      return false;
+
+      return waveOpacity >= anim.initialOpacity && radius >= Math.min(wave.maxRadius, waveMaxRadius);
     }
 
     //
     // DRAWING
     //
-    function drawRipple(ctx, x, y, radius, innerColor, outerColor) {
-      if (outerColor) {
-        ctx.fillStyle = outerColor;
-        ctx.fillRect(0,0,ctx.canvas.width, ctx.canvas.height);
+    function drawRipple(ctx, x, y, radius, innerAlpha, outerAlpha) {
+      // Only animate opacity and transform
+      if (outerAlpha !== undefined) {
+        ctx.bg.style.opacity = outerAlpha;
       }
-      ctx.beginPath();
-      ctx.arc(x, y, radius, 0, 2 * Math.PI, false);
-      ctx.fillStyle = innerColor;
-      ctx.fill();
+      ctx.wave.style.opacity = innerAlpha;
+
+      var s = radius / (ctx.containerSize / 2);
+      var dx = x - (ctx.containerWidth / 2);
+      var dy = y - (ctx.containerHeight / 2);
+
+      ctx.wc.style.webkitTransform = 'translate3d(' + dx + 'px,' + dy + 'px,0)';
+      ctx.wc.style.transform = 'translate3d(' + dx + 'px,' + dy + 'px,0)';
+
+      // 2d transform for safari because of border-radius and overflow:hidden clipping bug.
+      // https://bugs.webkit.org/show_bug.cgi?id=98538
+      ctx.wave.style.webkitTransform = 'scale(' + s + ',' + s + ')';
+      ctx.wave.style.transform = 'scale3d(' + s + ',' + s + ',1)';
     }
 
     //
@@ -5888,7 +6367,23 @@ Apply `circle` class to make the rippling effect within a circle.
       var elementStyle = window.getComputedStyle(elem);
       var fgColor = elementStyle.color;
 
+      var inner = document.createElement('div');
+      inner.style.backgroundColor = fgColor;
+      inner.classList.add('wave');
+
+      var outer = document.createElement('div');
+      outer.classList.add('wave-container');
+      outer.appendChild(inner);
+
+      var container = elem.$.waves;
+      container.appendChild(outer);
+
+      elem.$.bg.style.backgroundColor = fgColor;
+
       var wave = {
+        bg: elem.$.bg,
+        wc: outer,
+        wave: inner,
         waveColor: fgColor,
         maxRadius: 0,
         isMouseDown: false,
@@ -5904,6 +6399,8 @@ Apply `circle` class to make the rippling effect within a circle.
       if (scope.waves) {
         var pos = scope.waves.indexOf(wave);
         scope.waves.splice(pos, 1);
+        // FIXME cache nodes
+        wave.wc.remove();
       }
     };
 
@@ -5965,37 +6462,12 @@ Apply `circle` class to make the rippling effect within a circle.
         up: 'upAction'
       },
 
-      attached: function() {
-        // create the canvas element manually becase ios
-        // does not render the canvas element if it is not created in the
-        // main document (component templates are created in a
-        // different document). See:
-        // https://bugs.webkit.org/show_bug.cgi?id=109073.
-        if (!this.$.canvas) {
-          var canvas = document.createElement('canvas');
-          canvas.id = 'canvas';
-          this.shadowRoot.appendChild(canvas);
-          this.$.canvas = canvas;
-        }
-      },
-
       ready: function() {
         this.waves = [];
       },
 
-      setupCanvas: function() {
-        this.$.canvas.setAttribute('width', this.$.canvas.clientWidth * this.pixelDensity + "px");
-        this.$.canvas.setAttribute('height', this.$.canvas.clientHeight * this.pixelDensity + "px");
-        var ctx = this.$.canvas.getContext('2d');
-        ctx.scale(this.pixelDensity, this.pixelDensity);
-        if (!this._loop) {
-          this._loop = this.animate.bind(this, ctx);
-        }
-      },
-
       downAction: function(e) {
-        this.setupCanvas();
-        var wave = createWave(this.$.canvas);
+        var wave = createWave(this);
 
         this.cancelled = false;
         wave.isMouseDown = true;
@@ -6004,9 +6476,9 @@ Apply `circle` class to make the rippling effect within a circle.
         wave.mouseUpStart = 0.0;
         wave.mouseDownStart = now();
 
-        var width = this.$.canvas.width / 2; // Retina canvas
-        var height = this.$.canvas.height / 2;
         var rect = this.getBoundingClientRect();
+        var width = rect.width;
+        var height = rect.height;
         var touchX = e.x - rect.left;
         var touchY = e.y - rect.top;
 
@@ -6017,9 +6489,26 @@ Apply `circle` class to make the rippling effect within a circle.
           wave.slideDistance = dist(wave.startPosition, wave.endPosition);
         }
         wave.containerSize = Math.max(width, height);
+        wave.containerWidth = width;
+        wave.containerHeight = height;
         wave.maxRadius = distanceFromPointToFurthestCorner(wave.startPosition, {w: width, h: height});
+
+        // The wave is circular so constrain its container to 1:1
+        wave.wc.style.top = (wave.containerHeight - wave.containerSize) / 2 + 'px';
+        wave.wc.style.left = (wave.containerWidth - wave.containerSize) / 2 + 'px';
+        wave.wc.style.width = wave.containerSize + 'px';
+        wave.wc.style.height = wave.containerSize + 'px';
+
         this.waves.push(wave);
-        requestAnimationFrame(this._loop);
+
+        if (!this._loop) {
+          this._loop = this.animate.bind(this, {
+            width: width,
+            height: height
+          });
+          requestAnimationFrame(this._loop);
+        }
+        // else there is already a rAF
       },
 
       upAction: function() {
@@ -6044,9 +6533,6 @@ Apply `circle` class to make the rippling effect within a circle.
       animate: function(ctx) {
         var shouldRenderNextFrame = false;
 
-        // Clear the canvas
-        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-
         var deleteTheseWaves = [];
         // The oldest wave's touch down duration
         var longestTouchDownDuration = 0;
@@ -6057,8 +6543,8 @@ Apply `circle` class to make the rippling effect within a circle.
         var anim = {
           initialOpacity: this.initialOpacity,
           opacityDecayVelocity: this.opacityDecayVelocity,
-          height: ctx.canvas.height,
-          width: ctx.canvas.width
+          height: ctx.height,
+          width: ctx.width
         }
 
         for (var i = 0; i < this.waves.length; i++) {
@@ -6090,7 +6576,7 @@ Apply `circle` class to make the rippling effect within a circle.
           // Ripple gravitational pull to the center of the canvas.
           if (wave.endPosition) {
 
-            // This translates from the origin to the center of the view  based on the max dimension of  
+            // This translates from the origin to the center of the view  based on the max dimension of
             var translateFraction = Math.min(1, radius / wave.containerSize * 2 / Math.sqrt(2) );
 
             x += translateFraction * (wave.endPosition.x - wave.startPosition.x);
@@ -6105,13 +6591,14 @@ Apply `circle` class to make the rippling effect within a circle.
           }
 
           // Draw the ripple.
-          drawRipple(ctx, x, y, radius, waveColor, bgFillColor);
+          drawRipple(wave, x, y, radius, waveAlpha, bgFillAlpha);
 
           // Determine whether there is any more rendering to be done.
           var maximumWave = waveAtMaximum(wave, radius, anim);
           var waveDissipated = waveDidFinish(wave, radius, anim);
           var shouldKeepWave = !waveDissipated || maximumWave;
-          var shouldRenderWaveAgain = !waveDissipated && !maximumWave;
+          // keep rendering dissipating wave when at maximum radius on upAction
+          var shouldRenderWaveAgain = wave.mouseUpStart ? !waveDissipated : !maximumWave;
           shouldRenderNextFrame = shouldRenderNextFrame || shouldRenderWaveAgain;
           if (!shouldKeepWave || this.cancelled) {
             deleteTheseWaves.push(wave);
@@ -6127,11 +6614,11 @@ Apply `circle` class to make the rippling effect within a circle.
           removeWaveFromScope(this, wave);
         }
 
-        if (!this.waves.length) {
-          // If there is nothing to draw, clear any drawn waves now because
-          // we're not going to get another requestAnimationFrame any more.
-          ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+        if (!this.waves.length && this._loop) {
+          // clear the background color
+          this.$.bg.style.backgroundColor = null;
           this._loop = null;
+          this.fire('core-transitionend');
         }
       }
 
@@ -6139,6 +6626,337 @@ Apply `circle` class to make the rippling effect within a circle.
 
   })();
 
+</script>
+</polymer-element>
+
+<!--
+    @license
+    Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
+    This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+    The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+    The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+    Code distributed by Google as part of the polymer project is also
+    subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<!--
+`core-a11y-keys` provides a normalized interface for processing keyboard commands that pertain to [WAI-ARIA best
+practices](http://www.w3.org/TR/wai-aria-practices/#kbd_general_binding). The element takes care of browser differences
+with respect to Keyboard events and uses an expressive syntax to filter key presses.
+
+Use the `keys` attribute to express what combination of keys will trigger the event to fire.
+
+Use the `target` attribute to set up event handlers on a specific node.
+The `keys-pressed` event will fire when one of the key combinations set with the `keys` attribute is pressed.
+
+Example:
+
+This element will call `arrowHandler` on all arrow keys:
+
+    <core-a11y-keys target="{{}}" keys="up down left right" on-keys-pressed="{{arrowHandler}}"></core-a11y-keys>
+
+Keys Syntax:
+
+The `keys` attribute can accepts a space seprated, `+` concatenated set of modifier keys and some common keyboard keys.
+
+The common keys are `a-z`, `0-9` (top row and number pad), `*` (shift 8 and number pad), `F1-F12`, `Page Up`, `Page
+Down`, `Left Arrow`, `Right Arrow`, `Down Arrow`, `Up Arrow`, `Home`, `End`, `Escape`, `Space`, `Tab`, and `Enter` keys.
+
+The modifier keys are `Shift`, `Control`, and `Alt`.
+
+All keys are expected to be lowercase and shortened:
+`Left Arrow` is `left`, `Page Down` is `pagedown`, `Control` is `ctrl`, `F1` is `f1`, `Escape` is `esc` etc.
+
+Keys Syntax Example:
+
+Given the `keys` attribute value "ctrl+shift+f7 up pagedown esc space alt+m", the `<core-a11y-keys>` element will send
+the `keys-pressed` event if any of the follow key combos are pressed: Control and Shift and F7 keys, Up Arrow key, Page
+Down key, Escape key, Space key, Alt and M key.
+
+Slider Example:
+
+The following is an example of the set of keys that fulfil the WAI-ARIA "slider" role [best
+practices](http://www.w3.org/TR/wai-aria-practices/#slider):
+
+    <core-a11y-keys target="{{}}" keys="left pagedown down" on-keys-pressed="{{decrement}}"></core-a11y-keys>
+    <core-a11y-keys target="{{}}" keys="right pageup up" on-keys-pressed="{{increment}}"></core-a11y-keys>
+    <core-a11y-keys target="{{}}" keys="home" on-keys-pressed="{{setMin}}"></core-a11y-keys>
+    <core-a11y-keys target="{{}}" keys="end" on-keys-pressed="{{setMax}}"></core-a11y-keys>
+
+The `increment` function will move the slider a set amount toward the maximum value.
+The `decrement` function will move the slider a set amount toward the minimum value.
+The `setMin` function will move the slider to the minimum value.
+The `setMax` function will move the slider to the maximum value.
+
+Keys Syntax Grammar:
+
+[EBNF](http://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_Form) Grammar of the `keys` attribute.
+
+    modifier = "shift" | "ctrl" | "alt";
+    ascii = ? /[a-z0-9]/ ? ;
+    fnkey = ? f1 through f12 ? ;
+    arrow = "up" | "down" | "left" | "right" ;
+    key = "tab" | "esc" | "space" | "*" | "pageup" | "pagedown" | "home" | "end" | arrow | ascii | fnkey ;
+    keycombo = { modifier, "+" }, key ;
+    keys = keycombo, { " ", keycombo } ;
+
+@group Core Elements
+@element core-a11y-keys
+@homepage github.io
+-->
+
+
+
+<style shim-shadowdom="">
+  html /deep/ core-a11y-keys {
+    display: none;
+  }
+</style>
+
+<polymer-element name="core-a11y-keys" assetpath="components/core-a11y-keys/">
+<script>
+  (function() {
+    /*
+     * Chrome uses an older version of DOM Level 3 Keyboard Events
+     *
+     * Most keys are labeled as text, but some are Unicode codepoints.
+     * Values taken from: http://www.w3.org/TR/2007/WD-DOM-Level-3-Events-20071221/keyset.html#KeySet-Set
+     */
+    var KEY_IDENTIFIER = {
+      'U+0009': 'tab',
+      'U+001B': 'esc',
+      'U+0020': 'space',
+      'U+002A': '*',
+      'U+0030': '0',
+      'U+0031': '1',
+      'U+0032': '2',
+      'U+0033': '3',
+      'U+0034': '4',
+      'U+0035': '5',
+      'U+0036': '6',
+      'U+0037': '7',
+      'U+0038': '8',
+      'U+0039': '9',
+      'U+0041': 'a',
+      'U+0042': 'b',
+      'U+0043': 'c',
+      'U+0044': 'd',
+      'U+0045': 'e',
+      'U+0046': 'f',
+      'U+0047': 'g',
+      'U+0048': 'h',
+      'U+0049': 'i',
+      'U+004A': 'j',
+      'U+004B': 'k',
+      'U+004C': 'l',
+      'U+004D': 'm',
+      'U+004E': 'n',
+      'U+004F': 'o',
+      'U+0050': 'p',
+      'U+0051': 'q',
+      'U+0052': 'r',
+      'U+0053': 's',
+      'U+0054': 't',
+      'U+0055': 'u',
+      'U+0056': 'v',
+      'U+0057': 'w',
+      'U+0058': 'x',
+      'U+0059': 'y',
+      'U+005A': 'z',
+      'U+007F': 'del'
+    };
+
+    /*
+     * Special table for KeyboardEvent.keyCode.
+     * KeyboardEvent.keyIdentifier is better, and KeyBoardEvent.key is even better than that
+     *
+     * Values from: https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent.keyCode#Value_of_keyCode
+     */
+    var KEY_CODE = {
+      13: 'enter',
+      27: 'esc',
+      33: 'pageup',
+      34: 'pagedown',
+      35: 'end',
+      36: 'home',
+      32: 'space',
+      37: 'left',
+      38: 'up',
+      39: 'right',
+      40: 'down',
+      46: 'del',
+      106: '*'
+    };
+
+    /*
+     * KeyboardEvent.key is mostly represented by printable character made by the keyboard, with unprintable keys labeled
+     * nicely.
+     *
+     * However, on OS X, Alt+char can make a Unicode character that follows an Apple-specific mapping. In this case, we
+     * fall back to .keyCode.
+     */
+    var KEY_CHAR = /[a-z0-9*]/;
+
+    function transformKey(key) {
+      var validKey = '';
+      if (key) {
+        var lKey = key.toLowerCase();
+        if (lKey.length == 1) {
+          if (KEY_CHAR.test(lKey)) {
+            validKey = lKey;
+          }
+        } else if (lKey == 'multiply') {
+          // numpad '*' can map to Multiply on IE/Windows
+          validKey = '*';
+        } else {
+          validKey = lKey;
+        }
+      }
+      return validKey;
+    }
+
+    var IDENT_CHAR = /U\+/;
+    function transformKeyIdentifier(keyIdent) {
+      var validKey = '';
+      if (keyIdent) {
+        if (IDENT_CHAR.test(keyIdent)) {
+          validKey = KEY_IDENTIFIER[keyIdent];
+        } else {
+          validKey = keyIdent.toLowerCase();
+        }
+      }
+      return validKey;
+    }
+
+    function transformKeyCode(keyCode) {
+      var validKey = '';
+      if (Number(keyCode)) {
+        if (keyCode >= 65 && keyCode <= 90) {
+          // ascii a-z
+          // lowercase is 32 offset from uppercase
+          validKey = String.fromCharCode(32 + keyCode);
+        } else if (keyCode >= 112 && keyCode <= 123) {
+          // function keys f1-f12
+          validKey = 'f' + (keyCode - 112);
+        } else if (keyCode >= 48 && keyCode <= 57) {
+          // top 0-9 keys
+          validKey = String(48 - keyCode);
+        } else if (keyCode >= 96 && keyCode <= 105) {
+          // num pad 0-9
+          validKey = String(96 - keyCode);
+        } else {
+          validKey = KEY_CODE[keyCode];
+        }
+      }
+      return validKey;
+    }
+
+    function keyboardEventToKey(ev) {
+      // fall back from .key, to .keyIdentifier, and then to .keyCode
+      var normalizedKey = transformKey(ev.key) || transformKeyIdentifier(ev.keyIdentifier) || transformKeyCode(ev.keyCode) || '';
+      return {
+        shift: ev.shiftKey,
+        ctrl: ev.ctrlKey,
+        meta: ev.metaKey,
+        alt: ev.altKey,
+        key: normalizedKey
+      };
+    }
+
+    /*
+     * Input: ctrl+shift+f7 => {ctrl: true, shift: true, key: 'f7'}
+     * ctrl/space => {ctrl: true} || {key: space}
+     */
+    function stringToKey(keyCombo) {
+      var keys = keyCombo.split('+');
+      var keyObj = Object.create(null);
+      keys.forEach(function(key) {
+        if (key == 'shift') {
+          keyObj.shift = true;
+        } else if (key == 'ctrl') {
+          keyObj.ctrl = true;
+        } else if (key == 'alt') {
+          keyObj.alt = true;
+        } else {
+          keyObj.key = key;
+        }
+      });
+      return keyObj;
+    }
+
+    function keyMatches(a, b) {
+      return Boolean(a.alt) == Boolean(b.alt) && Boolean(a.ctrl) == Boolean(b.ctrl) && Boolean(a.shift) == Boolean(b.shift) && a.key === b.key;
+    }
+
+    /**
+     * Fired when a keycombo in `keys` is pressed.
+     *
+     * @event keys-pressed
+     */
+    function processKeys(ev) {
+      var current = keyboardEventToKey(ev);
+      for (var i = 0, dk; i < this._desiredKeys.length; i++) {
+        dk = this._desiredKeys[i];
+        if (keyMatches(dk, current)) {
+          ev.preventDefault();
+          ev.stopPropagation();
+          this.fire('keys-pressed', current, this, false);
+          break;
+        }
+      }
+    }
+
+    function listen(node, handler) {
+      if (node && node.addEventListener) {
+        node.addEventListener('keydown', handler);
+      }
+    }
+
+    function unlisten(node, handler) {
+      if (node && node.removeEventListener) {
+        node.removeEventListener('keydown', handler);
+      }
+    }
+
+    Polymer('core-a11y-keys', {
+      created: function() {
+        this._keyHandler = processKeys.bind(this);
+      },
+      attached: function() {
+        listen(this.target, this._keyHandler);
+      },
+      detached: function() {
+        unlisten(this.target, this._keyHandler);
+      },
+      publish: {
+        /**
+         * The set of key combinations to listen for.
+         *
+         * @attribute keys
+         * @type string (keys syntax)
+         * @default ''
+         */
+        keys: '',
+        /**
+         * The node that will fire keyboard events.
+         *
+         * @attribute target
+         * @type Node
+         * @default null
+         */
+        target: null
+      },
+      keysChanged: function() {
+        // * can have multiple mappings: shift+8, * on numpad or Multiply on numpad
+        var normalized = this.keys.replace('*', '* shift+*');
+        this._desiredKeys = normalized.toLowerCase().split(' ').map(stringToKey);
+      },
+      targetChanged: function(oldTarget) {
+        unlisten(oldTarget, this._keyHandler);
+        listen(this.target, this._keyHandler);
+      }
+    });
+  })();
 </script>
 </polymer-element>
 
@@ -6251,6 +7069,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   background-color: #5a5a5a;
 }
 </style>
+
+  <core-a11y-keys target="{{}}" keys="space" on-keys-pressed="{{tap}}"></core-a11y-keys>
   
   <div id="radioContainer" class="{{ {labeled: label} | tokenList }}">
   
@@ -6870,7 +7690,7 @@ h1 {
   padding: 4px 16px 20px;
 }
 
-polymer-next-selector { content: ':host > *'; }
+polyfill-next-selector { content: ':host > *'; }
 ::content > * {
   font: inherit;
 }
