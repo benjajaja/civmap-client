@@ -2689,7 +2689,12 @@
         "name": "Eterna",
         "code": "EA",        
         "abandoned": false,
-        "type": "city"
+        "reddit": "r/CivEterna",
+        "flag": "http://i.imgur.com/X23lJIg.png",
+        "type": "city",
+        "nether": {
+          "public": true
+        }
       }
     },
     {
