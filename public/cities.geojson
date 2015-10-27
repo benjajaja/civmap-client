@@ -2681,6 +2681,22 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          1800,
+          -10800
+        ]
+      },
+      "properties": {
+        "name": "Eterna",
+        "code": "EA",        
+        "abandoned": false,
+        "type": "city"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           -1800,
           -11000
         ]
