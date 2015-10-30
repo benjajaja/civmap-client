@@ -71,7 +71,7 @@ The `.svg` files are located in `public/img/`, **the format must be "plain svg".
 * Clone your fork on your machine with git.
 * Edit `claims_bg.svg` to your likings (see below for how). That file contains a somewhat recent background image of the map so you can draw over real terrain.
 * When ready, save `claims_bg.svg`
-* Delete background image, then save copy as `claims.svg` (but do not save `claims_bg.svg` with the background removed). The two files must not differ *in markup* except for the background image. Tip: in inkscape, the process is save, delete background image, save copy as `claims.svg`, undo. This way you can preview you claims on txpau.com if you want (see below).
+* Delete background image, then save copy as `claims.svg` (but do not save `claims_bg.svg` with the background removed). The two files must not differ *in markup* except for the background image. Tip: in inkscape, the process is save, delete background image, save copy as `claims.svg`, undo. This way you can preview you claims on txpau.com if you want (see below). Also, be sure to save-as type plain svg - DO NOT USE INKSCAPE'S OWN SVG FORMAT because if you do, you'll need to manually remove all the chaf it adds.
 * Preview you changes (teh diff) with your favourite git-diff-tool: **the ONLY changes MUST be new `<path/>` tags. If anything else shows up, fix it or don't even bother continuing**.
 * Add your changes to git. Git's diff doesn't lie - if you don't understand why there are additional changes, you may want to copy your new claim's path, reset the file and reinsert it, or get someone familiar with git and svg files to do it.
 * Commit with relevant message, e.g. "Add Hoogabooga land claims".

@@ -2681,6 +2681,27 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          1800,
+          -10800
+        ]
+      },
+      "properties": {
+        "name": "Eterna",
+        "code": "EA",        
+        "abandoned": false,
+        "reddit": "r/CivEterna",
+        "flag": "http://i.imgur.com/X23lJIg.png",
+        "type": "city",
+        "nether": {
+          "public": true
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           -1800,
           -11000
         ]
