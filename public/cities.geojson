@@ -3975,6 +3975,21 @@
         "type": "city",
         "flag:", "https://wiki.civcraft.co/lib/exe/fetch.php?cache=&media=agricola_flag.jpg"        
       }
-    }    
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -9200,
+          -1400
+        ]
+      },
+      "properties": {
+        "name": "Auryn",
+        "abandoned": false,
+        "type": "city"        
+      }
+    } 
   ]
 }
