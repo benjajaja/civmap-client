@@ -3990,6 +3990,24 @@
         "abandoned": false,
         "type": "city"        
       }
-    } 
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -14000,
+          2900
+        ]
+      },
+      "properties": {
+        "name": "Tambov",
+        "code": "TV",
+        "abandoned": false,
+        "type": "city",
+        "flag:", "http://i.imgur.com/lotw82n.jpeg",
+        "reddit:", "r/CivTambov"
+      }
+    },
   ]
 }
