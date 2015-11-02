@@ -3973,7 +3973,7 @@
         "name": "Agricola",
         "abandoned": false,
         "type": "city",
-        "flag:", "https://wiki.civcraft.co/lib/exe/fetch.php?cache=&media=agricola_flag.jpg"        
+        "flag": "https://wiki.civcraft.co/lib/exe/fetch.php?cache=&media=agricola_flag.jpg"        
       }
     },
     {
@@ -4005,8 +4005,8 @@
         "code": "TV",
         "abandoned": false,
         "type": "city",
-        "flag:", "http://i.imgur.com/lotw82n.jpeg",
-        "reddit:", "r/CivTambov"
+        "flag": "http://i.imgur.com/lotw82n.jpeg",
+        "reddit": "r/CivTambov"
       }
     },
     {
@@ -4023,8 +4023,8 @@
         "code": "FM",
         "abandoned": false,
         "type": "city",
-        "flag:", "http://i.imgur.com/lotw82n.jpeg",
-        "reddit:", "r/CivTambov"
+        "flag": "http://i.imgur.com/lotw82n.jpeg",
+        "reddit": "r/CivTambov"
       }
     },
     {
@@ -4041,8 +4041,8 @@
         "code": "VU",
         "abandoned": false,
         "type": "city",
-        "flag:", "http://i.imgur.com/lotw82n.jpeg",
-        "reddit:", "r/CivTambov"
+        "flag": "http://i.imgur.com/lotw82n.jpeg",
+        "reddit": "r/CivTambov"
       }
     },
     {
@@ -4058,8 +4058,8 @@
         "name": "Garundistan",
         "abandoned": false,
         "type": "city",
-        "flag:", "http://i.imgur.com/0j1TSt5.png?1",
-        "reddit:", "r/garundistan"
+        "flag": "http://i.imgur.com/0j1TSt5.png?1",
+        "reddit": "r/garundistan"
       }
     },
     {
@@ -4075,7 +4075,7 @@
         "name": "Ember",
         "abandoned": false,
         "type": "city",
-        "flag:", "http://i.imgur.com/V2VlZrA.png"
+        "flag": "http://i.imgur.com/V2VlZrA.png"
       }
     },
     {
@@ -4091,8 +4091,8 @@
         "name": "Rosewall",
         "abandoned": false,
         "type": "city",
-        "flag:", "http://i.imgur.com/aV78A2X.jpg",
-        "reddit:", "r/CivRosewall"
+        "flag": "http://i.imgur.com/aV78A2X.jpg",
+        "reddit": "r/CivRosewall"
       }
     },
     {
@@ -4109,6 +4109,22 @@
         "abandoned": false,
         "type": "city"
       }
-    }    
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6350,
+          -1250
+        ]
+      },
+      "properties": {
+        "name": "Discord",
+        "abandoned": false,
+        "type": "city",
+        "reddit": "r/CivDiscord"
+      }
+    } 
   ]
 }
