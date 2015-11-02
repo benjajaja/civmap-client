@@ -2144,7 +2144,7 @@
         "code": "Ir",
         "abandoned": false,
         "type": "city",
-        "flag:", "https://wiki.civcraft.co/lib/exe/fetch.php?t=1440166857&w=500&h=337&tok=a49794&media=iria_flag.jpg",
+        "flag": "https://wiki.civcraft.co/lib/exe/fetch.php?t=1440166857&w=500&h=337&tok=a49794&media=iria_flag.jpg",
         "nether": {
           "public": true
         }
