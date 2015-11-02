@@ -3938,6 +3938,23 @@
         "type": "city",
         "flag": "https://i.imgur.com/wR34hDe.jpg"
       }
-    }
+    },    
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -13040,
+          -6510
+        ]
+      },
+      "properties": {
+        "name": "Litwa",        
+        "reddit": "r/civpolska/",
+        "abandoned": false,
+        "type": "city",
+        "flag": "http://i.imgur.com/XwxYbVn.png"
+      }
+    },    
   ]
 }
