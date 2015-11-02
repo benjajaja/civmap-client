@@ -4026,6 +4026,24 @@
         "flag:", "http://i.imgur.com/lotw82n.jpeg",
         "reddit:", "r/CivTambov"
       }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -14800,
+          2850
+        ]
+      },
+      "properties": {
+        "name": "Vaus",
+        "code": "VU",
+        "abandoned": false,
+        "type": "city",
+        "flag:", "http://i.imgur.com/lotw82n.jpeg",
+        "reddit:", "r/CivTambov"
+      }
     }
   ]
 }
