@@ -2541,6 +2541,22 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          0,
+          -15000
+        ]
+      },
+      "properties": {
+        "name": "Azkaban",
+        "code": "AZ",        
+        "abandoned": false,
+        "type": "city"
+      }
+    },    
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           -751,
           -13905
         ]
