@@ -4094,6 +4094,21 @@
         "flag:", "http://i.imgur.com/aV78A2X.jpg",
         "reddit:", "r/CivRosewall"
       }
-    }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          10960,
+          -6400
+        ]
+      },
+      "properties": {
+        "name": "Dukestonezyville",
+        "abandoned": false,
+        "type": "city"
+      }
+    }    
   ]
 }
