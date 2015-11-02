@@ -4044,6 +4044,23 @@
         "flag:", "http://i.imgur.com/lotw82n.jpeg",
         "reddit:", "r/CivTambov"
       }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          3220,
+          -11350
+        ]
+      },
+      "properties": {
+        "name": "Garundistan",
+        "abandoned": false,
+        "type": "city",
+        "flag:", "http://i.imgur.com/0j1TSt5.png?1",
+        "reddit:", "r/garundistan"
+      }
     }
   ]
 }
