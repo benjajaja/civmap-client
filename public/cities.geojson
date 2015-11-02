@@ -4077,6 +4077,23 @@
         "type": "city",
         "flag:", "http://i.imgur.com/V2VlZrA.png"
       }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1100,
+          -5700
+        ]
+      },
+      "properties": {
+        "name": "Rosewall",
+        "abandoned": false,
+        "type": "city",
+        "flag:", "http://i.imgur.com/aV78A2X.jpg",
+        "reddit:", "r/CivRosewall"
+      }
     }
   ]
 }
