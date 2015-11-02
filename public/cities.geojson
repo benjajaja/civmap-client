@@ -4009,5 +4009,23 @@
         "reddit:", "r/CivTambov"
       }
     },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -13500,
+          3300
+        ]
+      },
+      "properties": {
+        "name": "Flum",
+        "code": "FM",
+        "abandoned": false,
+        "type": "city",
+        "flag:", "http://i.imgur.com/lotw82n.jpeg",
+        "reddit:", "r/CivTambov"
+      }
+    }
   ]
 }
