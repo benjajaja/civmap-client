@@ -2557,6 +2557,23 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
+          1800,
+          -14080
+        ]
+      },
+      "properties": {
+        "name": "Abandoned",
+        "code": "AB",        
+        "abandoned": false,
+        "reddit": "r/CivAbandoned",
+        "type": "city"
+      }
+    }, 
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
           -751,
           -13905
         ]
