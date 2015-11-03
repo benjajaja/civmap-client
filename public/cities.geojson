@@ -4140,6 +4140,25 @@
         "abandoned": true,
         "type": "city"
       }
-    }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          500,
+          7500
+        ]
+      },
+      "properties": {
+        "name": "Volkstadt",
+        "abandoned": false,
+        "type": "city",
+        "flag": "http://i.imgur.com/AcDLRtg.png",
+        "nether": {
+          "public": false
+        }
+      }
+    }    
   ]
 }
