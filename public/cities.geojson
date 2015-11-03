@@ -4194,5 +4194,24 @@
         }
       }
     },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7000,
+          7000
+        ]
+      },
+      "properties": {
+        "name": "Tazmily",
+        "abandoned": false,
+        "type": "city",
+        "flag": "http://i.imgur.com/nLiNfo2.png",
+        "nether": {
+          "public": false
+        }
+      }
+    }    
   ]
 }
