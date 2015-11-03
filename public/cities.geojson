@@ -4212,6 +4212,21 @@
           "public": false
         }
       }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          800,
+          9650
+        ]
+      },
+      "properties": {
+        "name": "Kompound",
+        "abandoned": true,
+        "type": "city"
+      }
     }    
   ]
 }
