@@ -4175,6 +4175,24 @@
         "type": "city",
         "flag": "http://i.imgur.com/I3UGaZ5.png"        
       }
-    }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7900,
+          12500
+        ]
+      },
+      "properties": {
+        "name": "Indigo",
+        "abandoned": false,
+        "type": "city",        
+        "nether": {
+          "public": false
+        }
+      }
+    },
   ]
 }
