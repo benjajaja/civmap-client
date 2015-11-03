@@ -4159,6 +4159,22 @@
           "public": false
         }
       }
-    }    
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -2400,
+          7700
+        ]
+      },
+      "properties": {
+        "name": "Versailles",
+        "abandoned": true,
+        "type": "city",
+        "flag": "http://i.imgur.com/I3UGaZ5.png"        
+      }
+    }
   ]
 }
