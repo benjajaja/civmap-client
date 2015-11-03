@@ -2143,7 +2143,11 @@
         "name": "Iria",
         "code": "Ir",
         "abandoned": false,
-        "type": "city"
+        "type": "city",
+        "flag": "https://wiki.civcraft.co/lib/exe/fetch.php?t=1440166857&w=500&h=337&tok=a49794&media=iria_flag.jpg",
+        "nether": {
+          "public": true
+        }
       }
     },
     {
@@ -2536,6 +2540,39 @@
         "type": "city"
       }
     },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          0,
+          -15000
+        ]
+      },
+      "properties": {
+        "name": "Azkaban",
+        "code": "AZ",        
+        "abandoned": false,
+        "type": "city"
+      }
+    },    
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1800,
+          -14080
+        ]
+      },
+      "properties": {
+        "name": "Abandoned",
+        "code": "AB",        
+        "abandoned": false,
+        "reddit": "r/CivAbandoned",
+        "type": "city"
+      }
+    }, 
     {
       "type": "Feature",
       "geometry": {
@@ -3905,6 +3942,291 @@
         "type": "city",
         "flag": "https://i.imgur.com/wR34hDe.jpg"
       }
-    }
+    },    
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -13040,
+          -6510
+        ]
+      },
+      "properties": {
+        "name": "Litwa",        
+        "reddit": "r/civpolska/",
+        "abandoned": false,
+        "type": "city",
+        "flag": "http://i.imgur.com/XwxYbVn.png"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3040,
+          6180
+        ]
+      },
+      "properties": {
+        "name": "Agricola",
+        "abandoned": false,
+        "type": "city",
+        "flag": "https://wiki.civcraft.co/lib/exe/fetch.php?cache=&media=agricola_flag.jpg"        
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -9200,
+          -1400
+        ]
+      },
+      "properties": {
+        "name": "Auryn",
+        "abandoned": false,
+        "type": "city"        
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -14000,
+          2900
+        ]
+      },
+      "properties": {
+        "name": "Tambov",
+        "code": "TV",
+        "abandoned": false,
+        "type": "city",
+        "flag": "http://i.imgur.com/lotw82n.jpeg",
+        "reddit": "r/CivTambov"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -13500,
+          3300
+        ]
+      },
+      "properties": {
+        "name": "Flum",
+        "code": "FM",
+        "abandoned": false,
+        "type": "city",
+        "flag": "http://i.imgur.com/lotw82n.jpeg",
+        "reddit": "r/CivTambov"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -14800,
+          2850
+        ]
+      },
+      "properties": {
+        "name": "Vaus",
+        "code": "VU",
+        "abandoned": false,
+        "type": "city",
+        "flag": "http://i.imgur.com/lotw82n.jpeg",
+        "reddit": "r/CivTambov"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          3220,
+          -11350
+        ]
+      },
+      "properties": {
+        "name": "Garundistan",
+        "abandoned": false,
+        "type": "city",
+        "flag": "http://i.imgur.com/0j1TSt5.png?1",
+        "reddit": "r/garundistan"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -5750,
+          -9330
+        ]
+      },
+      "properties": {
+        "name": "Ember",
+        "abandoned": false,
+        "type": "city",
+        "flag": "http://i.imgur.com/V2VlZrA.png"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1100,
+          -5700
+        ]
+      },
+      "properties": {
+        "name": "Rosewall",
+        "abandoned": false,
+        "type": "city",
+        "flag": "http://i.imgur.com/aV78A2X.jpg",
+        "reddit": "r/CivRosewall"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          10960,
+          -6400
+        ]
+      },
+      "properties": {
+        "name": "Dukestonezyville",
+        "abandoned": false,
+        "type": "city"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6350,
+          -1250
+        ]
+      },
+      "properties": {
+        "name": "Discord",
+        "abandoned": false,
+        "type": "city",
+        "reddit": "r/CivDiscord"
+      }
+    },    
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          300,
+          9150
+        ]
+      },
+      "properties": {
+        "name": "New Madrid",
+        "abandoned": true,
+        "type": "city"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          500,
+          7500
+        ]
+      },
+      "properties": {
+        "name": "Volkstadt",
+        "abandoned": false,
+        "type": "city",
+        "flag": "http://i.imgur.com/AcDLRtg.png",
+        "nether": {
+          "public": false
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -2400,
+          7700
+        ]
+      },
+      "properties": {
+        "name": "Versailles",
+        "abandoned": true,
+        "type": "city",
+        "flag": "http://i.imgur.com/I3UGaZ5.png"        
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7900,
+          12500
+        ]
+      },
+      "properties": {
+        "name": "Indigo",
+        "abandoned": false,
+        "type": "city",        
+        "nether": {
+          "public": false
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7000,
+          7000
+        ]
+      },
+      "properties": {
+        "name": "Tazmily",
+        "abandoned": false,
+        "type": "city",
+        "flag": "http://i.imgur.com/nLiNfo2.png",
+        "nether": {
+          "public": false
+        }
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          800,
+          9650
+        ]
+      },
+      "properties": {
+        "name": "Kompound",
+        "abandoned": true,
+        "type": "city"
+      }
+    }    
   ]
 }
