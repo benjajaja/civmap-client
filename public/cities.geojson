@@ -4125,6 +4125,21 @@
         "type": "city",
         "reddit": "r/CivDiscord"
       }
-    } 
+    },    
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          300,
+          9150
+        ]
+      },
+      "properties": {
+        "name": "New Madrid",
+        "abandoned": true,
+        "type": "city"
+      }
+    }
   ]
 }
