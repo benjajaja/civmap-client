@@ -4286,6 +4286,48 @@
         "abandoned": true,
         "type": "city"
       }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3880,13340
+        ]
+      },
+      "properties": {
+        "name": "Essen",
+        "abandoned": false,
+        "type": "city"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3800,12070
+        ]
+      },
+      "properties": {
+        "name": "Albion",
+        "abandoned": false,
+        "type": "city"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -4000,14490
+        ]
+      },
+      "properties": {
+        "name": "Iserlohn",
+        "abandoned": false,
+        "type": "city"
+      }
     }
   ]
 }
