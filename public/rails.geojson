@@ -2012,6 +2012,19 @@
         "origin": "NDZ",
         "destination": "Riverford"
       }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [7524,3134],[7524,3550],[6406,3550]
+        ]
+      },
+      "properties": {
+        "origin": "NDZ",
+        "destination": "Eclipse"
+      }
     }
   ]
 }

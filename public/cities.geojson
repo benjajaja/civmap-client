@@ -4226,6 +4226,21 @@
         "abandoned": true,
         "type": "city"
       }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6406,
+          3550
+        ]
+      },
+      "properties": {
+        "name": "Eclipse",
+        "abandoned": true,
+        "type": "city"
+      }
     }
   ]
 }
