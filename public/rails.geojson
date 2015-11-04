@@ -2038,6 +2038,19 @@
         "origin": "NDZ",
         "destination": "Aegina"
       }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [-5706,-3434],[-5706,-2920],[-6070,-2920]
+        ]
+      },
+      "properties": {
+        "origin": "Freeport",
+        "destination": "Casper"
+      }
     }
   ]
 }
