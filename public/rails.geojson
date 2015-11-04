@@ -1986,6 +1986,19 @@
         "origin": "Ancora",
         "destination": "Harvest"
       }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [4142, 2046], [4417, 1789], [4417, 1534]
+        ]
+      },
+      "properties": {
+        "origin": "Riverford",
+        "destination": "Holy Tree"
+      }
     }
   ]
 }
