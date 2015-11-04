@@ -1054,7 +1054,7 @@
         "name": "Ancora",
         "code": "Anc",
         "reddit": "r/civcraftancora",
-        "abandoned": true,
+        "abandoned": false,
         "type": "city"
       }
     },
@@ -2109,7 +2109,7 @@
         "name": "Intis",
         "code": "/int/",
         "url": "http://8ch.net/civ/",
-        "abandoned": false,
+        "abandoned": true,
         "type": "city",
         "flag": "https://i.imgur.com/K27kJHx.png"
       }
@@ -2197,22 +2197,6 @@
         "name": "Jerusalem",
         "code": "Je",
         "abandoned": true,
-        "type": "city"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -7400,
-          -8700
-        ]
-      },
-      "properties": {
-        "name": "Kaiserin",
-        "code": "Ka",
-        "abandoned": false,
         "type": "city"
       }
     },
@@ -2831,7 +2815,7 @@
         "name": "Olympia",
         "code": "Oly",
         "reddit": "r/Civcraft_Olympia",
-        "abandoned": false,
+        "abandoned": true,
         "type": "city"
       }
     },
@@ -3496,7 +3480,7 @@
       "properties": {
         "name": "Vale",
         "code": "Va",
-        "abandoned": false,
+        "abandoned": true,
         "type": "city"
       }
     },
@@ -3626,7 +3610,7 @@
         "type": "city",
         "name": "Viridian",
         "code": "/v/",
-        "abandoned": false,
+        "abandoned": true,
         "url": "https://8chan.co/civ"
       }
     },
