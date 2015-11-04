@@ -4223,7 +4223,7 @@
       },
       "properties": {
         "name": "Riverford",
-        "abandoned": false,
+        "abandoned": true,
         "type": "city"
       }
     }

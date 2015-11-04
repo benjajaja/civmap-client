@@ -1999,6 +1999,19 @@
         "origin": "Riverford",
         "destination": "Holy Tree"
       }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [7524,3134],[4644,3134],[4386,2871],[4142,2871],[4142,2046]
+        ]
+      },
+      "properties": {
+        "origin": "NDZ",
+        "destination": "Riverford"
+      }
     }
   ]
 }
