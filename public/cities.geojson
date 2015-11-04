@@ -4211,6 +4211,21 @@
         "abandoned": true,
         "type": "city"
       }
-    }    
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4142,
+          2046
+        ]
+      },
+      "properties": {
+        "name": "Riverford",
+        "abandoned": false,
+        "type": "city"
+      }
+    }
   ]
 }
