@@ -3594,7 +3594,7 @@
       "properties": {
         "type": "town",
         "name": "Vienna",
-        "abandoned": false
+        "abandoned": true
       }
     },
     {
@@ -4325,6 +4325,20 @@
       },
       "properties": {
         "name": "Iserlohn",
+        "abandoned": false,
+        "type": "city"
+      }
+    },    
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -7310,-8600
+        ]
+      },
+      "properties": {
+        "name": "Kaiserin",
         "abandoned": false,
         "type": "city"
       }
