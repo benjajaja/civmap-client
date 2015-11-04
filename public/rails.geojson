@@ -2025,6 +2025,19 @@
         "origin": "NDZ",
         "destination": "Eclipse"
       }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [7524,3134],[7524,4255],[6675,4255],[6675,5270]
+        ]
+      },
+      "properties": {
+        "origin": "NDZ",
+        "destination": "Aegina"
+      }
     }
   ]
 }

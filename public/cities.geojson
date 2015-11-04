@@ -4241,6 +4241,51 @@
         "abandoned": true,
         "type": "city"
       }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6675,
+          5270
+        ]
+      },
+      "properties": {
+        "name": "Aegina",
+        "abandoned": true,
+        "type": "city"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6906,
+          4255 
+        ]
+      },
+      "properties": {
+        "name": "Fermeville",
+        "abandoned": true,
+        "type": "city"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6675,
+          4751
+        ]
+      },
+      "properties": {
+        "name": "Eros Varos",
+        "abandoned": true,
+        "type": "city"
+      }
     }
   ]
 }
