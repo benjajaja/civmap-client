@@ -4414,6 +4414,76 @@
       "properties": {
         "name": "Pol Protected"        
       }
-    }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -12040,4900
+        ]
+      },
+      "properties": {
+        "name": "Truso",
+        "abandoned": true,
+        "type": "town"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -13094,7144
+        ]
+      },
+      "properties": {
+        "name": "Lynchwood",
+        "abandoned": true,
+        "type": "town"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -13268,6811
+        ]
+      },
+      "properties": {
+        "name": "Syracuse",
+        "abandoned": true,
+        "type": "town"
+      }      
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -11319,6082
+        ]
+      },
+      "properties": {
+        "name": "Raptoria",
+        "abandoned": true,
+        "type": "town"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -13100,4890
+        ]
+      },
+      "properties": {
+        "name": "Accord",
+        "abandoned": true,
+        "type": "town"
+      }
+    }   
   ]
 }
