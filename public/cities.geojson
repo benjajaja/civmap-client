@@ -4342,6 +4342,78 @@
         "abandoned": false,
         "type": "city"
       }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7240,9764
+        ]
+      },
+      "properties": {
+        "name": "Lux Federation"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4580,12292
+        ]
+      },
+      "properties": {
+        "name": "Bielefeld"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -2360,6272
+        ]
+      },
+      "properties": {
+        "name": "Polynesia"
+      }
+    },    
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1586,8444
+        ]
+      },
+      "properties": {
+        "name": "Neustria"
+      }
+    },     
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -887,14582
+        ]
+      },
+      "properties": {
+        "name": "Cian"
+      }
+    },     
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -2924,9235
+        ]
+      },
+      "properties": {
+        "name": "Pol Protected"        
+      }
     }
   ]
 }
