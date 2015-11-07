@@ -1054,7 +1054,7 @@
         "name": "Ancora",
         "code": "Anc",
         "reddit": "r/civcraftancora",
-        "abandoned": true,
+        "abandoned": false,
         "type": "city"
       }
     },
@@ -2109,7 +2109,7 @@
         "name": "Intis",
         "code": "/int/",
         "url": "http://8ch.net/civ/",
-        "abandoned": false,
+        "abandoned": true,
         "type": "city",
         "flag": "https://i.imgur.com/K27kJHx.png"
       }
@@ -2197,22 +2197,6 @@
         "name": "Jerusalem",
         "code": "Je",
         "abandoned": true,
-        "type": "city"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [
-          -7400,
-          -8700
-        ]
-      },
-      "properties": {
-        "name": "Kaiserin",
-        "code": "Ka",
-        "abandoned": false,
         "type": "city"
       }
     },
@@ -2831,7 +2815,7 @@
         "name": "Olympia",
         "code": "Oly",
         "reddit": "r/Civcraft_Olympia",
-        "abandoned": false,
+        "abandoned": true,
         "type": "city"
       }
     },
@@ -3496,7 +3480,7 @@
       "properties": {
         "name": "Vale",
         "code": "Va",
-        "abandoned": false,
+        "abandoned": true,
         "type": "city"
       }
     },
@@ -3610,7 +3594,7 @@
       "properties": {
         "type": "town",
         "name": "Vienna",
-        "abandoned": false
+        "abandoned": true
       }
     },
     {
@@ -3626,7 +3610,7 @@
         "type": "city",
         "name": "Viridian",
         "code": "/v/",
-        "abandoned": false,
+        "abandoned": true,
         "url": "https://8chan.co/civ"
       }
     },
@@ -4227,6 +4211,279 @@
         "abandoned": true,
         "type": "city"
       }
-    }    
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4142,
+          2046
+        ]
+      },
+      "properties": {
+        "name": "Riverford",
+        "abandoned": true,
+        "type": "city"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6406,
+          3550
+        ]
+      },
+      "properties": {
+        "name": "Eclipse",
+        "abandoned": true,
+        "type": "city"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6675,
+          5270
+        ]
+      },
+      "properties": {
+        "name": "Aegina",
+        "abandoned": true,
+        "type": "city"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6906,
+          4255 
+        ]
+      },
+      "properties": {
+        "name": "Fermeville",
+        "abandoned": true,
+        "type": "city"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          6675,
+          4751
+        ]
+      },
+      "properties": {
+        "name": "Eros Varos",
+        "abandoned": true,
+        "type": "city"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3880,13340
+        ]
+      },
+      "properties": {
+        "name": "Essen",
+        "abandoned": false,
+        "type": "city"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -3800,12070
+        ]
+      },
+      "properties": {
+        "name": "Albion",
+        "abandoned": false,
+        "type": "city"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -4000,14490
+        ]
+      },
+      "properties": {
+        "name": "Iserlohn",
+        "abandoned": false,
+        "type": "city"
+      }
+    },    
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -7310,-8600
+        ]
+      },
+      "properties": {
+        "name": "Kaiserin",
+        "abandoned": false,
+        "type": "city"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          7240,9764
+        ]
+      },
+      "properties": {
+        "name": "Lux Federation"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          4580,12292
+        ]
+      },
+      "properties": {
+        "name": "Bielefeld"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -2360,6272
+        ]
+      },
+      "properties": {
+        "name": "Polynesia"
+      }
+    },    
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          1586,8444
+        ]
+      },
+      "properties": {
+        "name": "Neustria"
+      }
+    },     
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -887,14582
+        ]
+      },
+      "properties": {
+        "name": "Cian"
+      }
+    },     
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -2924,9235
+        ]
+      },
+      "properties": {
+        "name": "Pol Protected"        
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -12040,4900
+        ]
+      },
+      "properties": {
+        "name": "Truso",
+        "abandoned": true,
+        "type": "town"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -13094,7144
+        ]
+      },
+      "properties": {
+        "name": "Lynchwood",
+        "abandoned": true,
+        "type": "town"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -13268,6811
+        ]
+      },
+      "properties": {
+        "name": "Syracuse",
+        "abandoned": true,
+        "type": "town"
+      }      
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -11319,6082
+        ]
+      },
+      "properties": {
+        "name": "Raptoria",
+        "abandoned": true,
+        "type": "town"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -13100,4890
+        ]
+      },
+      "properties": {
+        "name": "Accord",
+        "abandoned": true,
+        "type": "town"
+      }
+    }   
   ]
 }
